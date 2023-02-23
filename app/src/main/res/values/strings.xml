@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">EffectiveMobileTestTask</string>
+    <string name="sign_in">Sign in</string>
+    <string name="first_name">First name</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_in_with_apple">Sign in with Apple</string>
+    <string name="change_password_visibility">Change password visibility</string>
+    <string name="empty" />
 </resources>
