@@ -11,7 +11,8 @@ import com.example.effectivemobiletesttask.ui.screens.signin.SignInScreen
 @Composable
 fun ShopNavHost(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.SingIn.route
+    startDestination: String = Screen.SingIn.route,
+    onShowToast: (String) -> Unit
 ) = NavHost(
     navController = navController,
     startDestination = startDestination
@@ -19,7 +20,7 @@ fun ShopNavHost(
     composable(
         route = Screen.SingIn.route
     ) {
-        SignInScreen()
+        SignInScreen(onShowToast = { message -> onShowToast(message) })
     }
     composable(
         route = Screen.LogIn.route

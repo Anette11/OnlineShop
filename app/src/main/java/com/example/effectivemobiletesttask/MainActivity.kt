@@ -1,6 +1,7 @@
 package com.example.effectivemobiletesttask
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.effectivemobiletesttask.navigation.ShopNavHost
@@ -16,7 +17,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EffectiveMobileTestTaskTheme {
-                ShopNavHost()
+                ShopNavHost(
+                    onShowToast = { message ->
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
         }
     }
