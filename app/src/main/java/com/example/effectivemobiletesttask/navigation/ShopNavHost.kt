@@ -20,7 +20,13 @@ fun ShopNavHost(
     composable(
         route = Screen.SingIn.route
     ) {
-        SignInScreen(onShowToast = { message -> onShowToast(message) })
+        SignInScreen(
+            onShowToast = { message ->
+                onShowToast(message)
+            },
+            onNavigateToScreen = { route ->
+                navController.navigate(route = route)
+            })
     }
     composable(
         route = Screen.LogIn.route

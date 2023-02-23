@@ -3,6 +3,7 @@ package com.example.effectivemobiletesttask.ui.screens.signin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
 import com.example.effectivemobiletesttask.util.ResourcesProvider
@@ -66,7 +67,7 @@ class SingInViewModel @Inject constructor(
             textClickable = resourcesProvider.getString(R.string.log_in),
             onClick = {
                 viewModelScope.launch {
-                    _clickAction.emit(ClickAction.InfoRow(message = resourcesProvider.getString(R.string.log_in)))
+                    _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.LogIn.route))
                 }
             }
         ),
@@ -77,7 +78,13 @@ class SingInViewModel @Inject constructor(
             text = resourcesProvider.getString(R.string.sign_in_with_google),
             onClick = {
                 viewModelScope.launch {
-                    _clickAction.emit(ClickAction.InfoRow(message = resourcesProvider.getString(R.string.sign_in_with_google)))
+                    _clickAction.emit(
+                        ClickAction.IconTextRow(
+                            message = resourcesProvider.getString(
+                                R.string.sign_in_with_google
+                            )
+                        )
+                    )
                 }
             }
         ),
@@ -88,7 +95,13 @@ class SingInViewModel @Inject constructor(
             text = resourcesProvider.getString(R.string.sign_in_with_apple),
             onClick = {
                 viewModelScope.launch {
-                    _clickAction.emit(ClickAction.InfoRow(message = resourcesProvider.getString(R.string.sign_in_with_apple)))
+                    _clickAction.emit(
+                        ClickAction.IconTextRow(
+                            message = resourcesProvider.getString(
+                                R.string.sign_in_with_apple
+                            )
+                        )
+                    )
                 }
             }
         ),

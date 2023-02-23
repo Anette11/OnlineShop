@@ -14,7 +14,7 @@ class LoginViewModel @Inject constructor(
 
     val screenItems = listOf(
         ScreenItem.SpacerRow(height = 60),
-        ScreenItem.LargeTitle(title = resourcesProvider.getString(R.string.sign_in)),
+        ScreenItem.LargeTitle(title = resourcesProvider.getString(R.string.welcome_back)),
         ScreenItem.SpacerRow(height = 60),
         ScreenItem.SimpleRow(
             placeholder = resourcesProvider.getString(R.string.first_name),
@@ -29,6 +29,10 @@ class LoginViewModel @Inject constructor(
             onValueChange = {},
             showIcon = true
         ),
-        ScreenItem.SpacerRow(height = 100)
+        ScreenItem.SpacerRow(height = 100),
+        ScreenItem.LargeButton(
+            text = resourcesProvider.getString(R.string.login),
+            onClick = {}
+        )
     )
 }

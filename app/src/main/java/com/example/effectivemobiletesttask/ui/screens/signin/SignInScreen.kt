@@ -11,14 +11,15 @@ import com.example.effectivemobiletesttask.ui.screens.ClickAction
 @Composable
 fun SignInScreen(
     viewModel: SingInViewModel = hiltViewModel(),
-    onShowToast: (String) -> Unit
+    onShowToast: (String) -> Unit,
+    onNavigateToScreen: (String) -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
             when (clickAction) {
-                is ClickAction.InfoRow -> onShowToast(clickAction.message)
                 is ClickAction.LargeButton -> onShowToast(clickAction.message)
                 is ClickAction.IconTextRow -> onShowToast(clickAction.message)
+                is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
             }
         }
     }
