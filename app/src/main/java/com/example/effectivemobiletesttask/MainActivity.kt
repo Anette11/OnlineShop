@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.effectivemobiletesttask.navigation.ShopNavHost
 import com.example.effectivemobiletesttask.ui.theme.EffectiveMobileTestTaskTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(

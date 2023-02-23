@@ -30,7 +30,7 @@ fun SimpleRow(
         .fillMaxWidth()
         .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._15dp)))
         .background(color = colorResource(id = R.color.gray))
-        .padding(dimensionResource(id = R.dimen._8dp))
+        .padding(horizontal = dimensionResource(id = R.dimen._8dp))
 ) {
     TextField(
         modifier = Modifier.fillMaxWidth(),
