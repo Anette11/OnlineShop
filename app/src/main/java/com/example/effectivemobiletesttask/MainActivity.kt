@@ -3,6 +3,7 @@ package com.example.effectivemobiletesttask
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.example.effectivemobiletesttask.navigation.ShopNavHost
 import com.example.effectivemobiletesttask.ui.theme.EffectiveMobileTestTaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EffectiveMobileTestTaskTheme {
-
+                ShopNavHost()
             }
         }
     }
