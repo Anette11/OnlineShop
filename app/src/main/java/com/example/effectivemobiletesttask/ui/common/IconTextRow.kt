@@ -1,6 +1,7 @@
 package com.example.effectivemobiletesttask.ui.common
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -20,7 +21,8 @@ import com.example.effectivemobiletesttask.R
 fun IconTextRow(
     @DrawableRes icon: Int,
     contentDescription: String,
-    text: String
+    text: String,
+    onClick: () -> Unit
 ) = Row(
     modifier = Modifier.fillMaxWidth(),
     horizontalArrangement = Arrangement.Center,
@@ -32,6 +34,7 @@ fun IconTextRow(
     )
     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._11dp)))
     Text(
+        modifier = Modifier.clickable { onClick() },
         text = text,
         color = colorResource(id = R.color.black_dark),
         fontFamily = FontFamily(Font(R.font.montserrat_regular))
@@ -44,5 +47,6 @@ fun IconTextRowPreview() =
     IconTextRow(
         icon = R.drawable.ic_google,
         contentDescription = stringResource(id = R.string.empty),
-        text = stringResource(id = R.string.sign_in_with_google)
+        text = stringResource(id = R.string.sign_in_with_google),
+        onClick = {}
     )

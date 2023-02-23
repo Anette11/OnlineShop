@@ -51,13 +51,15 @@ class SingInViewModel @Inject constructor(
         ScreenItem.IconTextRow(
             icon = R.drawable.ic_google,
             contentDescription = resourcesProvider.getString(R.string.sign_in_with_google),
-            text = resourcesProvider.getString(R.string.sign_in_with_google)
+            text = resourcesProvider.getString(R.string.sign_in_with_google),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = 38),
         ScreenItem.IconTextRow(
             icon = R.drawable.ic_apple,
             contentDescription = resourcesProvider.getString(R.string.sign_in_with_apple),
-            text = resourcesProvider.getString(R.string.sign_in_with_apple)
+            text = resourcesProvider.getString(R.string.sign_in_with_apple),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = 60)
     )

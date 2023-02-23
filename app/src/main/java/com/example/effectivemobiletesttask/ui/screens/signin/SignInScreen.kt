@@ -25,7 +25,8 @@ fun SignInScreen(
             is ScreenItem.IconTextRow -> IconTextRow(
                 icon = item.icon,
                 contentDescription = item.contentDescription,
-                text = item.text
+                text = item.text,
+                onClick = item.onClick
             )
             is ScreenItem.InfoRow -> InfoRow(
                 textInfo = item.textInfo,
