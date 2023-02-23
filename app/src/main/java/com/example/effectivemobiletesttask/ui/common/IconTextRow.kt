@@ -42,7 +42,7 @@ fun IconTextRow(
 @Preview
 fun IconTextRowPreview() =
     IconTextRow(
-        icon = R.drawable.ic_g,
+        icon = R.drawable.ic_google,
         contentDescription = stringResource(id = R.string.empty),
         text = stringResource(id = R.string.sign_in_with_google)
     )
