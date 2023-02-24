@@ -1,4 +1,4 @@
-package com.example.effectivemobiletesttask.ui.screens.login
+package com.example.effectivemobiletesttask.ui.screens.login_screens.login
 
 import androidx.lifecycle.ViewModel
 import com.example.effectivemobiletesttask.R

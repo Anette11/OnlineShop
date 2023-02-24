@@ -1,4 +1,4 @@
-package com.example.effectivemobiletesttask.ui.screens.signin
+package com.example.effectivemobiletesttask.ui.screens.login_screens.signin
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

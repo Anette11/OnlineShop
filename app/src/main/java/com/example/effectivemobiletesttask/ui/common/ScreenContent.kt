@@ -47,6 +47,39 @@ fun ScreenContent(
             is ScreenItem.SpacerRow -> SpacerRow(
                 height = item.height
             )
+            is ScreenItem.IconTextItem -> IconTextItem(
+                iconLeft = item.iconLeft,
+                iconRight = item.iconRight,
+                contentDescriptionLeft = item.contentDescriptionLeft,
+                contentDescriptionRight = item.contentDescriptionRight,
+                text = item.text
+            )
+            is ScreenItem.IconTextText -> IconTextText(
+                icon = item.icon,
+                contentDescription = item.contentDescription,
+                textCenter = item.textCenter,
+                textRight = item.textRight
+            )
+            is ScreenItem.ItemAdditionalInfo -> ItemAdditionalInfo(
+                text = item.text
+            )
+            is ScreenItem.ItemBack -> ItemBack(
+                icon = item.icon,
+                contentDescription = item.contentDescription,
+                text = item.text
+            )
+            is ScreenItem.ItemIcon -> ItemIcon(
+                icon = item.icon,
+                contentDescription = item.contentDescription,
+                size = item.size,
+                borderWidth = item.borderWidth,
+                color = item.color
+            )
+            is ScreenItem.ItemText -> ItemText(
+                icon = item.icon,
+                contentDescription = item.contentDescription,
+                text = item.text
+            )
         }
     }
 }

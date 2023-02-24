@@ -1,4 +1,4 @@
-package com.example.effectivemobiletesttask.ui.screens.login
+package com.example.effectivemobiletesttask.ui.screens.login_screens.login
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.dimensionResource
