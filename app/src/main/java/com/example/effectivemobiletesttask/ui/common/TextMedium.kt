@@ -16,8 +16,8 @@ fun TextMedium(
     modifier: Modifier
 ) = Text(
     text = text,
-    fontFamily = FontFamily(Font(R.font.montserrat_regular)),
-    fontSize = dimensionResource(id = R.dimen._12sp).value.sp,
+    fontFamily = FontFamily(Font(R.font.montserrat_medium)),
+    fontSize = dimensionResource(id = R.dimen._14sp).value.sp,
     color = colorResource(id = R.color.black_medium),
     modifier = modifier
 )

@@ -21,7 +21,7 @@ fun TextSubtitle(
 ) = Text(
     modifier = Modifier.fillMaxWidth(),
     text = text,
-    fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+    fontFamily = FontFamily(Font(R.font.montserrat_bold)),
     fontSize = dimensionResource(id = R.dimen._15sp).value.sp,
     color = colorResource(id = R.color.black_darker),
     style = LocalTextStyle.current.copy(textAlign = TextAlign.Center)

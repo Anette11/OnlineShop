@@ -23,7 +23,7 @@ fun ItemAdditionalInfo(
     text = text,
     style = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
     color = colorResource(id = R.color.gray_darker),
-    fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+    fontFamily = FontFamily(Font(R.font.montserrat_medium)),
     fontSize = dimensionResource(id = R.dimen._8sp).value.sp
 )
 

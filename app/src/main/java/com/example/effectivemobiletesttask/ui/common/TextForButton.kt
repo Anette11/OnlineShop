@@ -20,7 +20,7 @@ fun TextForButton(
 ) = Text(
     modifier = modifier,
     text = text,
-    fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+    fontFamily = FontFamily(Font(R.font.montserrat_bold)),
     color = colorResource(id = R.color.gray_light),
     fontSize = dimensionResource(id = R.dimen._14sp).value.sp
 )

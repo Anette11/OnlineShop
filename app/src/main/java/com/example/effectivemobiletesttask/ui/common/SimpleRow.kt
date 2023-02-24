@@ -43,7 +43,7 @@ fun SimpleRow(
             ) {
                 Text(
                     text = placeholder,
-                    fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+                    fontFamily = FontFamily(Font(R.font.montserrat_medium)),
                     fontSize = dimensionResource(id = R.dimen._11sp).value.sp,
                     color = colorResource(id = R.color.gray_dark),
                     style = LocalTextStyle.current.copy(textAlign = TextAlign.Center)

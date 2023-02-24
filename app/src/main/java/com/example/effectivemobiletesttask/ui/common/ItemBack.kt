@@ -33,7 +33,7 @@ fun ItemBack(
         modifier = Modifier.align(Alignment.Center),
         text = text,
         color = colorResource(id = R.color.black_dark),
-        fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+        fontFamily = FontFamily(Font(R.font.montserrat_bold)),
         fontSize = dimensionResource(id = R.dimen._15sp).value.sp
     )
 }

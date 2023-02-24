@@ -1,6 +1,5 @@
 package com.example.effectivemobiletesttask.ui.common
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,7 +15,7 @@ fun LargeButton(
     content = {
         TextForButton(
             text = text,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
         )
     }
 )

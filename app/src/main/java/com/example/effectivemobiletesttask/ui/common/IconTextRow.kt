@@ -38,7 +38,7 @@ fun IconTextRow(
         modifier = Modifier.clickable { onClick() },
         text = text,
         color = colorResource(id = R.color.black_dark),
-        fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
         fontSize = dimensionResource(id = R.dimen._12sp).value.sp
     )
 }

@@ -27,7 +27,7 @@ fun LargeTitle(
 ) {
     Text(
         text = title,
-        fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+        fontFamily = FontFamily(Font(R.font.montserrat_semi_bold)),
         fontSize = dimensionResource(id = R.dimen._26sp).value.sp,
         color = colorResource(id = R.color.black)
     )

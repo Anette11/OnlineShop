@@ -26,7 +26,7 @@ fun InfoRow(
         text = textInfo,
         color = colorResource(id = R.color.gray_medium),
         fontSize = dimensionResource(id = R.dimen._10sp).value.sp,
-        fontFamily = FontFamily(Font(R.font.montserrat_regular))
+        fontFamily = FontFamily(Font(R.font.montserrat_medium))
     )
     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._8dp)))
     Text(
@@ -34,7 +34,7 @@ fun InfoRow(
         text = textClickable,
         color = colorResource(id = R.color.blue_light),
         fontSize = dimensionResource(id = R.dimen._10sp).value.sp,
-        fontFamily = FontFamily(Font(R.font.montserrat_regular))
+        fontFamily = FontFamily(Font(R.font.montserrat_medium))
     )
 }
 
