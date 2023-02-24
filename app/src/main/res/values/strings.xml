@@ -15,8 +15,18 @@
     <string name="profile">Profile</string>
     <string name="change_photo">Change photo</string>
     <string name="trade_store">Trade store</string>
+    <string name="trade_history">Trade history</string>
+    <string name="restore_purchase">Restore Purchase</string>
+    <string name="payment_method">Payment method</string>
     <string name="help">Help</string>
+    <string name="log_out">Log out</string>
     <string name="balance">Balance</string>
     <string name="balance_value">$ 1593</string>
+    <string name="photo">Photo</string>
+    <string name="back">Back</string>
+    <string name="example_name">Satria Adhi Pradana</string>
+    <string name="upload_item">Upload item</string>
+    <string name="icon">Icon</string>
+    <string name="arrow_right">Arrow right</string>
     <string name="empty" />
 </resources>

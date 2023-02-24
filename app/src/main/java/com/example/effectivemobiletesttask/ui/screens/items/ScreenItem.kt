@@ -38,7 +38,7 @@ sealed class ScreenItem {
         val height: Int
     ) : ScreenItem()
 
-    data class IconTextItem(
+    data class IconTextIcon(
         @DrawableRes val iconLeft: Int,
         @DrawableRes val iconRight: Int,
         val contentDescriptionLeft: String,
@@ -71,9 +71,20 @@ sealed class ScreenItem {
         @ColorRes val color: Int
     ) : ScreenItem()
 
-    data class ItemText(
+    data class IconText(
         @DrawableRes val icon: Int,
         val contentDescription: String,
         val text: String
+    ) : ScreenItem()
+
+    data class TextSubtitle(
+        val text: String
+    ) : ScreenItem()
+
+    data class LargeButtonIcon(
+        val text: String,
+        val onClick: () -> Unit,
+        @DrawableRes val icon: Int,
+        val contentDescription: String
     ) : ScreenItem()
 }

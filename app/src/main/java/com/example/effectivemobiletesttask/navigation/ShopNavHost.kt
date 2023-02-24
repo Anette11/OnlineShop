@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.effectivemobiletesttask.ui.screens.login_screens.login.LoginScreen
 import com.example.effectivemobiletesttask.ui.screens.login_screens.signin.SignInScreen
+import com.example.effectivemobiletesttask.ui.screens.main_screens.profile.ProfileScreen
 
 @Composable
 fun ShopNavHost(
@@ -32,5 +33,8 @@ fun ShopNavHost(
         route = Screen.LogIn.route
     ) {
         LoginScreen()
+    }
+    composable(route = Screen.Profile.route) {
+        ProfileScreen()
     }
 }

@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 import com.example.effectivemobiletesttask.R
 
 @Composable
-fun TextProfile(
+fun TextMedium(
     text: String,
     modifier: Modifier
 ) = Text(

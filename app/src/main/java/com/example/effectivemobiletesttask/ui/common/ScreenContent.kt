@@ -47,7 +47,7 @@ fun ScreenContent(
             is ScreenItem.SpacerRow -> SpacerRow(
                 height = item.height
             )
-            is ScreenItem.IconTextItem -> IconTextItem(
+            is ScreenItem.IconTextIcon -> IconTextIcon(
                 iconLeft = item.iconLeft,
                 iconRight = item.iconRight,
                 contentDescriptionLeft = item.contentDescriptionLeft,
@@ -75,10 +75,19 @@ fun ScreenContent(
                 borderWidth = item.borderWidth,
                 color = item.color
             )
-            is ScreenItem.ItemText -> ItemText(
+            is ScreenItem.IconText -> IconText(
                 icon = item.icon,
                 contentDescription = item.contentDescription,
                 text = item.text
+            )
+            is ScreenItem.TextSubtitle -> TextSubtitle(
+                text = item.text
+            )
+            is ScreenItem.LargeButtonIcon -> LargeButtonIcon(
+                text = item.text,
+                onClick = item.onClick,
+                icon = item.icon,
+                contentDescription = item.contentDescription
             )
         }
     }

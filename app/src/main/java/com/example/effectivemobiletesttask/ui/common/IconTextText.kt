@@ -28,12 +28,12 @@ fun IconTextText(
         contentDescription = contentDescription
     )
     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._8dp)))
-    TextProfile(
+    TextMedium(
         text = textCenter,
         modifier = Modifier.weight(1f)
     )
     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._8dp)))
-    TextProfile(
+    TextMedium(
         text = textRight,
         modifier = Modifier
     )
