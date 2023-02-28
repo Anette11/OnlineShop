@@ -17,6 +17,8 @@
     <color name="gray_light">#EAEAEA</color>
     <color name="gray_lighter">#EEEFF4</color>
     <color name="gray_medium">#808080</color>
+    <color name="gray_extra">#909090</color>
+    <color name="gray_blue">#737297</color>
     <color name="blue">#4E55D7</color>
     <color name="blue_light">#254FE6</color>
 </resources>
