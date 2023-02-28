@@ -29,7 +29,7 @@ import com.example.effectivemobiletesttask.navigation.Screen
 fun ShopBottomNavigation(
     items: List<Screen>,
     navController: NavHostController,
-    onNavigateClick: (String) -> Unit
+    onNavigateToScreen: (String) -> Unit
 ) = BottomNavigation(
     modifier = Modifier
         .fillMaxWidth()
@@ -50,7 +50,7 @@ fun ShopBottomNavigation(
         BottomNavigationItem(
             modifier = Modifier.padding(dimensionResource(id = R.dimen._12dp)),
             selected = isSelected,
-            onClick = { onNavigateClick(item.route) },
+            onClick = { onNavigateToScreen(item.route) },
             icon = {
                 Box(
                     modifier = Modifier
@@ -88,5 +88,5 @@ fun ShopBottomNavigationPreview() =
             Screen.Profile
         ),
         navController = rememberNavController(),
-        onNavigateClick = {}
+        onNavigateToScreen = {}
     )

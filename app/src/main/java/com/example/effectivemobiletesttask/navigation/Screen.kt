@@ -17,6 +17,11 @@ sealed class Screen(
         icon = null
     )
 
+    object Main : Screen(
+        route = "main_screen",
+        icon = null
+    )
+
     object Home : Screen(
         icon = R.drawable.ic_home,
         route = "home_screen"
