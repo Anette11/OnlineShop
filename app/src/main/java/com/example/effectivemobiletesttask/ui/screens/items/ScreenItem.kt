@@ -87,4 +87,8 @@ sealed class ScreenItem {
         @DrawableRes val icon: Int,
         val contentDescription: String
     ) : ScreenItem()
+
+    data class FilterRow(
+        val items: List<FilterRowItem>
+    ) : ScreenItem()
 }

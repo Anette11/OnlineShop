@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +29,9 @@ fun IconTextIcon(
 ) {
     IconInCircle(
         icon = iconLeft,
-        contentDescription = contentDescriptionLeft
+        contentDescription = contentDescriptionLeft,
+        height = integerResource(id = R.integer._40),
+        width = integerResource(id = R.integer._40)
     )
     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._8dp)))
     TextMedium(

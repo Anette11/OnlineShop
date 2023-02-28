@@ -89,6 +89,9 @@ fun ScreenContent(
                 icon = item.icon,
                 contentDescription = item.contentDescription
             )
+            is ScreenItem.FilterRow -> FilterRow(
+                items = item.items
+            )
         }
     }
 }

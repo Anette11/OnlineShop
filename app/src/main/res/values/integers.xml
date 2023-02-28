@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="_1">1</integer>
+    <integer name="_2">2</integer>
+    <integer name="_5">5</integer>
+    <integer name="_6">6</integer>
+    <integer name="_8">8</integer>
+    <integer name="_9">9</integer>
+    <integer name="_11">11</integer>
+    <integer name="_16">16</integer>
+    <integer name="_40">40</integer>
+    <integer name="_42">42</integer>
+    <integer name="_114">114</integer>
+    <integer name="_149">149</integer>
+    <integer name="_174">174</integer>
+    <integer name="_221">221</integer>
 </resources>
