@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.*
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -65,7 +66,21 @@ fun SimpleRow(
                     contentDescription = stringResource(id = R.string.change_password_visibility)
                 )
             }
-        }
+        },
+        leadingIcon = {
+            if (showIcon) {
+                Icon(
+                    painter = painterResource(id = R.drawable.eye_off),
+                    contentDescription = stringResource(id = R.string.change_password_visibility),
+                    tint = Color.Transparent
+                )
+            }
+        },
+        textStyle = TextStyle.Default.copy(
+            fontFamily = FontFamily(Font(R.font.montserrat_medium)),
+            fontSize = dimensionResource(id = R.dimen._11sp).value.sp,
+            color = colorResource(id = R.color.black)
+        )
     )
 }
 
