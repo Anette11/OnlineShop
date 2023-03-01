@@ -171,4 +171,8 @@ sealed class ScreenItem {
     data class AddToCart(
         val amount: String
     ) : ScreenItem()
+
+    data class BrandRow(
+        val items: List<BrandItem>
+    ) : ScreenItem()
 }

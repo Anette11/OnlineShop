@@ -5,10 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
-import com.example.effectivemobiletesttask.ui.screens.items.FilterRowItem
-import com.example.effectivemobiletesttask.ui.screens.items.LatestItem
-import com.example.effectivemobiletesttask.ui.screens.items.SaleItem
-import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
+import com.example.effectivemobiletesttask.ui.screens.items.*
 import com.example.effectivemobiletesttask.util.ResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -158,6 +155,18 @@ class HomeViewModel @Inject constructor(
             textStart = resourcesProvider.getString(R.string.brands),
             textEnd = resourcesProvider.getString(R.string.view_all)
         ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._8))
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._8)),
+        ScreenItem.BrandRow(
+            items = buildList {
+                for (i in 0..10) {
+                    add(
+                        BrandItem(
+                            image = R.drawable.ic_huge,
+                            text = resourcesProvider.getString(R.string.brand)
+                        )
+                    )
+                }
+            }
+        )
     )
 }
