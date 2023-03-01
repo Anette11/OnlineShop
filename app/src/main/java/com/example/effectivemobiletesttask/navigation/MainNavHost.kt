@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.effectivemobiletesttask.ui.screens.main_screens.chat.ChatScreen
 import com.example.effectivemobiletesttask.ui.screens.main_screens.favourite.FavouriteScreen
+import com.example.effectivemobiletesttask.ui.screens.main_screens.home.details.DetailsScreen
 import com.example.effectivemobiletesttask.ui.screens.main_screens.home.home.HomeScreen
 import com.example.effectivemobiletesttask.ui.screens.main_screens.profile.ProfileScreen
 import com.example.effectivemobiletesttask.ui.screens.main_screens.shopping.ShoppingScreen
@@ -20,7 +21,14 @@ fun MainNavHost(
     composable(
         route = Screen.Home.route
     ) {
-        HomeScreen()
+        HomeScreen(
+            onNavigateToScreen = { route -> navController.navigate(route = route) }
+        )
+    }
+    composable(
+        route = Screen.Details.route
+    ) {
+        DetailsScreen()
     }
     composable(
         route = Screen.Favourite.route

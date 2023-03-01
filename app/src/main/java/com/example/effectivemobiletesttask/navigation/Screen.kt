@@ -46,4 +46,9 @@ sealed class Screen(
         icon = R.drawable.ic_profile,
         route = "profile_screen"
     )
+
+    object Details : Screen(
+        route = "details_screen",
+        icon = null
+    )
 }

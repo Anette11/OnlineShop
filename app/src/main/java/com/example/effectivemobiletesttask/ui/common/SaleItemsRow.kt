@@ -37,7 +37,8 @@ fun SaleItemsRow(
             price = item.price,
             imageTop = item.imageTop,
             contentDescriptionIconTop = item.contentDescriptionIconTop,
-            discountText = item.discountText
+            discountText = item.discountText,
+            onItemClick = item.onItemClick
         )
         if (index != items.size - 1) {
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._9dp)))
@@ -70,7 +71,8 @@ fun SaleItemsRow() =
                         contentDescriptionIconLarge = stringResource(id = R.string.empty),
                         imageTop = R.drawable.ic_person,
                         contentDescriptionIconTop = stringResource(id = R.string.empty),
-                        discountText = stringResource(id = R.string.discount_text)
+                        discountText = stringResource(id = R.string.discount_text),
+                        onItemClick = {}
                     )
                 )
             }

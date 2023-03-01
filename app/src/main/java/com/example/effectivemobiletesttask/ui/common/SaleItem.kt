@@ -4,6 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -38,9 +39,12 @@ fun SaleItem(
     price: String,
     @DrawableRes imageTop: Int,
     contentDescriptionIconTop: String,
-    discountText: String
+    discountText: String,
+    onItemClick: () -> Unit
 ) = Box(
-    modifier = Modifier.width(width = width.dp),
+    modifier = Modifier
+        .width(width = width.dp)
+        .clickable { onItemClick() },
     contentAlignment = Alignment.BottomCenter
 ) {
     ImageItemCorners(
@@ -144,5 +148,6 @@ fun SaleItemPreview() =
         contentDescriptionIconLarge = stringResource(id = R.string.empty),
         imageTop = R.drawable.ic_person,
         contentDescriptionIconTop = stringResource(id = R.string.empty),
-        discountText = stringResource(id = R.string.discount_text)
+        discountText = stringResource(id = R.string.discount_text),
+        onItemClick = {}
     )

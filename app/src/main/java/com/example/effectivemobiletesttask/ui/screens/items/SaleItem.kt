@@ -21,5 +21,6 @@ data class SaleItem(
     val price: String,
     @DrawableRes val imageTop: Int,
     val contentDescriptionIconTop: String,
-    val discountText: String
+    val discountText: String,
+    val onItemClick: () -> Unit
 )
