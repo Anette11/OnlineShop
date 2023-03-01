@@ -76,7 +76,7 @@ fun SaleItem(
                 fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),
                 color = colorResource(id = R.color.white),
                 fontSize = dimensionResource(id = R.dimen._13sp).value.sp,
-                maxLines = 2
+                maxLines = integerResource(id = R.integer._2)
             )
             Text(
                 text = price,

@@ -18,7 +18,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -54,8 +53,8 @@ fun ShopBottomNavigation(
             icon = {
                 Box(
                     modifier = Modifier
-                        .height(35.dp)
-                        .width(35.dp)
+                        .height(dimensionResource(id = R.dimen._35dp))
+                        .width(dimensionResource(id = R.dimen._35dp))
                         .clip(CircleShape)
                         .background(
                             color = if (isSelected) colorResource(id = R.color.gray_lighter)

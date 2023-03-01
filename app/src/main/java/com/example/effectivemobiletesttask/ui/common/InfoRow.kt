@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,7 +43,7 @@ fun InfoRow(
 @Preview
 fun InfoRowPreview() =
     InfoRow(
-        textInfo = "Already have an account?",
-        textClickable = "Log in",
+        textInfo = stringResource(id = R.string.already_have_an_account),
+        textClickable = stringResource(id = R.string.log_in),
         onClick = {}
     )

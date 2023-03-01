@@ -10,4 +10,7 @@ class ResourcesProviderImpl @Inject constructor(
 
     override fun getString(resId: Int): String =
         context.getString(resId)
+
+    override fun getInteger(resId: Int): Int =
+        context.resources.getInteger(resId)
 }

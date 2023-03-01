@@ -50,4 +50,7 @@
     <string name="view_all">View all</string>
     <string name="welcome_back">Welcome back</string>
     <string name="what_are_you_looking_for">What are you looking for ?</string>
+    <string name="chat_screen">ChatScreen</string>
+    <string name="favourite_screen">FavouriteScreen</string>
+    <string name="shopping_screen">ShoppingScreen</string>
 </resources>

@@ -8,6 +8,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.ui.screens.items.SaleItem
 
@@ -41,3 +44,35 @@ fun SaleItemsRow(
         }
     }
 }
+
+@Composable
+@Preview
+fun SaleItemsRow() =
+    SaleItemsRow(
+        items = buildList {
+            for (i in 0..4) {
+                add(
+                    SaleItem(
+                        image = R.drawable.ic_snickers,
+                        contentDescriptionImage = stringResource(id = R.string.empty),
+                        height = integerResource(id = R.integer._221),
+                        width = integerResource(id = R.integer._174),
+                        radiusImage = integerResource(id = R.integer._11),
+                        text = stringResource(id = R.string.kids),
+                        color = R.color.gray_half_transparent,
+                        radiusItem = integerResource(id = R.integer._8),
+                        fontSize = integerResource(id = R.integer._9),
+                        name = stringResource(id = R.string.new_balance_sneakers),
+                        price = stringResource(id = R.string.price_test),
+                        iconSmall = R.drawable.ic_like_small,
+                        contentDescriptionIconSmall = stringResource(id = R.string.empty),
+                        iconLarge = R.drawable.ic_add_large,
+                        contentDescriptionIconLarge = stringResource(id = R.string.empty),
+                        imageTop = R.drawable.ic_person,
+                        contentDescriptionIconTop = stringResource(id = R.string.empty),
+                        discountText = stringResource(id = R.string.discount_text)
+                    )
+                )
+            }
+        }
+    )

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,7 +44,7 @@ fun ImageInCirclePreview() =
     ImageInCircle(
         icon = R.drawable.ic_launcher_foreground,
         contentDescription = stringResource(R.string.empty),
-        size = 31,
-        borderWidth = 2,
+        size = integerResource(id = R.integer._31),
+        borderWidth = integerResource(id = R.integer._2),
         color = R.color.gray_lighter
     )

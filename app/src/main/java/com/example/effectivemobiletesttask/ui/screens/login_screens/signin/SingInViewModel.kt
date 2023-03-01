@@ -23,30 +23,30 @@ class SingInViewModel @Inject constructor(
     val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
 
     val screenItems = listOf(
-        ScreenItem.SpacerRow(height = 60),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),
         ScreenItem.LargeTitle(title = resourcesProvider.getString(R.string.sign_in)),
-        ScreenItem.SpacerRow(height = 60),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),
         ScreenItem.SimpleRow(
             placeholder = resourcesProvider.getString(R.string.first_name),
-            value = "",
+            value = resourcesProvider.getString(R.string.empty),
             onValueChange = {},
             showIcon = false
         ),
-        ScreenItem.SpacerRow(height = 35),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
         ScreenItem.SimpleRow(
             placeholder = resourcesProvider.getString(R.string.last_name),
-            value = "",
+            value = resourcesProvider.getString(R.string.empty),
             onValueChange = {},
             showIcon = false
         ),
-        ScreenItem.SpacerRow(height = 35),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
         ScreenItem.SimpleRow(
             placeholder = resourcesProvider.getString(R.string.email),
-            value = "",
+            value = resourcesProvider.getString(R.string.empty),
             onValueChange = {},
             showIcon = false
         ),
-        ScreenItem.SpacerRow(height = 35),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
         ScreenItem.LargeButton(
             text = resourcesProvider.getString(R.string.sign_in),
             onClick = {
@@ -61,7 +61,7 @@ class SingInViewModel @Inject constructor(
                 }
             }
         ),
-        ScreenItem.SpacerRow(height = 15),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._15)),
         ScreenItem.InfoRow(
             textInfo = resourcesProvider.getString(R.string.already_have_an_account),
             textClickable = resourcesProvider.getString(R.string.log_in),
@@ -71,7 +71,7 @@ class SingInViewModel @Inject constructor(
                 }
             }
         ),
-        ScreenItem.SpacerRow(height = 70),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._70)),
         ScreenItem.IconTextRow(
             icon = R.drawable.ic_google,
             contentDescription = resourcesProvider.getString(R.string.sign_in_with_google),
@@ -88,7 +88,7 @@ class SingInViewModel @Inject constructor(
                 }
             }
         ),
-        ScreenItem.SpacerRow(height = 38),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._38)),
         ScreenItem.IconTextRow(
             icon = R.drawable.ic_apple,
             contentDescription = resourcesProvider.getString(R.string.sign_in_with_apple),
@@ -105,6 +105,6 @@ class SingInViewModel @Inject constructor(
                 }
             }
         ),
-        ScreenItem.SpacerRow(height = 60)
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60))
     )
 }

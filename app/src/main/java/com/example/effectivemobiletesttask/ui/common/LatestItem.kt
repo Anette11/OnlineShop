@@ -68,7 +68,7 @@ fun LatestItem(
                 fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),
                 color = colorResource(id = R.color.white),
                 fontSize = dimensionResource(id = R.dimen._9sp).value.sp,
-                maxLines = 2
+                maxLines = integerResource(id = R.integer._2)
             )
             Text(
                 text = price,
@@ -100,6 +100,6 @@ fun LatestItemPreview() =
         color = R.color.gray_half_transparent,
         radiusItem = integerResource(id = R.integer._5),
         fontSize = integerResource(id = R.integer._6),
-        name = stringResource(id = R.string.play_station_5_console).plus("\n"),
+        name = stringResource(id = R.string.play_station_5_console),
         price = stringResource(id = R.string.price_test)
     )

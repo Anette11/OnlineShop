@@ -11,10 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.*
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
@@ -89,7 +86,7 @@ fun IconTextIconLargePreview() =
         textAdditional = stringResource(id = R.string.bata),
         iconRight = R.drawable.ic_launcher_foreground,
         contentDescriptionRight = stringResource(id = R.string.empty),
-        size = 31,
-        borderWidth = 2,
+        size = integerResource(id = R.integer._31),
+        borderWidth = integerResource(id = R.integer._2),
         color = R.color.gray_lighter
     )

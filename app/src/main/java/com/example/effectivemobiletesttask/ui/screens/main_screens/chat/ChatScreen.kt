@@ -6,6 +6,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.effectivemobiletesttask.R
 
 @Composable
 fun ChatScreen() =
@@ -13,5 +15,5 @@ fun ChatScreen() =
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "ChatScreen")
+        Text(text = stringResource(id = R.string.chat_screen))
     }

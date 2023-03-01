@@ -23,23 +23,23 @@ class LoginViewModel @Inject constructor(
     val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
 
     val screenItems = listOf(
-        ScreenItem.SpacerRow(height = 60),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),
         ScreenItem.LargeTitle(title = resourcesProvider.getString(R.string.welcome_back)),
-        ScreenItem.SpacerRow(height = 60),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),
         ScreenItem.SimpleRow(
             placeholder = resourcesProvider.getString(R.string.first_name),
-            value = "",
+            value = resourcesProvider.getString(R.string.empty),
             onValueChange = {},
             showIcon = false
         ),
-        ScreenItem.SpacerRow(height = 35),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
         ScreenItem.SimpleRow(
             placeholder = resourcesProvider.getString(R.string.password),
-            value = "",
+            value = resourcesProvider.getString(R.string.empty),
             onValueChange = {},
             showIcon = true
         ),
-        ScreenItem.SpacerRow(height = 100),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._100)),
         ScreenItem.LargeButton(
             text = resourcesProvider.getString(R.string.login),
             onClick = {

@@ -16,7 +16,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val screenItems = listOf(
-        ScreenItem.SpacerRow(height = 23),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._23)),
         ScreenItem.IconTextIconLarge(
             iconLeft = R.drawable.ic_menu,
             contentDescription = resourcesProvider.getString(R.string.menu),
@@ -24,23 +24,23 @@ class HomeViewModel @Inject constructor(
             textAdditional = resourcesProvider.getString(R.string.bata),
             iconRight = R.drawable.ic_launcher_foreground,
             contentDescriptionRight = resourcesProvider.getString(R.string.photo),
-            size = 31,
-            borderWidth = 2,
+            size = resourcesProvider.getInteger(R.integer._31),
+            borderWidth = resourcesProvider.getInteger(R.integer._2),
             color = R.color.gray_lighter
         ),
-        ScreenItem.SpacerRow(height = 7),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._7)),
         ScreenItem.LocationItem(
             text = resourcesProvider.getString(R.string.location),
             icon = R.drawable.ic_arrow_down,
             contentDescription = resourcesProvider.getString(R.string.expand)
         ),
-        ScreenItem.SpacerRow(height = 9),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._9)),
         ScreenItem.SearchRow(
             placeholder = resourcesProvider.getString(R.string.what_are_you_looking_for),
             value = resourcesProvider.getString(R.string.empty),
             onValueChange = {}
         ),
-        ScreenItem.SpacerRow(height = 17),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._17)),
         ScreenItem.FilterRow(
             items = listOf(
                 FilterRowItem(
@@ -75,12 +75,12 @@ class HomeViewModel @Inject constructor(
                 )
             )
         ),
-        ScreenItem.SpacerRow(height = 30),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._30)),
         ScreenItem.TextSpaceText(
             textStart = resourcesProvider.getString(R.string.latest_deals),
             textEnd = resourcesProvider.getString(R.string.view_all)
         ),
-        ScreenItem.SpacerRow(height = 8),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._8)),
         ScreenItem.LatestItemsRow(
             items = buildList {
                 for (i in 0..10) {
@@ -88,29 +88,28 @@ class HomeViewModel @Inject constructor(
                         LatestItem(
                             image = R.drawable.ic_rectangle,
                             contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                            height = 149,
-                            width = 114,
-                            radiusImage = 9,
+                            height = resourcesProvider.getInteger(R.integer._149),
+                            width = resourcesProvider.getInteger(R.integer._114),
+                            radiusImage = resourcesProvider.getInteger(R.integer._9),
                             icon = R.drawable.ic_add_small,
                             contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
                             text = resourcesProvider.getString(R.string.phones),
                             color = R.color.gray_half_transparent,
-                            radiusItem = 5,
-                            fontSize = 6,
-                            name = resourcesProvider.getString(R.string.play_station_5_console)
-                                .plus("\n"),
+                            radiusItem = resourcesProvider.getInteger(R.integer._5),
+                            fontSize = resourcesProvider.getInteger(R.integer._6),
+                            name = resourcesProvider.getString(R.string.play_station_5_console),
                             price = resourcesProvider.getString(R.string.price_test)
                         )
                     )
                 }
             }
         ),
-        ScreenItem.SpacerRow(height = 17),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._17)),
         ScreenItem.TextSpaceText(
             textStart = resourcesProvider.getString(R.string.flash_sale),
             textEnd = resourcesProvider.getString(R.string.view_all)
         ),
-        ScreenItem.SpacerRow(height = 8),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._8)),
         ScreenItem.SaleItemsRow(
             items = buildList {
                 for (i in 0..10) {
@@ -118,13 +117,13 @@ class HomeViewModel @Inject constructor(
                         SaleItem(
                             image = R.drawable.ic_snickers,
                             contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                            height = 221,
-                            width = 174,
-                            radiusImage = 11,
+                            height = resourcesProvider.getInteger(R.integer._221),
+                            width = resourcesProvider.getInteger(R.integer._174),
+                            radiusImage = resourcesProvider.getInteger(R.integer._11),
                             text = resourcesProvider.getString(R.string.kids),
                             color = R.color.gray_half_transparent,
-                            radiusItem = 8,
-                            fontSize = 9,
+                            radiusItem = resourcesProvider.getInteger(R.integer._8),
+                            fontSize = resourcesProvider.getInteger(R.integer._9),
                             name = resourcesProvider.getString(R.string.new_balance_sneakers),
                             price = resourcesProvider.getString(R.string.price_test),
                             iconSmall = R.drawable.ic_like_small,
@@ -139,11 +138,11 @@ class HomeViewModel @Inject constructor(
                 }
             }
         ),
-        ScreenItem.SpacerRow(height = 17),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._17)),
         ScreenItem.TextSpaceText(
             textStart = resourcesProvider.getString(R.string.brands),
             textEnd = resourcesProvider.getString(R.string.view_all)
         ),
-        ScreenItem.SpacerRow(height = 8)
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._8))
     )
 }

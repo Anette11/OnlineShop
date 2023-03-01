@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.effectivemobiletesttask.R
@@ -37,7 +38,7 @@ fun ItemIconPreview() =
     ItemIcon(
         icon = R.drawable.ic_launcher_foreground,
         contentDescription = stringResource(id = R.string.empty),
-        size = 61,
-        borderWidth = 2,
+        size = integerResource(id = R.integer._61),
+        borderWidth = integerResource(id = R.integer._2),
         color = R.color.gray_lighter
     )
