@@ -57,6 +57,10 @@
     <string name="reviews">(4000 reviews)</string>
     <string name="color">Color:</string>
     <string name="color_test">#181726</string>
-    <string name="color_white">"#ffffff"</string>
+    <string name="color_white">#ffffff</string>
+    <string name="quantity">Quantity:</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="add_to_cart">ADD TO CART</string>
     <string name="description">Features waterproof, fire, air resistant shoes. all changed when the country of fire attacked</string>
 </resources>

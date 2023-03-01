@@ -167,4 +167,8 @@ sealed class ScreenItem {
         val text: String,
         val items: List<ColorItem>
     ) : ScreenItem()
+
+    data class AddToCart(
+        val amount: String
+    ) : ScreenItem()
 }

@@ -156,6 +156,9 @@ fun ScreenContent(
                 text = item.text,
                 items = item.items
             )
+            is ScreenItem.AddToCart -> AddToCart(
+                amount = item.amount
+            )
         }
     }
 }

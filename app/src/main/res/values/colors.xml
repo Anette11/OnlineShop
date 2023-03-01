@@ -29,6 +29,8 @@
     <color name="gray_half_transparent">#85C4C4C4</color>
     <color name="blue">#4E55D7</color>
     <color name="blue_light">#254FE6</color>
+    <color name="blue_lighter">#99A0FF</color>
+    <color name="blue_dark">#181726</color>
     <color name="red">#F93A3A</color>
     <color name="purple">#545589</color>
     <color name="yellow">#F6C042</color>

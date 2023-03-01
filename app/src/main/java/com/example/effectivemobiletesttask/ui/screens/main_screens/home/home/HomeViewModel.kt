@@ -1,4 +1,4 @@
-package com.example.effectivemobiletesttask.ui.screens.main_screens.home
+package com.example.effectivemobiletesttask.ui.screens.main_screens.home.home
 
 import androidx.lifecycle.ViewModel
 import com.example.effectivemobiletesttask.R

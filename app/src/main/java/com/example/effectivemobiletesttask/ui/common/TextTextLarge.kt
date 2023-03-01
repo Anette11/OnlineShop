@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -20,7 +21,10 @@ import com.example.effectivemobiletesttask.R
 fun TextTextLarge(
     textStart: String,
     textEnd: String
-) = Row(modifier = Modifier.fillMaxWidth()) {
+) = Row(
+    modifier = Modifier.fillMaxWidth(),
+    verticalAlignment = Alignment.CenterVertically
+) {
     Text(
         modifier = Modifier.weight(1f),
         text = textStart,
@@ -42,5 +46,5 @@ fun TextTextLarge(
 fun TextTextLargePreview() =
     TextTextLarge(
         textStart = stringResource(id = R.string.new_balance_sneakers),
-        textEnd = stringResource(id = R.string.balance)
+        textEnd = stringResource(id = R.string.balance_value)
     )

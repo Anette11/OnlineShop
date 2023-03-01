@@ -1,4 +1,4 @@
-package com.example.effectivemobiletesttask.ui.screens.main_screens.home
+package com.example.effectivemobiletesttask.ui.screens.main_screens.home.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.dimensionResource
