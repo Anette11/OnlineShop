@@ -123,6 +123,39 @@ fun ScreenContent(
             is ScreenItem.SaleItemsRow -> SaleItemsRow(
                 items = item.items
             )
+            is ScreenItem.HugeImage -> HugeImage(
+                image = item.image,
+                contentDescriptionImage = item.contentDescriptionImage,
+                icon = item.icon,
+                contentDescriptionIcon = item.contentDescriptionIcon,
+                iconTop = item.iconTop,
+                contentDescriptionIconTop = item.contentDescriptionIconTop,
+                iconMiddle = item.iconMiddle,
+                contentDescriptionIconMiddle = item.contentDescriptionIconMiddle,
+                iconBottom = item.iconBottom,
+                contentDescriptionIconBottom = item.contentDescriptionIconBottom,
+                onBackClick = item.onBackClick,
+                onLikeClick = item.onLikeClick,
+                onShareClick = item.onShareClick
+            )
+            is ScreenItem.DetailImagesRow -> DetailImagesRow(
+                items = item.items
+            )
+            is ScreenItem.TextTextLarge -> TextTextLarge(
+                textStart = item.textStart,
+                textEnd = item.textEnd
+            )
+            is ScreenItem.DetailDescription -> DetailDescription(
+                text = item.text
+            )
+            is ScreenItem.Reviews -> Reviews(
+                rating = item.rating,
+                reviews = item.reviews
+            )
+            is ScreenItem.ColorsItem -> ColorsItem(
+                text = item.text,
+                items = item.items
+            )
         }
     }
 }

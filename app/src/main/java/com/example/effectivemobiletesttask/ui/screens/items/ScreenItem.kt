@@ -128,4 +128,43 @@ sealed class ScreenItem {
     data class SaleItemsRow(
         val items: List<SaleItem>
     ) : ScreenItem()
+
+    data class HugeImage(
+        @DrawableRes val image: Int,
+        val contentDescriptionImage: String,
+        @DrawableRes val icon: Int,
+        val contentDescriptionIcon: String,
+        @DrawableRes val iconTop: Int,
+        val contentDescriptionIconTop: String,
+        @DrawableRes val iconMiddle: Int,
+        val contentDescriptionIconMiddle: String,
+        @DrawableRes val iconBottom: Int,
+        val contentDescriptionIconBottom: String,
+        val onBackClick: () -> Unit,
+        val onLikeClick: () -> Unit,
+        val onShareClick: () -> Unit
+    ) : ScreenItem()
+
+    data class DetailImagesRow(
+        val items: List<DetailImageItem>
+    ) : ScreenItem()
+
+    data class TextTextLarge(
+        val textStart: String,
+        val textEnd: String
+    ) : ScreenItem()
+
+    data class DetailDescription(
+        val text: String
+    ) : ScreenItem()
+
+    data class Reviews(
+        val rating: String,
+        val reviews: String
+    ) : ScreenItem()
+
+    data class ColorsItem(
+        val text: String,
+        val items: List<ColorItem>
+    ) : ScreenItem()
 }

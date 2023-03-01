@@ -53,4 +53,10 @@
     <string name="chat_screen">ChatScreen</string>
     <string name="favourite_screen">FavouriteScreen</string>
     <string name="shopping_screen">ShoppingScreen</string>
+    <string name="rating">3.9</string>
+    <string name="reviews">(4000 reviews)</string>
+    <string name="color">Color:</string>
+    <string name="color_test">#181726</string>
+    <string name="color_white">"#ffffff"</string>
+    <string name="description">Features waterproof, fire, air resistant shoes. all changed when the country of fire attacked</string>
 </resources>
