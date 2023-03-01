@@ -92,6 +92,37 @@ fun ScreenContent(
             is ScreenItem.FilterRow -> FilterRow(
                 items = item.items
             )
+            is ScreenItem.IconTextIconLarge -> IconTextIconLarge(
+                iconLeft = item.iconLeft,
+                contentDescription = item.contentDescription,
+                textMain = item.textMain,
+                textAdditional = item.textAdditional,
+                iconRight = item.iconRight,
+                contentDescriptionRight = item.contentDescriptionRight,
+                size = item.size,
+                borderWidth = item.borderWidth,
+                color = item.color
+            )
+            is ScreenItem.LocationItem -> LocationItem(
+                text = item.text,
+                icon = item.icon,
+                contentDescription = item.contentDescription
+            )
+            is ScreenItem.SearchRow -> SearchRow(
+                placeholder = item.placeholder,
+                value = item.value,
+                onValueChange = item.onValueChange
+            )
+            is ScreenItem.TextSpaceText -> TextSpaceText(
+                textStart = item.textStart,
+                textEnd = item.textEnd
+            )
+            is ScreenItem.LatestItemsRow -> LatestItemsRow(
+                items = item.items
+            )
+            is ScreenItem.SaleItemsRow -> SaleItemsRow(
+                items = item.items
+            )
         }
     }
 }

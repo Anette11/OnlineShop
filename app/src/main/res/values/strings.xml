@@ -45,4 +45,8 @@
     <string name="discount_text">30% off</string>
     <string name="location">Location</string>
     <string name="what_are_you_looking_for">What are you looking for ?</string>
+    <string name="menu">Menu</string>
+    <string name="expand">Expand</string>
+    <string name="flash_sale">Flash Sale</string>
+    <string name="brands">Brands</string>
 </resources>

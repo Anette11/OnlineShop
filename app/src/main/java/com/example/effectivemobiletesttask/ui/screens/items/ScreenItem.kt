@@ -91,4 +91,41 @@ sealed class ScreenItem {
     data class FilterRow(
         val items: List<FilterRowItem>
     ) : ScreenItem()
+
+    data class IconTextIconLarge(
+        @DrawableRes val iconLeft: Int,
+        val contentDescription: String,
+        val textMain: String,
+        val textAdditional: String,
+        @DrawableRes val iconRight: Int,
+        val contentDescriptionRight: String,
+        val size: Int,
+        val borderWidth: Int,
+        @ColorRes val color: Int
+    ) : ScreenItem()
+
+    data class LocationItem(
+        val text: String,
+        @DrawableRes val icon: Int,
+        val contentDescription: String
+    ) : ScreenItem()
+
+    data class SearchRow(
+        val placeholder: String,
+        val value: String,
+        val onValueChange: (String) -> Unit
+    ) : ScreenItem()
+
+    data class TextSpaceText(
+        val textStart: String,
+        val textEnd: String
+    ) : ScreenItem()
+
+    data class LatestItemsRow(
+        val items: List<LatestItem>
+    ) : ScreenItem()
+
+    data class SaleItemsRow(
+        val items: List<SaleItem>
+    ) : ScreenItem()
 }
