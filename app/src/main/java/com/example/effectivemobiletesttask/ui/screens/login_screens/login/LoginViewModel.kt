@@ -1,17 +1,16 @@
 package com.example.effectivemobiletesttask.ui.screens.login_screens.login
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
 import com.example.effectivemobiletesttask.util.ResourcesProvider
+import com.example.effectivemobiletesttask.util.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,9 +40,7 @@ class LoginViewModel @Inject constructor(
         ScreenItem.LargeButton(
             text = resourcesProvider.getString(R.string.login),
             onClick = {
-                viewModelScope.launch {
-                    _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route))
-                }
+                launch { _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route)) }
             }
         )
     )

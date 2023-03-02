@@ -1,17 +1,16 @@
 package com.example.effectivemobiletesttask.ui.screens.main_screens.home.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.*
 import com.example.effectivemobiletesttask.util.ResourcesProvider
+import com.example.effectivemobiletesttask.util.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -141,7 +140,7 @@ class HomeViewModel @Inject constructor(
                             contentDescriptionIconTop = resourcesProvider.getString(R.string.empty),
                             discountText = resourcesProvider.getString(R.string.discount_text),
                             onItemClick = {
-                                viewModelScope.launch {
+                                launch {
                                     _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Details.route))
                                 }
                             }

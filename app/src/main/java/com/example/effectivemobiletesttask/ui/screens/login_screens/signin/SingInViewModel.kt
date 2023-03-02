@@ -2,17 +2,16 @@ package com.example.effectivemobiletesttask.ui.screens.login_screens.signin
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
 import com.example.effectivemobiletesttask.util.ResourcesProvider
+import com.example.effectivemobiletesttask.util.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -67,7 +66,7 @@ class SingInViewModel @Inject constructor(
             9 to ScreenItem.LargeButton(
                 text = resourcesProvider.getString(R.string.sign_in),
                 onClick = {
-                    viewModelScope.launch {
+                    launch {
                         _clickAction.emit(
                             ClickAction.LargeButton(
                                 message = resourcesProvider.getString(
@@ -83,7 +82,7 @@ class SingInViewModel @Inject constructor(
                 textInfo = resourcesProvider.getString(R.string.already_have_an_account),
                 textClickable = resourcesProvider.getString(R.string.log_in),
                 onClick = {
-                    viewModelScope.launch {
+                    launch {
                         _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.LogIn.route))
                     }
                 }
@@ -94,7 +93,7 @@ class SingInViewModel @Inject constructor(
                 contentDescription = resourcesProvider.getString(R.string.sign_in_with_google),
                 text = resourcesProvider.getString(R.string.sign_in_with_google),
                 onClick = {
-                    viewModelScope.launch {
+                    launch {
                         _clickAction.emit(
                             ClickAction.IconTextRow(
                                 message = resourcesProvider.getString(
@@ -111,7 +110,7 @@ class SingInViewModel @Inject constructor(
                 contentDescription = resourcesProvider.getString(R.string.sign_in_with_apple),
                 text = resourcesProvider.getString(R.string.sign_in_with_apple),
                 onClick = {
-                    viewModelScope.launch {
+                    launch {
                         _clickAction.emit(
                             ClickAction.IconTextRow(
                                 message = resourcesProvider.getString(
