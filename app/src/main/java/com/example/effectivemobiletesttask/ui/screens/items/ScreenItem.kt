@@ -12,8 +12,7 @@ sealed class ScreenItem {
     data class SimpleRow(
         val placeholder: String,
         val value: String,
-        val onValueChange: (String) -> Unit,
-        val showIcon: Boolean
+        val onValueChange: (String) -> Unit
     ) : ScreenItem()
 
     data class LargeButton(

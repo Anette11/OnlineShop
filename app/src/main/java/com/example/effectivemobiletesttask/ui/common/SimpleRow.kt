@@ -22,33 +22,24 @@ import com.example.effectivemobiletesttask.R
 fun SimpleRow(
     placeholder: String,
     value: String,
-    onValueChange: (String) -> Unit,
-    showIcon: Boolean
+    onValueChange: (String) -> Unit
 ) = BasicTextField(
     modifier = Modifier
         .fillMaxWidth()
         .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._15dp)))
         .background(color = colorResource(id = R.color.gray)),
     value = value,
-    onValueChange = { newValue -> onValueChange(newValue) },
+    onValueChange = onValueChange,
     singleLine = true,
+    enabled = true,
     decorationBox = {
         TextFieldDefaults.TextFieldDecorationBox(
             value = value,
             visualTransformation = VisualTransformation.None,
-            contentPadding = PaddingValues(dimensionResource(id = R.dimen._0dp)),
-            trailingIcon = {
-                TextFieldIcon(
-                    showText = false,
-                    isVisible = showIcon
-                )
-            },
-            leadingIcon = {
-                TextFieldIcon(
-                    showText = false,
-                    isVisible = false
-                )
-            },
+            contentPadding = PaddingValues(
+                vertical = dimensionResource(id = R.dimen._8dp),
+                horizontal = dimensionResource(id = R.dimen._16dp)
+            ),
             placeholder = { PlaceholderText(placeholder = placeholder) },
             innerTextField = it,
             enabled = true,
@@ -64,6 +55,5 @@ fun SimpleRowPreview() =
     SimpleRow(
         placeholder = stringResource(id = R.string.first_name),
         value = stringResource(id = R.string.empty),
-        onValueChange = {},
-        showIcon = true
+        onValueChange = {}
     )

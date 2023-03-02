@@ -41,8 +41,7 @@ fun ScreenContent(
             is ScreenItem.SimpleRow -> SimpleRow(
                 placeholder = item.placeholder,
                 value = item.value,
-                onValueChange = item.onValueChange,
-                showIcon = item.showIcon
+                onValueChange = item.onValueChange
             )
             is ScreenItem.SpacerRow -> SpacerRow(
                 height = item.height

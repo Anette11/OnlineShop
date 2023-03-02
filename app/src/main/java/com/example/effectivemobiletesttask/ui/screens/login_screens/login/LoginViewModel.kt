@@ -29,15 +29,13 @@ class LoginViewModel @Inject constructor(
         ScreenItem.SimpleRow(
             placeholder = resourcesProvider.getString(R.string.first_name),
             value = resourcesProvider.getString(R.string.empty),
-            onValueChange = {},
-            showIcon = false
+            onValueChange = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
         ScreenItem.SimpleRow(
             placeholder = resourcesProvider.getString(R.string.password),
             value = resourcesProvider.getString(R.string.empty),
-            onValueChange = {},
-            showIcon = true
+            onValueChange = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._100)),
         ScreenItem.LargeButton(
