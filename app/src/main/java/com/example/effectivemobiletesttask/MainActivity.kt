@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.ui.platform.LocalFocusManager
 import com.example.effectivemobiletesttask.navigation.RootNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,10 +16,12 @@ class MainActivity : ComponentActivity() {
     ) {
         super.onCreate(savedInstanceState)
         setContent {
+            val focusManager = LocalFocusManager.current
             RootNavGraph(
                 onShowToast = { message ->
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-                }
+                },
+                onClearFocus = { focusManager.clearFocus() }
             )
         }
     }

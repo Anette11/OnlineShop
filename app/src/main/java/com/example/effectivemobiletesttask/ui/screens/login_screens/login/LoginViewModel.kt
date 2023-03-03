@@ -1,5 +1,8 @@
 package com.example.effectivemobiletesttask.ui.screens.login_screens.login
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
@@ -20,6 +23,11 @@ class LoginViewModel @Inject constructor(
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
     val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
+
+    private val _clearFocus = MutableSharedFlow<Boolean>()
+    val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
+
+    var isLoading by mutableStateOf(false)
 
     val screenItems = listOf(
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),

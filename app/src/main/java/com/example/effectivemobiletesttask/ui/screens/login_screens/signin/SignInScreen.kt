@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.R
@@ -18,10 +17,9 @@ import com.example.effectivemobiletesttask.ui.screens.ClickAction
 fun SignInScreen(
     viewModel: SingInViewModel = hiltViewModel(),
     onShowToast: (String) -> Unit,
-    onNavigateToScreen: (String) -> Unit
+    onNavigateToScreen: (String) -> Unit,
+    onClearFocus: () -> Unit
 ) {
-    val localFocus = LocalFocusManager.current
-
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
             when (clickAction) {
@@ -33,7 +31,7 @@ fun SignInScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.clearFocus.collect {
-            if (it) localFocus.clearFocus()
+            if (it) onClearFocus()
         }
     }
 
