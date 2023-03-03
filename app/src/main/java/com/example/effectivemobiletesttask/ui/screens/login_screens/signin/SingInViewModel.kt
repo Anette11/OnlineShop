@@ -40,6 +40,7 @@ class SingInViewModel @Inject constructor(
                         newValue = newValue,
                         index = 3
                     )
+                    updateSignInEnable()
                 }
             ),
             4 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
@@ -51,6 +52,7 @@ class SingInViewModel @Inject constructor(
                         newValue = newValue,
                         index = 5
                     )
+                    updateSignInEnable()
                 }
             ),
             6 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
@@ -66,6 +68,7 @@ class SingInViewModel @Inject constructor(
                         newEmail = newValue,
                         index = 8
                     )
+                    updateSignInEnable()
                 }
             ),
             8 to ScreenItem.ChangeColorText(
@@ -87,7 +90,8 @@ class SingInViewModel @Inject constructor(
                             )
                         )
                     }
-                }
+                },
+                isEnable = false
             ),
             11 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._15)),
             12 to ScreenItem.InfoRow(
@@ -159,6 +163,19 @@ class SingInViewModel @Inject constructor(
         )
         _screenItems.removeAt(index)
         _screenItems.add(index, newChangeColorText)
+    }
+
+    private fun updateSignInEnable() {
+        val firstName = (_screenItems[3] as ScreenItem.SimpleRow).value
+        val lastName = (_screenItems[5] as ScreenItem.SimpleRow).value
+        val email = (_screenItems[7] as ScreenItem.SimpleRow).value
+        val isSignInEnable = firstName.trim().isNotBlank() &&
+                lastName.trim().isNotBlank() &&
+                emailValidator.isEmailValid(email = email)
+        val updatedSignInButton =
+            (_screenItems[10] as ScreenItem.LargeButton).copy(isEnable = isSignInEnable)
+        _screenItems.removeAt(10)
+        _screenItems.add(10, updatedSignInButton)
     }
 
     init {

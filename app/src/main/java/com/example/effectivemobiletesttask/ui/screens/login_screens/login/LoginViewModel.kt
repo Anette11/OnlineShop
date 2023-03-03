@@ -41,7 +41,8 @@ class LoginViewModel @Inject constructor(
             text = resourcesProvider.getString(R.string.login),
             onClick = {
                 launch { _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route)) }
-            }
+            },
+            isEnable = false
         )
     )
 }

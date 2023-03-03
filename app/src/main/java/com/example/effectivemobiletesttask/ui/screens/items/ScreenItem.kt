@@ -17,7 +17,8 @@ sealed class ScreenItem {
 
     data class LargeButton(
         val text: String,
-        val onClick: () -> Unit
+        val onClick: () -> Unit,
+        val isEnable: Boolean
     ) : ScreenItem()
 
     data class InfoRow(
