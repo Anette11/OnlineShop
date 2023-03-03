@@ -182,4 +182,12 @@ sealed class ScreenItem {
         val isVisible: Boolean,
         val isValid: Boolean
     ) : ScreenItem()
+
+    data class PasswordRow(
+        val placeholder: String,
+        val value: String,
+        val onValueChange: (String) -> Unit,
+        val isPasswordVisible: Boolean,
+        val onTogglePasswordClick: () -> Unit
+    ) : ScreenItem()
 }

@@ -167,6 +167,13 @@ fun ScreenContent(
                 isVisible = item.isVisible,
                 isValid = item.isValid
             )
+            is ScreenItem.PasswordRow -> PasswordRow(
+                placeholder = item.placeholder,
+                value = item.value,
+                onValueChange = item.onValueChange,
+                isPasswordVisible = item.isPasswordVisible,
+                onTogglePasswordClick = item.onTogglePasswordClick
+            )
         }
     }
 }

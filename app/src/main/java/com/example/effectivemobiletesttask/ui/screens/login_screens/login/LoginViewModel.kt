@@ -106,10 +106,12 @@ class LoginViewModel @Inject constructor(
                     R.integer._35
                 )
             ),
-            mapKeysCreator.createMapKey().apply { indexPassword = this } to ScreenItem.SimpleRow(
+            mapKeysCreator.createMapKey().apply { indexPassword = this } to ScreenItem.PasswordRow(
                 placeholder = resourcesProvider.getString(R.string.password),
                 value = resourcesProvider.getString(R.string.empty),
-                onValueChange = {}
+                onValueChange = {},
+                isPasswordVisible = false,
+                onTogglePasswordClick = {}
             ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
