@@ -51,6 +51,7 @@ class LoginViewModel @Inject constructor(
                 launch { _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route)) }
             },
             isEnable = false
-        )
+        ),
+        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60))
     )
 }
