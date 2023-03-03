@@ -36,8 +36,7 @@ class SingInViewModel @Inject constructor(
     private var _screenItems = mutableStateListOf<ScreenItem>()
     val screenItems = _screenItems
 
-    private var _isLoading by mutableStateOf(false)
-    val isLoading = _isLoading
+    var isLoading by mutableStateOf(false)
 
     private val _clearFocus = MutableSharedFlow<Boolean>()
     val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
@@ -58,12 +57,12 @@ class SingInViewModel @Inject constructor(
         try {
             _clearFocus.emit(true)
             onEmailChange(resourcesProvider.getString(R.string.empty))
-            _isLoading = true
+            isLoading = true
             updateSignInEnable()
             val email = (_screenItems[indexEmail] as ScreenItem.SimpleRow).value
             val userExisting = getUserUseCase.invoke(email = email)
             if (userExisting != null) {
-                _isLoading = false
+                isLoading = false
                 updateSignInEnable()
                 _clickAction.emit(
                     value = ClickAction.ShowToast(
@@ -94,7 +93,7 @@ class SingInViewModel @Inject constructor(
                 )
             )
         } finally {
-            _isLoading = false
+            isLoading = false
             updateSignInEnable()
         }
     }
@@ -236,7 +235,7 @@ class SingInViewModel @Inject constructor(
         val isSignInEnable = firstName.trim().isNotBlank() &&
                 lastName.trim().isNotBlank() &&
                 emailValidator.isEmailValid(email = email) &&
-                _isLoading.not()
+                isLoading.not()
         val updatedSignInButton =
             (_screenItems[indexSignInButton] as ScreenItem.LargeButton).copy(isEnable = isSignInEnable)
         _screenItems.removeAt(indexSignInButton)
