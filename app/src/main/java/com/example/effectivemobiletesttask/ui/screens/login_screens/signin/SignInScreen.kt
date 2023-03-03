@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.R
@@ -19,13 +20,20 @@ fun SignInScreen(
     onShowToast: (String) -> Unit,
     onNavigateToScreen: (String) -> Unit
 ) {
+    val localFocus = LocalFocusManager.current
+
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
             when (clickAction) {
-                is ClickAction.LargeButton -> onShowToast(clickAction.message)
-                is ClickAction.IconTextRow -> onShowToast(clickAction.message)
+                is ClickAction.ShowToast -> onShowToast(clickAction.message)
                 is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
             }
+        }
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.clearFocus.collect {
+            if (it) localFocus.clearFocus()
         }
     }
 

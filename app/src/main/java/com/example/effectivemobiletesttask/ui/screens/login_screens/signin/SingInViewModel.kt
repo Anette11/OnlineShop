@@ -5,7 +5,11 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.domain.data.User
+import com.example.domain.use_cases.GetUserUseCase
+import com.example.domain.use_cases.SaveUserUseCase
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.Graph
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
@@ -21,7 +25,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SingInViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
-    private val emailValidator: EmailValidator
+    private val emailValidator: EmailValidator,
+    private val getUserUseCase: GetUserUseCase,
+    private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
@@ -33,6 +39,9 @@ class SingInViewModel @Inject constructor(
     private var _isLoading by mutableStateOf(false)
     val isLoading = _isLoading
 
+    private val _clearFocus = MutableSharedFlow<Boolean>()
+    val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
+
     private var counter = -1
     private var indexFirstName = 0
     private var indexLastName = 0
@@ -43,6 +52,51 @@ class SingInViewModel @Inject constructor(
     private fun createMapKey(): Int {
         counter += 1
         return counter
+    }
+
+    private fun onSignIn() = launch {
+        try {
+            _clearFocus.emit(true)
+            onEmailChange(resourcesProvider.getString(R.string.empty))
+            _isLoading = true
+            updateSignInEnable()
+            val email = (_screenItems[indexEmail] as ScreenItem.SimpleRow).value
+            val userExisting = getUserUseCase.invoke(email = email)
+            if (userExisting != null) {
+                _isLoading = false
+                updateSignInEnable()
+                _clickAction.emit(
+                    value = ClickAction.ShowToast(
+                        message = resourcesProvider.getString(
+                            R.string.user_exists
+                        )
+                    )
+                )
+                return@launch
+            }
+            val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+            val lastName = (_screenItems[indexLastName] as ScreenItem.SimpleRow).value
+            val password = resourcesProvider.getString(R.string.empty)
+            val user = User(
+                firstName = firstName,
+                lastName = lastName,
+                password = password,
+                email = email
+            )
+            saveUserUseCase.invoke(user = user)
+            _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route))
+        } catch (e: Exception) {
+            _clickAction.emit(
+                value = ClickAction.ShowToast(
+                    message = resourcesProvider.getString(
+                        R.string.user_save_error
+                    )
+                )
+            )
+        } finally {
+            _isLoading = false
+            updateSignInEnable()
+        }
     }
 
     private fun fillScreenItems() {
@@ -100,17 +154,7 @@ class SingInViewModel @Inject constructor(
             createMapKey().apply { indexSignInButton = this } to
                     ScreenItem.LargeButton(
                         text = resourcesProvider.getString(R.string.sign_in),
-                        onClick = {
-                            launch {
-                                _clickAction.emit(
-                                    ClickAction.LargeButton(
-                                        message = resourcesProvider.getString(
-                                            R.string.sign_in
-                                        )
-                                    )
-                                )
-                            }
-                        },
+                        onClick = { onSignIn() },
                         isEnable = false
                     ),
             createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._15)),
@@ -131,7 +175,7 @@ class SingInViewModel @Inject constructor(
                 onClick = {
                     launch {
                         _clickAction.emit(
-                            ClickAction.IconTextRow(
+                            ClickAction.ShowToast(
                                 message = resourcesProvider.getString(
                                     R.string.sign_in_with_google
                                 )
@@ -148,7 +192,7 @@ class SingInViewModel @Inject constructor(
                 onClick = {
                     launch {
                         _clickAction.emit(
-                            ClickAction.IconTextRow(
+                            ClickAction.ShowToast(
                                 message = resourcesProvider.getString(
                                     R.string.sign_in_with_apple
                                 )

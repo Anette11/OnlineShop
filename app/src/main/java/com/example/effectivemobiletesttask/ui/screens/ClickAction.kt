@@ -2,11 +2,7 @@ package com.example.effectivemobiletesttask.ui.screens
 
 sealed class ClickAction {
 
-    data class LargeButton(
-        val message: String
-    ) : ClickAction()
-
-    data class IconTextRow(
+    data class ShowToast(
         val message: String
     ) : ClickAction()
 
