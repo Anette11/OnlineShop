@@ -1,7 +1,8 @@
 package com.example.domain.di
 
 import com.example.domain.repository.UserRepository
-import com.example.domain.use_cases.GetUserUseCase
+import com.example.domain.use_cases.GetUserByEmailUseCase
+import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
 import dagger.Module
 import dagger.Provides
@@ -15,9 +16,15 @@ object UseCasesModule {
 
     @Provides
     @Singleton
-    fun provideGetUserUseCase(
+    fun provideGetUserByEmailUseCase(
         userRepository: UserRepository
-    ): GetUserUseCase = GetUserUseCase(userRepository = userRepository)
+    ): GetUserByEmailUseCase = GetUserByEmailUseCase(userRepository = userRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetUserByFirstNameUseCase(
+        userRepository: UserRepository
+    ): GetUserByFirstNameUseCase = GetUserByFirstNameUseCase(userRepository = userRepository)
 
     @Provides
     @Singleton

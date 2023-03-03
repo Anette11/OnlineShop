@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
-    private val mapKeysCreator: MapKeysCreator
+    private val mapKeysCreator: MapKeysCreator,
+    private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
@@ -34,6 +36,42 @@ class LoginViewModel @Inject constructor(
 
     private val _clearFocus = MutableSharedFlow<Boolean>()
     val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
+
+    private var indexFirstName = 0
+    private var indexPassword = 0
+    private var indexLoginButton = 0
+
+    private fun onLogin() = launch {
+        try {
+            _clearFocus.emit(true)
+            isLoading = true
+            updateLoginEnable()
+            val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+            val userExisting = getUserByFirstNameUseCase.invoke(firstName = firstName)
+            if (userExisting == null) {
+                _clickAction.emit(
+                    value = ClickAction.ShowToast(
+                        message = resourcesProvider.getString(
+                            R.string.user_not_found
+                        )
+                    )
+                )
+                return@launch
+            }
+            _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route))
+        } catch (e: Exception) {
+            _clickAction.emit(
+                value = ClickAction.ShowToast(
+                    message = resourcesProvider.getString(
+                        R.string.user_not_found
+                    )
+                )
+            )
+        } finally {
+            isLoading = false
+            updateLoginEnable()
+        }
+    }
 
     private fun fillScreenItems() {
         val screenItems = sortedMapOf(
@@ -52,17 +90,23 @@ class LoginViewModel @Inject constructor(
                     R.integer._60
                 )
             ),
-            mapKeysCreator.createMapKey() to ScreenItem.SimpleRow(
+            mapKeysCreator.createMapKey().apply { indexFirstName = this } to ScreenItem.SimpleRow(
                 placeholder = resourcesProvider.getString(R.string.first_name),
                 value = resourcesProvider.getString(R.string.empty),
-                onValueChange = {}
+                onValueChange = { newValue ->
+                    onValueChange(
+                        newValue = newValue,
+                        index = indexFirstName
+                    )
+                    updateLoginEnable()
+                }
             ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._35
                 )
             ),
-            mapKeysCreator.createMapKey() to ScreenItem.SimpleRow(
+            mapKeysCreator.createMapKey().apply { indexPassword = this } to ScreenItem.SimpleRow(
                 placeholder = resourcesProvider.getString(R.string.password),
                 value = resourcesProvider.getString(R.string.empty),
                 onValueChange = {}
@@ -72,11 +116,10 @@ class LoginViewModel @Inject constructor(
                     R.integer._100
                 )
             ),
-            mapKeysCreator.createMapKey() to ScreenItem.LargeButton(
+            mapKeysCreator.createMapKey()
+                .apply { indexLoginButton = this } to ScreenItem.LargeButton(
                 text = resourcesProvider.getString(R.string.login),
-                onClick = {
-                    launch { _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route)) }
-                },
+                onClick = { onLogin() },
                 isEnable = false
             ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
@@ -86,6 +129,24 @@ class LoginViewModel @Inject constructor(
             )
         )
         _screenItems.addAll(screenItems.values)
+    }
+
+    private fun onValueChange(
+        newValue: String,
+        index: Int
+    ) {
+        val newSimpleRow = (_screenItems[index] as ScreenItem.SimpleRow).copy(value = newValue)
+        _screenItems.removeAt(index)
+        _screenItems.add(index, newSimpleRow)
+    }
+
+    private fun updateLoginEnable() {
+        val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+        val isLoginEnable = firstName.trim().isNotBlank() && isLoading.not()
+        val updateLoginButton =
+            (_screenItems[indexLoginButton] as ScreenItem.LargeButton).copy(isEnable = isLoginEnable)
+        _screenItems.removeAt(indexLoginButton)
+        _screenItems.add(indexLoginButton, updateLoginButton)
     }
 
     init {

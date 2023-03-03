@@ -13,5 +13,8 @@ interface UserDao {
     suspend fun saveUser(user: UserDbo)
 
     @Query("SELECT * FROM user WHERE email = :email LIMIT 1")
-    fun getUser(email: String): UserDbo?
+    fun getUserByEmail(email: String): UserDbo?
+
+    @Query("SELECT * FROM user WHERE firstName = :firstName LIMIT 1")
+    fun getUserByFirstName(firstName: String): UserDbo?
 }

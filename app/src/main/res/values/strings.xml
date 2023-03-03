@@ -65,6 +65,7 @@
     <string name="upload_item">Upload item</string>
     <string name="user_exists">User with this email exists</string>
     <string name="user_save_error">Error in user saving occurred</string>
+    <string name="user_not_found">User not found in database</string>
     <string name="view_all">View all</string>
     <string name="welcome_back">Welcome back</string>
     <string name="what_are_you_looking_for">What are you looking for ?</string>
