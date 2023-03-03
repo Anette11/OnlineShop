@@ -27,74 +27,106 @@ class SingInViewModel @Inject constructor(
     private var _screenItems = mutableStateListOf<ScreenItem>()
     val screenItems = _screenItems
 
+    private var counter = -1
+    private var indexFirstName = 0
+    private var indexLastName = 0
+    private var indexEmail = 0
+    private var indexChangeColorText = 0
+    private var indexSignInButton = 0
+
+    private fun createMapKey(): Int {
+        counter += 1
+        return counter
+    }
+
     private fun fillScreenItems() {
         val screenItems = sortedMapOf(
-            0 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),
-            1 to ScreenItem.LargeTitle(title = resourcesProvider.getString(R.string.sign_in)),
-            2 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),
-            3 to ScreenItem.SimpleRow(
-                placeholder = resourcesProvider.getString(R.string.first_name),
-                value = resourcesProvider.getString(R.string.empty),
-                onValueChange = { newValue ->
-                    onValueChange(
-                        newValue = newValue,
-                        index = 3
-                    )
-                    updateSignInEnable()
-                }
-            ),
-            4 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
-            5 to ScreenItem.SimpleRow(
-                placeholder = resourcesProvider.getString(R.string.last_name),
-                value = resourcesProvider.getString(R.string.empty),
-                onValueChange = { newValue ->
-                    onValueChange(
-                        newValue = newValue,
-                        index = 5
-                    )
-                    updateSignInEnable()
-                }
-            ),
-            6 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
-            7 to ScreenItem.SimpleRow(
-                placeholder = resourcesProvider.getString(R.string.email),
-                value = resourcesProvider.getString(R.string.empty),
-                onValueChange = { newValue ->
-                    onValueChange(
-                        newValue = newValue,
-                        index = 7
-                    )
-                    onEmailChange(
-                        newEmail = newValue,
-                        index = 8
-                    )
-                    updateSignInEnable()
-                }
-            ),
-            8 to ScreenItem.ChangeColorText(
-                textIsValid = resourcesProvider.getString(R.string.email_valid),
-                textNotValid = resourcesProvider.getString(R.string.email_not_valid),
-                isVisible = false,
-                isValid = false
-            ),
-            9 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
-            10 to ScreenItem.LargeButton(
-                text = resourcesProvider.getString(R.string.sign_in),
-                onClick = {
-                    launch {
-                        _clickAction.emit(
-                            ClickAction.LargeButton(
-                                message = resourcesProvider.getString(
-                                    R.string.sign_in
-                                )
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),
+            createMapKey() to ScreenItem.LargeTitle(title = resourcesProvider.getString(R.string.sign_in)),
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60)),
+            createMapKey().apply { indexFirstName = this } to
+                    ScreenItem.SimpleRow(
+                        placeholder = resourcesProvider.getString(R.string.first_name),
+                        value = resourcesProvider.getString(R.string.empty),
+                        onValueChange = { newValue ->
+                            onValueChange(
+                                newValue = newValue,
+                                index = indexFirstName
                             )
-                        )
-                    }
-                },
-                isEnable = false
-            ),
-            11 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._15)),
-            12 to ScreenItem.InfoRow(
+                            updateSignInEnable(
+                                indexFirstName = indexFirstName,
+                                indexLastName = indexLastName,
+                                indexEmail = indexEmail,
+                                indexSignInButton = indexSignInButton
+                            )
+                        }
+                    ),
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
+            createMapKey().apply { indexLastName = this } to
+                    ScreenItem.SimpleRow(
+                        placeholder = resourcesProvider.getString(R.string.last_name),
+                        value = resourcesProvider.getString(R.string.empty),
+                        onValueChange = { newValue ->
+                            onValueChange(
+                                newValue = newValue,
+                                index = indexLastName
+                            )
+                            updateSignInEnable(
+                                indexFirstName = indexFirstName,
+                                indexLastName = indexLastName,
+                                indexEmail = indexEmail,
+                                indexSignInButton = indexSignInButton
+                            )
+                        }
+                    ),
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
+            createMapKey().apply { indexEmail = this } to
+                    ScreenItem.SimpleRow(
+                        placeholder = resourcesProvider.getString(R.string.email),
+                        value = resourcesProvider.getString(R.string.empty),
+                        onValueChange = { newValue ->
+                            onValueChange(
+                                newValue = newValue,
+                                index = indexEmail
+                            )
+                            onEmailChange(
+                                newEmail = newValue,
+                                indexChangeColorText = indexChangeColorText
+                            )
+                            updateSignInEnable(
+                                indexFirstName = indexFirstName,
+                                indexLastName = indexLastName,
+                                indexEmail = indexEmail,
+                                indexSignInButton = indexSignInButton
+                            )
+                        }
+                    ),
+            createMapKey().apply { indexChangeColorText = this } to
+                    ScreenItem.ChangeColorText(
+                        textIsValid = resourcesProvider.getString(R.string.email_valid),
+                        textNotValid = resourcesProvider.getString(R.string.email_not_valid),
+                        isVisible = false,
+                        isValid = false
+                    ),
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
+            createMapKey().apply { indexSignInButton = this } to
+                    ScreenItem.LargeButton(
+                        text = resourcesProvider.getString(R.string.sign_in),
+                        onClick = {
+                            launch {
+                                _clickAction.emit(
+                                    ClickAction.LargeButton(
+                                        message = resourcesProvider.getString(
+                                            R.string.sign_in
+                                        )
+                                    )
+                                )
+                            }
+                        },
+                        isEnable = false
+                    ),
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._15)),
+            createMapKey() to ScreenItem.InfoRow(
                 textInfo = resourcesProvider.getString(R.string.already_have_an_account),
                 textClickable = resourcesProvider.getString(R.string.log_in),
                 onClick = {
@@ -103,8 +135,8 @@ class SingInViewModel @Inject constructor(
                     }
                 }
             ),
-            13 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._70)),
-            14 to ScreenItem.IconTextRow(
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._70)),
+            createMapKey() to ScreenItem.IconTextRow(
                 icon = R.drawable.ic_google,
                 contentDescription = resourcesProvider.getString(R.string.sign_in_with_google),
                 text = resourcesProvider.getString(R.string.sign_in_with_google),
@@ -120,8 +152,8 @@ class SingInViewModel @Inject constructor(
                     }
                 }
             ),
-            15 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._38)),
-            16 to ScreenItem.IconTextRow(
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._38)),
+            createMapKey() to ScreenItem.IconTextRow(
                 icon = R.drawable.ic_apple,
                 contentDescription = resourcesProvider.getString(R.string.sign_in_with_apple),
                 text = resourcesProvider.getString(R.string.sign_in_with_apple),
@@ -137,7 +169,7 @@ class SingInViewModel @Inject constructor(
                     }
                 }
             ),
-            17 to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60))
+            createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._60))
         )
         _screenItems.addAll(screenItems.values)
     }
@@ -153,29 +185,35 @@ class SingInViewModel @Inject constructor(
 
     private fun onEmailChange(
         newEmail: String,
-        index: Int
+        indexChangeColorText: Int
     ) {
         val isEmailVisible = newEmail.isNotEmpty()
         val isEmailValid = emailValidator.isEmailValid(email = newEmail)
-        val newChangeColorText = (_screenItems[index] as ScreenItem.ChangeColorText).copy(
-            isVisible = isEmailVisible,
-            isValid = isEmailValid
-        )
-        _screenItems.removeAt(index)
-        _screenItems.add(index, newChangeColorText)
+        val newChangeColorText =
+            (_screenItems[indexChangeColorText] as ScreenItem.ChangeColorText).copy(
+                isVisible = isEmailVisible,
+                isValid = isEmailValid
+            )
+        _screenItems.removeAt(indexChangeColorText)
+        _screenItems.add(indexChangeColorText, newChangeColorText)
     }
 
-    private fun updateSignInEnable() {
-        val firstName = (_screenItems[3] as ScreenItem.SimpleRow).value
-        val lastName = (_screenItems[5] as ScreenItem.SimpleRow).value
-        val email = (_screenItems[7] as ScreenItem.SimpleRow).value
+    private fun updateSignInEnable(
+        indexFirstName: Int,
+        indexLastName: Int,
+        indexEmail: Int,
+        indexSignInButton: Int
+    ) {
+        val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+        val lastName = (_screenItems[indexLastName] as ScreenItem.SimpleRow).value
+        val email = (_screenItems[indexEmail] as ScreenItem.SimpleRow).value
         val isSignInEnable = firstName.trim().isNotBlank() &&
                 lastName.trim().isNotBlank() &&
                 emailValidator.isEmailValid(email = email)
         val updatedSignInButton =
-            (_screenItems[10] as ScreenItem.LargeButton).copy(isEnable = isSignInEnable)
-        _screenItems.removeAt(10)
-        _screenItems.add(10, updatedSignInButton)
+            (_screenItems[indexSignInButton] as ScreenItem.LargeButton).copy(isEnable = isSignInEnable)
+        _screenItems.removeAt(indexSignInButton)
+        _screenItems.add(indexSignInButton, updatedSignInButton)
     }
 
     init {
