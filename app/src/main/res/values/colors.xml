@@ -25,6 +25,7 @@
     <color name="gray_pale">#F5F6F6</color>
     <color name="gray_soft">#ADADAD</color>
     <color name="gray_strong">#A6A7AB</color>
+    <color name="green">#008000</color>
     <color name="purple">#545589</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="red">#F93A3A</color>

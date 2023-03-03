@@ -174,4 +174,11 @@ sealed class ScreenItem {
     data class BrandRow(
         val items: List<BrandItem>
     ) : ScreenItem()
+
+    data class ChangeColorText(
+        val textIsValid: String,
+        val textNotValid: String,
+        val isVisible: Boolean,
+        val isValid: Boolean
+    ) : ScreenItem()
 }

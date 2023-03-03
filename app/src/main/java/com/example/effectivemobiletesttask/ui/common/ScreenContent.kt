@@ -11,8 +11,7 @@ import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
 
 @Composable
 fun ScreenContent(
-    items: List<ScreenItem>,
-    horizontalPadding: Dp
+    items: List<ScreenItem>, horizontalPadding: Dp
 ) = LazyColumn(
     modifier = Modifier
         .fillMaxSize()
@@ -27,13 +26,10 @@ fun ScreenContent(
                 onClick = item.onClick
             )
             is ScreenItem.InfoRow -> InfoRow(
-                textInfo = item.textInfo,
-                textClickable = item.textClickable,
-                onClick = item.onClick
+                textInfo = item.textInfo, textClickable = item.textClickable, onClick = item.onClick
             )
             is ScreenItem.LargeButton -> LargeButton(
-                text = item.text,
-                onClick = item.onClick
+                text = item.text, onClick = item.onClick
             )
             is ScreenItem.LargeTitle -> LargeTitle(
                 title = item.title
@@ -63,9 +59,7 @@ fun ScreenContent(
                 text = item.text
             )
             is ScreenItem.ItemBack -> ItemBack(
-                icon = item.icon,
-                contentDescription = item.contentDescription,
-                text = item.text
+                icon = item.icon, contentDescription = item.contentDescription, text = item.text
             )
             is ScreenItem.ItemIcon -> ItemIcon(
                 icon = item.icon,
@@ -75,9 +69,7 @@ fun ScreenContent(
                 color = item.color
             )
             is ScreenItem.IconText -> IconText(
-                icon = item.icon,
-                contentDescription = item.contentDescription,
-                text = item.text
+                icon = item.icon, contentDescription = item.contentDescription, text = item.text
             )
             is ScreenItem.TextSubtitle -> TextSubtitle(
                 text = item.text
@@ -103,9 +95,7 @@ fun ScreenContent(
                 color = item.color
             )
             is ScreenItem.LocationItem -> LocationItem(
-                text = item.text,
-                icon = item.icon,
-                contentDescription = item.contentDescription
+                text = item.text, icon = item.icon, contentDescription = item.contentDescription
             )
             is ScreenItem.SearchRow -> SearchRow(
                 placeholder = item.placeholder,
@@ -113,8 +103,7 @@ fun ScreenContent(
                 onValueChange = item.onValueChange
             )
             is ScreenItem.TextSpaceText -> TextSpaceText(
-                textStart = item.textStart,
-                textEnd = item.textEnd
+                textStart = item.textStart, textEnd = item.textEnd
             )
             is ScreenItem.LatestItemsRow -> LatestItemsRow(
                 items = item.items
@@ -141,25 +130,28 @@ fun ScreenContent(
                 items = item.items
             )
             is ScreenItem.TextTextLarge -> TextTextLarge(
-                textStart = item.textStart,
-                textEnd = item.textEnd
+                textStart = item.textStart, textEnd = item.textEnd
             )
             is ScreenItem.DetailDescription -> DetailDescription(
                 text = item.text
             )
             is ScreenItem.Reviews -> Reviews(
-                rating = item.rating,
-                reviews = item.reviews
+                rating = item.rating, reviews = item.reviews
             )
             is ScreenItem.ColorsItem -> ColorsItem(
-                text = item.text,
-                items = item.items
+                text = item.text, items = item.items
             )
             is ScreenItem.AddToCart -> AddToCart(
                 amount = item.amount
             )
             is ScreenItem.BrandRow -> BrandRow(
                 items = item.items
+            )
+            is ScreenItem.ChangeColorText -> ChangeColorText(
+                textIsValid = item.textIsValid,
+                textNotValid = item.textNotValid,
+                isVisible = item.isVisible,
+                isValid = item.isValid
             )
         }
     }

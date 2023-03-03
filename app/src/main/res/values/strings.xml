@@ -20,6 +20,8 @@
     <string name="description">Features waterproof, fire, air resistant shoes. all changed when the country of fire attacked</string>
     <string name="discount_text">30% off</string>
     <string name="email">Email</string>
+    <string name="email_valid">Email valid</string>
+    <string name="email_not_valid">Email not valid</string>
     <string name="empty" />
     <string name="example_name">Satria Adhi Pradana</string>
     <string name="expand">Expand</string>
