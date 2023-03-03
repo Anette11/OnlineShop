@@ -1,6 +1,9 @@
 package com.example.effectivemobiletesttask.ui.screens.login_screens.signin
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Screen
@@ -26,6 +29,9 @@ class SingInViewModel @Inject constructor(
 
     private var _screenItems = mutableStateListOf<ScreenItem>()
     val screenItems = _screenItems
+
+    private var _isLoading by mutableStateOf(false)
+    val isLoading = _isLoading
 
     private var counter = -1
     private var indexFirstName = 0
@@ -53,12 +59,7 @@ class SingInViewModel @Inject constructor(
                                 newValue = newValue,
                                 index = indexFirstName
                             )
-                            updateSignInEnable(
-                                indexFirstName = indexFirstName,
-                                indexLastName = indexLastName,
-                                indexEmail = indexEmail,
-                                indexSignInButton = indexSignInButton
-                            )
+                            updateSignInEnable()
                         }
                     ),
             createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
@@ -71,12 +72,7 @@ class SingInViewModel @Inject constructor(
                                 newValue = newValue,
                                 index = indexLastName
                             )
-                            updateSignInEnable(
-                                indexFirstName = indexFirstName,
-                                indexLastName = indexLastName,
-                                indexEmail = indexEmail,
-                                indexSignInButton = indexSignInButton
-                            )
+                            updateSignInEnable()
                         }
                     ),
             createMapKey() to ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._35)),
@@ -89,16 +85,8 @@ class SingInViewModel @Inject constructor(
                                 newValue = newValue,
                                 index = indexEmail
                             )
-                            onEmailChange(
-                                newEmail = newValue,
-                                indexChangeColorText = indexChangeColorText
-                            )
-                            updateSignInEnable(
-                                indexFirstName = indexFirstName,
-                                indexLastName = indexLastName,
-                                indexEmail = indexEmail,
-                                indexSignInButton = indexSignInButton
-                            )
+                            onEmailChange(newEmail = newValue)
+                            updateSignInEnable()
                         }
                     ),
             createMapKey().apply { indexChangeColorText = this } to
@@ -184,8 +172,7 @@ class SingInViewModel @Inject constructor(
     }
 
     private fun onEmailChange(
-        newEmail: String,
-        indexChangeColorText: Int
+        newEmail: String
     ) {
         val isEmailVisible = newEmail.isNotEmpty()
         val isEmailValid = emailValidator.isEmailValid(email = newEmail)
@@ -198,18 +185,14 @@ class SingInViewModel @Inject constructor(
         _screenItems.add(indexChangeColorText, newChangeColorText)
     }
 
-    private fun updateSignInEnable(
-        indexFirstName: Int,
-        indexLastName: Int,
-        indexEmail: Int,
-        indexSignInButton: Int
-    ) {
+    private fun updateSignInEnable() {
         val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
         val lastName = (_screenItems[indexLastName] as ScreenItem.SimpleRow).value
         val email = (_screenItems[indexEmail] as ScreenItem.SimpleRow).value
         val isSignInEnable = firstName.trim().isNotBlank() &&
                 lastName.trim().isNotBlank() &&
-                emailValidator.isEmailValid(email = email)
+                emailValidator.isEmailValid(email = email) &&
+                _isLoading.not()
         val updatedSignInButton =
             (_screenItems[indexSignInButton] as ScreenItem.LargeButton).copy(isEnable = isSignInEnable)
         _screenItems.removeAt(indexSignInButton)
