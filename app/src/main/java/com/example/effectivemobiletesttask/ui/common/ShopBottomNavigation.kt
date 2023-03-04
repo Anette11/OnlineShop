@@ -31,6 +31,7 @@ fun ShopBottomNavigation(
     onNavigateToScreen: (String) -> Unit
 ) = BottomNavigation(
     modifier = Modifier
+        .background(color = colorResource(id = R.color.white_dark))
         .fillMaxWidth()
         .clip(
             RoundedCornerShape(
