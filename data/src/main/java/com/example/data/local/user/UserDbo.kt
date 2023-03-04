@@ -8,6 +8,7 @@ data class UserDbo(
     val firstName: String,
     val lastName: String,
     val password: String,
+    val imageUri: String?,
 
     @PrimaryKey(autoGenerate = false)
     val email: String

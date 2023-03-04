@@ -84,7 +84,7 @@ fun IconTextIconLargePreview() =
         contentDescription = stringResource(id = R.string.empty),
         textMain = stringResource(id = R.string.trade_by),
         textAdditional = stringResource(id = R.string.bata),
-        iconRight = R.drawable.ic_launcher_foreground,
+        iconRight = R.drawable.image_default,
         contentDescriptionRight = stringResource(id = R.string.empty),
         size = integerResource(id = R.integer._31),
         borderWidth = integerResource(id = R.integer._2),

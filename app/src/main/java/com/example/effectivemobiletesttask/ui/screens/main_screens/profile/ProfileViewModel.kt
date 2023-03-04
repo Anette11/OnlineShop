@@ -49,7 +49,7 @@ class ProfileViewModel @Inject constructor(
             ),
             ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._19)),
             ScreenItem.ItemIcon(
-                icon = R.drawable.ic_launcher_foreground,
+                icon = R.drawable.image_default,
                 contentDescription = resourcesProvider.getString(R.string.change_photo),
                 size = resourcesProvider.getInteger(R.integer._61),
                 borderWidth = resourcesProvider.getInteger(R.integer._2),

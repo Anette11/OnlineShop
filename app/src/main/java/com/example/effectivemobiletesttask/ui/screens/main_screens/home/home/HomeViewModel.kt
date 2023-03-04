@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
             contentDescription = resourcesProvider.getString(R.string.menu),
             textMain = resourcesProvider.getString(R.string.trade_by),
             textAdditional = resourcesProvider.getString(R.string.bata),
-            iconRight = R.drawable.ic_launcher_foreground,
+            iconRight = R.drawable.image_default,
             contentDescriptionRight = resourcesProvider.getString(R.string.photo),
             size = resourcesProvider.getInteger(R.integer._31),
             borderWidth = resourcesProvider.getInteger(R.integer._2),

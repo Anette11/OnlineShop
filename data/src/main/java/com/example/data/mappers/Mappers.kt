@@ -8,6 +8,7 @@ fun UserDbo.toUser() =
         firstName = this.firstName,
         lastName = this.lastName,
         password = this.password,
+        imageUri = this.imageUri,
         email = this.email
     )
 
@@ -16,5 +17,6 @@ fun User.toUserDbo() =
         firstName = this.firstName,
         lastName = this.lastName,
         password = this.password,
+        imageUri = this.imageUri,
         email = this.email
     )

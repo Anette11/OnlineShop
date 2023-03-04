@@ -36,7 +36,7 @@ fun ItemIcon(
 @Preview
 fun ItemIconPreview() =
     ItemIcon(
-        icon = R.drawable.ic_launcher_foreground,
+        icon = R.drawable.image_default,
         contentDescription = stringResource(id = R.string.empty),
         size = integerResource(id = R.integer._61),
         borderWidth = integerResource(id = R.integer._2),
