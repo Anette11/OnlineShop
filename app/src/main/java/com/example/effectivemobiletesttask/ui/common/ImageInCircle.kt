@@ -11,10 +11,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.effectivemobiletesttask.R
 
 @Composable
@@ -25,7 +25,7 @@ fun ImageInCircle(
     borderWidth: Int,
     @ColorRes color: Int
 ) = Image(
-    painter = painterResource(id = icon),
+    painter = rememberAsyncImagePainter(icon),
     contentDescription = contentDescription,
     contentScale = ContentScale.Crop,
     modifier = androidx.compose.ui.Modifier
@@ -42,7 +42,7 @@ fun ImageInCircle(
 @Preview
 fun ImageInCirclePreview() =
     ImageInCircle(
-        icon = R.drawable.ic_launcher_foreground,
+        icon = R.drawable.image_default,
         contentDescription = stringResource(R.string.empty),
         size = integerResource(id = R.integer._31),
         borderWidth = integerResource(id = R.integer._2),
