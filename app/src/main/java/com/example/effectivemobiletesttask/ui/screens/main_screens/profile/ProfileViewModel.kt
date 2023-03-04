@@ -57,7 +57,8 @@ class ProfileViewModel @Inject constructor(
             ),
             ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._6)),
             ScreenItem.ItemAdditionalInfo(
-                text = resourcesProvider.getString(R.string.change_photo)
+                text = resourcesProvider.getString(R.string.change_photo),
+                onClick = {}
             ),
             ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._17)),
             ScreenItem.TextSubtitle(

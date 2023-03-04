@@ -58,7 +58,8 @@ sealed class ScreenItem {
     ) : ScreenItem()
 
     data class ItemAdditionalInfo(
-        val text: String
+        val text: String,
+        val onClick: () -> Unit
     ) : ScreenItem()
 
     data class ItemBack(

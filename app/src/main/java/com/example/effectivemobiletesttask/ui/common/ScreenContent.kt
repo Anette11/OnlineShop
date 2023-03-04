@@ -63,7 +63,8 @@ fun ScreenContent(
                 onClick = item.onClick
             )
             is ScreenItem.ItemAdditionalInfo -> ItemAdditionalInfo(
-                text = item.text
+                text = item.text,
+                onClick = item.onClick
             )
             is ScreenItem.ItemBack -> ItemBack(
                 icon = item.icon,

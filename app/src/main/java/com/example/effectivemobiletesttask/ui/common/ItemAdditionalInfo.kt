@@ -1,5 +1,6 @@
 package com.example.effectivemobiletesttask.ui.common
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
@@ -17,9 +18,12 @@ import com.example.effectivemobiletesttask.R
 
 @Composable
 fun ItemAdditionalInfo(
-    text: String
+    text: String,
+    onClick: () -> Unit
 ) = Text(
-    modifier = Modifier.fillMaxWidth(),
+    modifier = Modifier
+        .fillMaxWidth()
+        .clickable { onClick() },
     text = text,
     style = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
     color = colorResource(id = R.color.gray_darker),
@@ -31,5 +35,6 @@ fun ItemAdditionalInfo(
 @Preview
 fun ItemAdditionalInfoPreview() =
     ItemAdditionalInfo(
-        text = stringResource(id = R.string.change_photo)
+        text = stringResource(id = R.string.change_photo),
+        onClick = {}
     )
