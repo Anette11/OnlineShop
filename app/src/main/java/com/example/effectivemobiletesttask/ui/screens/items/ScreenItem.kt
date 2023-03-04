@@ -70,7 +70,7 @@ sealed class ScreenItem {
     ) : ScreenItem()
 
     data class ItemIcon(
-        @DrawableRes val icon: Int,
+        val icon: Any?,
         val contentDescription: String,
         val size: Int,
         val borderWidth: Int,

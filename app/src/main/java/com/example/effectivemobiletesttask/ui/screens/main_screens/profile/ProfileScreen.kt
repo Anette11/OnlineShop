@@ -1,5 +1,8 @@
 package com.example.effectivemobiletesttask.ui.screens.main_screens.profile
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +27,11 @@ fun ProfileScreen(
     onPopBackStack: () -> Unit,
     onLogout: () -> Unit
 ) {
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { newPhotoUri -> viewModel.changePhotoUri(newPhotoUri = newPhotoUri) }
+    )
+
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
             when (clickAction) {
@@ -31,6 +39,14 @@ fun ProfileScreen(
                 is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
                 ClickAction.PopBackStack -> onPopBackStack()
             }
+        }
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.pickPhotoFromGallery.collect {
+            photoPickerLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
         }
     }
 
