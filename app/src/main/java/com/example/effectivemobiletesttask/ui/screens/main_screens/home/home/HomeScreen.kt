@@ -1,7 +1,13 @@
 package com.example.effectivemobiletesttask.ui.screens.main_screens.home.home
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.R
@@ -24,8 +30,15 @@ fun HomeScreen(
         }
     }
 
-    ScreenContent(
-        items = viewModel.screenItems,
-        horizontalPadding = dimensionResource(id = R.dimen._42dp)
-    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorResource(id = R.color.white_dark)),
+        contentAlignment = Alignment.Center
+    ) {
+        ScreenContent(
+            items = viewModel.screenItems,
+            horizontalPadding = dimensionResource(id = R.dimen._42dp)
+        )
+    }
 }
