@@ -3,6 +3,7 @@ package com.example.effectivemobiletesttask.ui.common
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +39,9 @@ fun LargeButtonIcon(
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = contentDescription,
-                modifier = Modifier.align(Alignment.CenterStart),
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = dimensionResource(id = R.dimen._34dp)),
                 tint = colorResource(id = R.color.gray_light)
             )
         }
@@ -51,6 +54,6 @@ fun LargeButtonIconPreview() =
     LargeButtonIcon(
         text = stringResource(id = R.string.upload_item),
         onClick = {},
-        icon = R.drawable.ic_share,
+        icon = R.drawable.ic_upload,
         contentDescription = stringResource(id = R.string.empty)
     )

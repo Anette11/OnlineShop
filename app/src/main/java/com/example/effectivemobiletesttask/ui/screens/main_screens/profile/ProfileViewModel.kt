@@ -39,7 +39,7 @@ class ProfileViewModel @Inject constructor(
         ScreenItem.LargeButtonIcon(
             text = resourcesProvider.getString(R.string.upload_item),
             onClick = {},
-            icon = R.drawable.ic_share,
+            icon = R.drawable.ic_upload,
             contentDescription = resourcesProvider.getString(R.string.upload_item)
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._25)),
