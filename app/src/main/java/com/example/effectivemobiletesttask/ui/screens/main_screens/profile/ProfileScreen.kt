@@ -18,13 +18,15 @@ import com.example.effectivemobiletesttask.ui.screens.ClickAction
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     onShowToast: (String) -> Unit,
-    onNavigateToScreen: (String) -> Unit
+    onNavigateToScreen: (String) -> Unit,
+    onPopBackStack: () -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
             when (clickAction) {
                 is ClickAction.ShowToast -> onShowToast(clickAction.message)
                 is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
+                ClickAction.PopBackStack -> onPopBackStack()
             }
         }
     }

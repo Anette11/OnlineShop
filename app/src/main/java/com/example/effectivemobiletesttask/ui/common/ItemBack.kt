@@ -25,11 +25,11 @@ fun ItemBack(
     contentDescription: String,
     text: String,
     onClick: () -> Unit
-) = Box(modifier = Modifier
-    .fillMaxWidth()
-    .clickable { onClick() }) {
+) = Box(modifier = Modifier.fillMaxWidth()) {
     Icon(
-        modifier = Modifier.align(Alignment.CenterStart),
+        modifier = Modifier
+            .align(Alignment.CenterStart)
+            .clickable { onClick() },
         painter = painterResource(id = icon),
         contentDescription = contentDescription
     )

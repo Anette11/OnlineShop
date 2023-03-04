@@ -27,6 +27,7 @@ fun LoginScreen(
             when (clickAction) {
                 is ClickAction.ShowToast -> onShowToast(clickAction.message)
                 is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
+                else -> Unit
             }
         }
     }

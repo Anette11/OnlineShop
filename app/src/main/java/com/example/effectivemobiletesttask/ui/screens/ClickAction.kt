@@ -9,4 +9,7 @@ sealed class ClickAction {
     data class NavigateToScreen(
         val route: String
     ) : ClickAction()
+
+    object PopBackStack
+        : ClickAction()
 }

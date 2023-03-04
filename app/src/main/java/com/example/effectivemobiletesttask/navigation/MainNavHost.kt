@@ -52,7 +52,8 @@ fun MainNavHost(
     ) {
         ProfileScreen(
             onShowToast = onShowToast,
-            onNavigateToScreen = onNavigateToScreen
+            onNavigateToScreen = onNavigateToScreen,
+            onPopBackStack = { navController.popBackStack() }
         )
     }
 }

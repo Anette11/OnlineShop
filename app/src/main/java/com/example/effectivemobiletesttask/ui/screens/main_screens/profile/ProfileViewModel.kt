@@ -35,7 +35,7 @@ class ProfileViewModel @Inject constructor(
                 icon = R.drawable.arrow_left,
                 contentDescription = resourcesProvider.getString(R.string.back),
                 text = resourcesProvider.getString(R.string.profile),
-                onClick = { onClickActionShowToast(message = resourcesProvider.getString(R.string.back)) }
+                onClick = { launch { _clickAction.emit(ClickAction.PopBackStack) } }
             ),
             ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._19)),
             ScreenItem.ItemIcon(
