@@ -1,6 +1,7 @@
 package com.example.effectivemobiletesttask.ui.common
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,9 +20,12 @@ fun IconTextText(
     @DrawableRes icon: Int,
     contentDescription: String,
     textCenter: String,
-    textRight: String
+    textRight: String,
+    onClick: () -> Unit
 ) = Row(
-    modifier = Modifier.fillMaxWidth(),
+    modifier = Modifier
+        .fillMaxWidth()
+        .clickable { onClick() },
     verticalAlignment = Alignment.CenterVertically
 ) {
     IconInCircle(
@@ -49,5 +53,6 @@ fun IconTextTextPreview() =
         icon = R.drawable.ic_credit_card,
         contentDescription = stringResource(id = R.string.empty),
         textCenter = stringResource(id = R.string.balance),
-        textRight = stringResource(id = R.string.balance_value)
+        textRight = stringResource(id = R.string.balance_value),
+        onClick = {}
     )

@@ -65,7 +65,8 @@ class ProfileViewModel @Inject constructor(
             icon = R.drawable.ic_credit_card,
             contentDescription = resourcesProvider.getString(R.string.icon),
             textCenter = resourcesProvider.getString(R.string.balance),
-            textRight = resourcesProvider.getString(R.string.balance_value)
+            textRight = resourcesProvider.getString(R.string.balance_value),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._25)),
         ScreenItem.IconTextIcon(
@@ -89,13 +90,15 @@ class ProfileViewModel @Inject constructor(
         ScreenItem.IconText(
             icon = R.drawable.ic_help,
             contentDescription = resourcesProvider.getString(R.string.icon),
-            text = resourcesProvider.getString(R.string.help)
+            text = resourcesProvider.getString(R.string.help),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._25)),
         ScreenItem.IconText(
             icon = R.drawable.ic_log_out,
             contentDescription = resourcesProvider.getString(R.string.icon),
-            text = resourcesProvider.getString(R.string.log_out)
+            text = resourcesProvider.getString(R.string.log_out),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._36))
     )

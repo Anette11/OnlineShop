@@ -59,7 +59,8 @@ fun ScreenContent(
                 icon = item.icon,
                 contentDescription = item.contentDescription,
                 textCenter = item.textCenter,
-                textRight = item.textRight
+                textRight = item.textRight,
+                onClick = item.onClick
             )
             is ScreenItem.ItemAdditionalInfo -> ItemAdditionalInfo(
                 text = item.text
@@ -79,7 +80,8 @@ fun ScreenContent(
             is ScreenItem.IconText -> IconText(
                 icon = item.icon,
                 contentDescription = item.contentDescription,
-                text = item.text
+                text = item.text,
+                onClick = item.onClick
             )
             is ScreenItem.TextSubtitle -> TextSubtitle(
                 text = item.text

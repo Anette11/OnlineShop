@@ -53,7 +53,8 @@ sealed class ScreenItem {
         @DrawableRes val icon: Int,
         val contentDescription: String,
         val textCenter: String,
-        val textRight: String
+        val textRight: String,
+        val onClick: () -> Unit
     ) : ScreenItem()
 
     data class ItemAdditionalInfo(
@@ -77,7 +78,8 @@ sealed class ScreenItem {
     data class IconText(
         @DrawableRes val icon: Int,
         val contentDescription: String,
-        val text: String
+        val text: String,
+        val onClick: () -> Unit
     ) : ScreenItem()
 
     data class TextSubtitle(
