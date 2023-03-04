@@ -20,5 +20,14 @@ fun RootNavGraph(
         onNavigateToScreen = { route -> navController.navigate(route = route) },
         onClearFocus = onClearFocus
     )
-    mainNavGraph(onShowToast = onShowToast)
+    mainNavGraph(
+        onShowToast = onShowToast,
+        onLogout = {
+            navController.navigate(route = Graph.Root.route) {
+                popUpTo(route = Graph.Root.route) {
+                    inclusive = true
+                }
+            }
+        }
+    )
 }

@@ -71,4 +71,8 @@
     <string name="view_all">View all</string>
     <string name="welcome_back">Welcome back</string>
     <string name="what_are_you_looking_for">What are you looking for ?</string>
+    <string name="logout_dialog_title">Logout</string>
+    <string name="logout_dialog_description">Are you sure you want to exit the app?</string>
+    <string name="logout_dialog_confirm_button">OK</string>
+    <string name="logout_dialog_dismiss_button">Cancel</string>
 </resources>

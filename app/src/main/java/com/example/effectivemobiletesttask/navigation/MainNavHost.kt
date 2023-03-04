@@ -15,7 +15,8 @@ import com.example.effectivemobiletesttask.ui.screens.main_screens.shopping.Shop
 fun MainNavHost(
     navController: NavHostController,
     onShowToast: (String) -> Unit,
-    onNavigateToScreen: (String) -> Unit
+    onNavigateToScreen: (String) -> Unit,
+    onLogout: () -> Unit
 ) = NavHost(
     navController = navController,
     startDestination = Screen.Home.route
@@ -53,7 +54,8 @@ fun MainNavHost(
         ProfileScreen(
             onShowToast = onShowToast,
             onNavigateToScreen = onNavigateToScreen,
-            onPopBackStack = { navController.popBackStack() }
+            onPopBackStack = { navController.popBackStack() },
+            onLogout = onLogout
         )
     }
 }

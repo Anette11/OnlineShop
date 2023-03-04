@@ -1,6 +1,9 @@
 package com.example.effectivemobiletesttask.ui.screens.main_screens.profile
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
@@ -23,6 +26,13 @@ class ProfileViewModel @Inject constructor(
 
     private fun onClickActionShowToast(message: String) = launch {
         _clickAction.emit(ClickAction.ShowToast(message = message))
+    }
+
+    var showLogoutDialog by mutableStateOf(false)
+        private set
+
+    fun changeValueShowLogoutDialog() {
+        showLogoutDialog = !showLogoutDialog
     }
 
     private var _screenItems = mutableStateListOf<ScreenItem>()
@@ -116,7 +126,7 @@ class ProfileViewModel @Inject constructor(
                 icon = R.drawable.ic_log_out,
                 contentDescription = resourcesProvider.getString(R.string.icon),
                 text = resourcesProvider.getString(R.string.log_out),
-                onClick = { onClickActionShowToast(message = resourcesProvider.getString(R.string.log_out)) }
+                onClick = { showLogoutDialog = true }
             ),
             ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._36))
         )

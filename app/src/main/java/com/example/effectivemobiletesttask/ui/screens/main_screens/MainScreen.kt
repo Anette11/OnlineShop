@@ -19,7 +19,8 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
     onShowToast: (String) -> Unit,
     onNavigateToScreen: (String) -> Unit,
-    navController: NavHostController
+    navController: NavHostController,
+    onLogout: () -> Unit
 ) = Scaffold(
     modifier = Modifier
         .fillMaxSize()
@@ -40,7 +41,8 @@ fun MainScreen(
         MainNavHost(
             navController = navController,
             onShowToast = onShowToast,
-            onNavigateToScreen = onNavigateToScreen
+            onNavigateToScreen = onNavigateToScreen,
+            onLogout = onLogout
         )
     }
 }

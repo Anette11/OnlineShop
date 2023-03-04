@@ -7,7 +7,8 @@ import androidx.navigation.navigation
 import com.example.effectivemobiletesttask.ui.screens.main_screens.MainScreen
 
 fun NavGraphBuilder.mainNavGraph(
-    onShowToast: (String) -> Unit
+    onShowToast: (String) -> Unit,
+    onLogout: () -> Unit
 ) = navigation(
     route = Graph.Main.route,
     startDestination = Screen.Main.route
@@ -19,7 +20,8 @@ fun NavGraphBuilder.mainNavGraph(
         MainScreen(
             onNavigateToScreen = { route -> navController.navigate(route) },
             navController = navController,
-            onShowToast = onShowToast
+            onShowToast = onShowToast,
+            onLogout = onLogout
         )
     }
 }
