@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +23,8 @@ import com.example.effectivemobiletesttask.R
 fun SimpleRow(
     placeholder: String,
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions
 ) = BasicTextField(
     modifier = Modifier
         .fillMaxWidth()
@@ -32,6 +34,7 @@ fun SimpleRow(
     onValueChange = onValueChange,
     singleLine = true,
     enabled = true,
+    keyboardOptions = keyboardOptions,
     decorationBox = {
         TextFieldDefaults.TextFieldDecorationBox(
             value = value,
@@ -55,5 +58,6 @@ fun SimpleRowPreview() =
     SimpleRow(
         placeholder = stringResource(id = R.string.first_name),
         value = stringResource(id = R.string.empty),
-        onValueChange = {}
+        onValueChange = {},
+        keyboardOptions = KeyboardOptions()
     )

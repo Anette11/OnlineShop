@@ -1,9 +1,11 @@
 package com.example.effectivemobiletesttask.ui.screens.login_screens.signin
 
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
 import com.example.domain.data.User
 import com.example.domain.use_cases.GetUserByEmailUseCase
@@ -121,7 +123,8 @@ class SingInViewModel @Inject constructor(
                                 index = indexFirstName
                             )
                             updateSignInEnable()
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
@@ -138,7 +141,8 @@ class SingInViewModel @Inject constructor(
                                 index = indexLastName
                             )
                             updateSignInEnable()
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
@@ -156,7 +160,8 @@ class SingInViewModel @Inject constructor(
                             )
                             onEmailChange(newEmail = newValue)
                             updateSignInEnable()
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                     ),
             mapKeysCreator.createMapKey().apply { indexChangeColorText = this } to
                     ScreenItem.ChangeColorText(

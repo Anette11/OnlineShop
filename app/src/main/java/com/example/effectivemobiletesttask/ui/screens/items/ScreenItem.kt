@@ -2,6 +2,7 @@ package com.example.effectivemobiletesttask.ui.screens.items
 
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.text.KeyboardOptions
 
 sealed class ScreenItem {
 
@@ -12,7 +13,8 @@ sealed class ScreenItem {
     data class SimpleRow(
         val placeholder: String,
         val value: String,
-        val onValueChange: (String) -> Unit
+        val onValueChange: (String) -> Unit,
+        val keyboardOptions: KeyboardOptions
     ) : ScreenItem()
 
     data class LargeButton(
