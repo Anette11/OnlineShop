@@ -1,6 +1,7 @@
 package com.example.effectivemobiletesttask.ui.common
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
@@ -22,8 +23,11 @@ import com.example.effectivemobiletesttask.R
 fun ItemBack(
     @DrawableRes icon: Int,
     contentDescription: String,
-    text: String
-) = Box(modifier = Modifier.fillMaxWidth()) {
+    text: String,
+    onClick: () -> Unit
+) = Box(modifier = Modifier
+    .fillMaxWidth()
+    .clickable { onClick() }) {
     Icon(
         modifier = Modifier.align(Alignment.CenterStart),
         painter = painterResource(id = icon),
@@ -44,5 +48,6 @@ fun ItemBackPreview() =
     ItemBack(
         icon = R.drawable.arrow_left,
         contentDescription = stringResource(id = R.string.empty),
-        text = stringResource(id = R.string.profile)
+        text = stringResource(id = R.string.profile),
+        onClick = {}
     )

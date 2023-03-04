@@ -20,5 +20,5 @@ fun RootNavGraph(
         onNavigateToScreen = { route -> navController.navigate(route = route) },
         onClearFocus = onClearFocus
     )
-    mainNavGraph()
+    mainNavGraph(onShowToast = onShowToast)
 }

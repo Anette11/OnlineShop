@@ -64,7 +64,8 @@ sealed class ScreenItem {
     data class ItemBack(
         @DrawableRes val icon: Int,
         val contentDescription: String,
-        val text: String
+        val text: String,
+        val onClick: () -> Unit
     ) : ScreenItem()
 
     data class ItemIcon(
