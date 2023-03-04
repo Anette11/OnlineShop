@@ -109,9 +109,9 @@ class LoginViewModel @Inject constructor(
             mapKeysCreator.createMapKey().apply { indexPassword = this } to ScreenItem.PasswordRow(
                 placeholder = resourcesProvider.getString(R.string.password),
                 value = resourcesProvider.getString(R.string.empty),
-                onValueChange = {},
+                onValueChange = { newValue -> onPasswordValueChange(newValue = newValue) },
                 isPasswordVisible = false,
-                onTogglePasswordClick = {}
+                onTogglePasswordClick = { onTogglePasswordClick() }
             ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
@@ -140,6 +140,24 @@ class LoginViewModel @Inject constructor(
         val newSimpleRow = (_screenItems[index] as ScreenItem.SimpleRow).copy(value = newValue)
         _screenItems.removeAt(index)
         _screenItems.add(index, newSimpleRow)
+    }
+
+    private fun onPasswordValueChange(
+        newValue: String
+    ) {
+        val newSimpleRow =
+            (_screenItems[indexPassword] as ScreenItem.PasswordRow).copy(value = newValue)
+        _screenItems.removeAt(indexPassword)
+        _screenItems.add(indexPassword, newSimpleRow)
+    }
+
+    private fun onTogglePasswordClick() {
+        val isPasswordVisible =
+            (_screenItems[indexPassword] as ScreenItem.PasswordRow).isPasswordVisible
+        val newSimpleRow =
+            (_screenItems[indexPassword] as ScreenItem.PasswordRow).copy(isPasswordVisible = isPasswordVisible.not())
+        _screenItems.removeAt(indexPassword)
+        _screenItems.add(indexPassword, newSimpleRow)
     }
 
     private fun updateLoginEnable() {
