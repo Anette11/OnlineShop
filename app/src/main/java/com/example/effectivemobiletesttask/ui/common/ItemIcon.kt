@@ -14,7 +14,7 @@ import com.example.effectivemobiletesttask.R
 
 @Composable
 fun ItemIcon(
-    @DrawableRes icon: Int,
+    icon: Any?,
     contentDescription: String,
     size: Int,
     borderWidth: Int,

@@ -1,7 +1,6 @@
 package com.example.effectivemobiletesttask.ui.common
 
 import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.size
@@ -19,7 +18,7 @@ import com.example.effectivemobiletesttask.R
 
 @Composable
 fun ImageInCircle(
-    @DrawableRes icon: Int,
+    icon: Any?,
     contentDescription: String,
     size: Int,
     borderWidth: Int,
