@@ -56,7 +56,11 @@ fun PasswordRow(
                     start = dimensionResource(id = R.dimen._16dp),
                     end = dimensionResource(id = R.dimen._47dp)
                 ),
-                placeholder = { PlaceholderText(placeholder = placeholder) },
+                placeholder = {
+                    Row(modifier = Modifier.padding(start = dimensionResource(id = R.dimen._31dp))) {
+                        PlaceholderText(placeholder = placeholder)
+                    }
+                },
                 innerTextField = it,
                 enabled = true,
                 singleLine = true,
