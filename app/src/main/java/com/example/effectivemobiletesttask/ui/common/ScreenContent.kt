@@ -52,7 +52,8 @@ fun ScreenContent(
                 iconRight = item.iconRight,
                 contentDescriptionLeft = item.contentDescriptionLeft,
                 contentDescriptionRight = item.contentDescriptionRight,
-                text = item.text
+                text = item.text,
+                onClick = item.onClick
             )
             is ScreenItem.IconTextText -> IconTextText(
                 icon = item.icon,

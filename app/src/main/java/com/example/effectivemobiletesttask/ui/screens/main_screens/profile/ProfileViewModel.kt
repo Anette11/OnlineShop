@@ -48,7 +48,8 @@ class ProfileViewModel @Inject constructor(
             iconRight = R.drawable.arrow_right,
             contentDescriptionLeft = resourcesProvider.getString(R.string.icon),
             contentDescriptionRight = resourcesProvider.getString(R.string.arrow_right),
-            text = resourcesProvider.getString(R.string.trade_store)
+            text = resourcesProvider.getString(R.string.trade_store),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._25)),
         ScreenItem.IconTextIcon(
@@ -56,7 +57,8 @@ class ProfileViewModel @Inject constructor(
             iconRight = R.drawable.arrow_right,
             contentDescriptionLeft = resourcesProvider.getString(R.string.icon),
             contentDescriptionRight = resourcesProvider.getString(R.string.arrow_right),
-            text = resourcesProvider.getString(R.string.payment_method)
+            text = resourcesProvider.getString(R.string.payment_method),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._25)),
         ScreenItem.IconTextText(
@@ -71,7 +73,8 @@ class ProfileViewModel @Inject constructor(
             iconRight = R.drawable.arrow_right,
             contentDescriptionLeft = resourcesProvider.getString(R.string.icon),
             contentDescriptionRight = resourcesProvider.getString(R.string.arrow_right),
-            text = resourcesProvider.getString(R.string.trade_history)
+            text = resourcesProvider.getString(R.string.trade_history),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._25)),
         ScreenItem.IconTextIcon(
@@ -79,7 +82,8 @@ class ProfileViewModel @Inject constructor(
             iconRight = R.drawable.arrow_right,
             contentDescriptionLeft = resourcesProvider.getString(R.string.icon),
             contentDescriptionRight = resourcesProvider.getString(R.string.arrow_right),
-            text = resourcesProvider.getString(R.string.restore_purchase)
+            text = resourcesProvider.getString(R.string.restore_purchase),
+            onClick = {}
         ),
         ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._25)),
         ScreenItem.IconText(
