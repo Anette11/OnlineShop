@@ -2,6 +2,7 @@ package com.example.data.remote
 
 import com.example.data.remote.flash_sale.GetFlashSaleResponse
 import com.example.data.remote.latest.GetLatestResponse
+import com.example.domain.util.ApiResponse
 import retrofit2.http.GET
 
 interface ApiService {
