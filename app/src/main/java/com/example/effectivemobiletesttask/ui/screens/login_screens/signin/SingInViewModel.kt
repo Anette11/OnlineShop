@@ -146,9 +146,7 @@ class SingInViewModel @Inject constructor(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
-                height = resourcesProvider.getInteger(
-                    R.integer._35
-                )
+                height = resourcesProvider.getInteger(R.integer._35)
             ),
             mapKeysCreator.createMapKey().apply { indexEmail = this } to
                     ScreenItem.SimpleRow(

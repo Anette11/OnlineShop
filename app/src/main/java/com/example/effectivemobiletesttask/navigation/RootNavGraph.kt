@@ -9,11 +9,12 @@ import androidx.navigation.compose.rememberNavController
 fun RootNavGraph(
     navController: NavHostController = rememberNavController(),
     onShowToast: (String) -> Unit,
-    onClearFocus: () -> Unit
+    onClearFocus: () -> Unit,
+    startDestination: String
 ) = NavHost(
     navController = navController,
     route = Graph.Root.route,
-    startDestination = Graph.Login.route
+    startDestination = startDestination
 ) {
     loginNavGraph(
         onShowToast = onShowToast,
