@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.data.local.user.UserDbo
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
@@ -17,4 +18,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user WHERE isLoggedIn = :isLoggedIn LIMIT 1")
     fun getUserByIsLoggedIn(isLoggedIn: Boolean): UserDbo?
+
+    @Query("SELECT * FROM user WHERE isLoggedIn = :isLoggedIn LIMIT 1")
+    fun getUserByIsLoggedInFlow(isLoggedIn: Boolean): Flow<UserDbo?>
 }

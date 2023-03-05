@@ -78,6 +78,7 @@ class SingInViewModel @Inject constructor(
                 firstName = firstName,
                 lastName = lastName,
                 password = password,
+                imageUri = null,
                 isLoggedIn = true,
                 email = email
             )

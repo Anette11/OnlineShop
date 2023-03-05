@@ -5,6 +5,8 @@ import com.example.data.mappers.toUser
 import com.example.data.mappers.toUserDbo
 import com.example.domain.data.User
 import com.example.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -19,4 +21,8 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUserByIsLoggedIn(isLoggedIn: Boolean): User? =
         userDao.getUserByIsLoggedIn(isLoggedIn = isLoggedIn)?.toUser()
+
+    override fun getUserByIsLoggedInFlow(isLoggedIn: Boolean): Flow<User?> =
+        userDao.getUserByIsLoggedInFlow(isLoggedIn = isLoggedIn)
+            .map { userDbo -> userDbo?.toUser() }
 }

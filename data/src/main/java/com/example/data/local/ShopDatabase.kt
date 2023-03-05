@@ -8,6 +8,7 @@ import com.example.data.local.user.UserDbo
     entities = [UserDbo::class],
     version = 1
 )
+@androidx.room.TypeConverters(TypeConverters::class)
 abstract class ShopDatabase : RoomDatabase() {
 
     companion object {

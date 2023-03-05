@@ -2,6 +2,7 @@ package com.example.domain.di
 
 import com.example.domain.repository.UserRepository
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
+import com.example.domain.use_cases.GetUserByIsLoggedInFlow
 import com.example.domain.use_cases.GetUserByIsLoggedInUseCase
 import com.example.domain.use_cases.SaveUserUseCase
 import dagger.Module
@@ -26,6 +27,11 @@ object UseCasesModule {
         userRepository: UserRepository
     ): GetUserByIsLoggedInUseCase = GetUserByIsLoggedInUseCase(userRepository = userRepository)
 
+    @Provides
+    @Singleton
+    fun provideGetUserByIsLoggedInFlow(
+        userRepository: UserRepository
+    ): GetUserByIsLoggedInFlow = GetUserByIsLoggedInFlow(userRepository = userRepository)
 
     @Provides
     @Singleton

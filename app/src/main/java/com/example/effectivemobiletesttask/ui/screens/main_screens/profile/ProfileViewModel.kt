@@ -1,10 +1,12 @@
 package com.example.effectivemobiletesttask.ui.screens.main_screens.profile
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.domain.use_cases.GetUserByIsLoggedInFlow
 import com.example.domain.use_cases.GetUserByIsLoggedInUseCase
 import com.example.domain.use_cases.SaveUserUseCase
 import com.example.effectivemobiletesttask.R
@@ -24,7 +26,8 @@ class ProfileViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
     private val mapKeysCreator: MapKeysCreator,
     private val getUserByIsLoggedInUseCase: GetUserByIsLoggedInUseCase,
-    private val saveUserUseCase: SaveUserUseCase
+    private val saveUserUseCase: SaveUserUseCase,
+    private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
@@ -46,11 +49,13 @@ class ProfileViewModel @Inject constructor(
 
     private var indexPhoto = 0
 
-    fun changePhotoUri(newPhotoUri: Any?) {
-        val newPhotoItem =
-            (_screenItems[indexPhoto] as ScreenItem.ItemIcon).copy(icon = newPhotoUri)
-        _screenItems.removeAt(indexPhoto)
-        _screenItems.add(indexPhoto, newPhotoItem)
+    fun changePhotoUri(newPhotoUri: Any?) = launch {
+        if (newPhotoUri != null) {
+            val loggedInUser = getUserByIsLoggedInUseCase.invoke(isLoggedIn = true)
+            loggedInUser?.let {
+                saveUserUseCase.invoke(user = loggedInUser.copy(imageUri = newPhotoUri as Uri))
+            }
+        }
     }
 
     private var _screenItems = mutableStateListOf<ScreenItem>()
@@ -75,7 +80,7 @@ class ProfileViewModel @Inject constructor(
                 )
             ),
             mapKeysCreator.createMapKey().apply { indexPhoto = this } to ScreenItem.ItemIcon(
-                icon = R.drawable.image_default,
+                icon = null,
                 contentDescription = resourcesProvider.getString(R.string.change_photo),
                 size = resourcesProvider.getInteger(R.integer._61),
                 borderWidth = resourcesProvider.getInteger(R.integer._2),
@@ -211,7 +216,20 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    private fun getUserByIsLoggedInFlow() = launch {
+        getUserByIsLoggedInFlow.invoke(isLoggedIn = true).collect { user ->
+            user?.let {
+                val newPhotoItem = (_screenItems[indexPhoto] as ScreenItem.ItemIcon).copy(
+                    icon = if (user.imageUri != null) user.imageUri else R.drawable.image_default
+                )
+                _screenItems.removeAt(indexPhoto)
+                _screenItems.add(indexPhoto, newPhotoItem)
+            }
+        }
+    }
+
     init {
         fillScreenItems()
+        getUserByIsLoggedInFlow()
     }
 }

@@ -1,5 +1,6 @@
 package com.example.data.local.user
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -11,7 +12,7 @@ data class UserDbo(
 
     val lastName: String,
     val password: String,
-    val imageUri: String?,
+    val imageUri: Uri?,
     val isLoggedIn: Boolean,
     val email: String
 )
