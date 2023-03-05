@@ -18,7 +18,7 @@ fun NavGraphBuilder.mainNavGraph(
     ) {
         val navController = rememberNavController()
         MainScreen(
-            onNavigateToScreen = { route -> navController.navigate(route) },
+            onNavigateToScreen = { route -> navController.doNavigation(route) },
             navController = navController,
             onShowToast = onShowToast,
             onLogout = onLogout

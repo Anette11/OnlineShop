@@ -18,17 +18,18 @@ fun RootNavGraph(
 ) {
     loginNavGraph(
         onShowToast = onShowToast,
-        onNavigateToScreen = { route -> navController.navigate(route = route) },
+        onNavigateToScreen = { route -> navController.doNavigation(route = route) },
         onClearFocus = onClearFocus
     )
     mainNavGraph(
         onShowToast = onShowToast,
         onLogout = {
-            navController.navigate(route = Graph.Root.route) {
-                popUpTo(route = Graph.Root.route) {
-                    inclusive = true
-                }
-            }
+            navController.doNavigation(route = Graph.Root.route)
+//            navController.navigate(route = Graph.Root.route) {
+//                popUpTo(route = Graph.Root.route) {
+//                    inclusive = true
+//                }
+//            }
         }
     )
 }
