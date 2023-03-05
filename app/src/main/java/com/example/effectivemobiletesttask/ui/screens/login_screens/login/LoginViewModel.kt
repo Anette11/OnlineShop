@@ -116,7 +116,10 @@ class LoginViewModel @Inject constructor(
             mapKeysCreator.createMapKey().apply { indexPassword = this } to ScreenItem.PasswordRow(
                 placeholder = resourcesProvider.getString(R.string.password),
                 value = resourcesProvider.getString(R.string.empty),
-                onValueChange = { newValue -> onPasswordValueChange(newValue = newValue) },
+                onValueChange = { newValue ->
+                    onPasswordValueChange(newValue = newValue)
+                    updateLoginEnable()
+                },
                 isPasswordVisible = false,
                 onTogglePasswordClick = { onTogglePasswordClick() }
             ),
@@ -169,7 +172,10 @@ class LoginViewModel @Inject constructor(
 
     private fun updateLoginEnable() {
         val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
-        val isLoginEnable = firstName.trim().isNotBlank() && isLoading.not()
+        val password = (_screenItems[indexPassword] as ScreenItem.PasswordRow).value
+        val isLoginEnable = firstName.trim().isNotBlank() &&
+                password.trim().isNotBlank() &&
+                isLoading.not()
         val updateLoginButton =
             (_screenItems[indexLoginButton] as ScreenItem.LargeButton).copy(isEnable = isLoginEnable)
         _screenItems.removeAt(indexLoginButton)
