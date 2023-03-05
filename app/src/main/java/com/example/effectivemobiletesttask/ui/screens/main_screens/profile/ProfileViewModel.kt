@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.domain.use_cases.GetUserByIsLoggedInUseCase
+import com.example.domain.use_cases.SaveUserUseCase
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
@@ -20,7 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
-    private val mapKeysCreator: MapKeysCreator
+    private val mapKeysCreator: MapKeysCreator,
+    private val getUserByIsLoggedInUseCase: GetUserByIsLoggedInUseCase,
+    private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
@@ -198,6 +202,13 @@ class ProfileViewModel @Inject constructor(
             )
         )
         _screenItems.addAll(screenItems.values)
+    }
+
+    fun updateLoggedInUser() = launch {
+        val loggedInUser = getUserByIsLoggedInUseCase.invoke(isLoggedIn = true)
+        loggedInUser?.let {
+            saveUserUseCase.invoke(user = loggedInUser.copy(isLoggedIn = false))
+        }
     }
 
     init {

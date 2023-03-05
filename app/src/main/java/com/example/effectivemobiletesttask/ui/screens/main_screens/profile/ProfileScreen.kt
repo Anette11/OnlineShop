@@ -68,6 +68,7 @@ fun ProfileScreen(
                 buttonDismissText = stringResource(id = R.string.logout_dialog_dismiss_button),
                 onConfirmClick = {
                     viewModel.changeValueShowLogoutDialog()
+                    viewModel.updateLoggedInUser()
                     onLogout()
                 },
                 onDismissClick = { viewModel.changeValueShowLogoutDialog() },
