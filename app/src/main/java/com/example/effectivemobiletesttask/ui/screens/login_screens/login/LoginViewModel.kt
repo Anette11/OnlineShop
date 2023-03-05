@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
+import com.example.domain.use_cases.SaveUserUseCase
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
@@ -25,7 +26,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
     private val mapKeysCreator: MapKeysCreator,
-    private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase
+    private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase,
+    private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
@@ -60,6 +62,8 @@ class LoginViewModel @Inject constructor(
                 )
                 return@launch
             }
+            val updatedUser = userExisting.copy(isLoggedIn = true)
+            saveUserUseCase.invoke(user = updatedUser)
             _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route))
         } catch (e: Exception) {
             _clickAction.emit(

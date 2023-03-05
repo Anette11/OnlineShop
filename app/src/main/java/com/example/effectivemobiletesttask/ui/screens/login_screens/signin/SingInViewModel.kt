@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
 import com.example.domain.data.User
-import com.example.domain.use_cases.GetUserByEmailUseCase
+import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class SingInViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
     private val emailValidator: EmailValidator,
-    private val getUserByEmailUseCase: GetUserByEmailUseCase,
+    private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase,
     private val saveUserUseCase: SaveUserUseCase,
     private val mapKeysCreator: MapKeysCreator
 ) : ViewModel() {
@@ -57,8 +57,8 @@ class SingInViewModel @Inject constructor(
             onEmailChange(resourcesProvider.getString(R.string.empty))
             isLoading = true
             updateSignInEnable()
-            val email = (_screenItems[indexEmail] as ScreenItem.SimpleRow).value
-            val userExisting = getUserByEmailUseCase.invoke(email = email)
+            val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+            val userExisting = getUserByFirstNameUseCase.invoke(firstName = firstName)
             if (userExisting != null) {
                 isLoading = false
                 updateSignInEnable()
@@ -71,13 +71,14 @@ class SingInViewModel @Inject constructor(
                 )
                 return@launch
             }
-            val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+            val email = (_screenItems[indexEmail] as ScreenItem.SimpleRow).value
             val lastName = (_screenItems[indexLastName] as ScreenItem.SimpleRow).value
             val password = resourcesProvider.getString(R.string.empty)
             val user = User(
                 firstName = firstName,
                 lastName = lastName,
                 password = password,
+                isLoggedIn = true,
                 email = email
             )
             saveUserUseCase.invoke(user = user)

@@ -5,5 +5,6 @@ data class User(
     val lastName: String,
     val password: String,
     val imageUri: String? = null,
+    val isLoggedIn: Boolean,
     val email: String
 )

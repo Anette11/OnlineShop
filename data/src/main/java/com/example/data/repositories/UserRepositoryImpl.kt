@@ -14,9 +14,6 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun saveUser(user: User) =
         userDao.saveUser(user = user.toUserDbo())
 
-    override fun getUserByEmail(email: String): User? =
-        userDao.getUserByEmail(email = email)?.toUser()
-
     override fun getUserByFirstName(firstName: String): User? =
         userDao.getUserByFirstName(firstName = firstName)?.toUser()
 }

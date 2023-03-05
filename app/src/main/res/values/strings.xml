@@ -63,7 +63,7 @@
     <string name="trade_history">Trade history</string>
     <string name="trade_store">Trade store</string>
     <string name="upload_item">Upload item</string>
-    <string name="user_exists">User with this email exists</string>
+    <string name="user_exists">User with this first name exists</string>
     <string name="user_save_error">Error in user saving occurred</string>
     <string name="user_not_found">User not found in database</string>
     <string name="password_show">Show password</string>
