@@ -38,7 +38,7 @@ fun HomeScreen(
     ) {
         ScreenContent(
             items = viewModel.screenItems,
-            horizontalPadding = dimensionResource(id = R.dimen._42dp)
+            horizontalPadding = dimensionResource(id = R.dimen._15dp)
         )
     }
 }

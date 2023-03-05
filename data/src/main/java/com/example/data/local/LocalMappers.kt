@@ -1,7 +1,7 @@
-package com.example.data.mappers
+package com.example.data.local
 
 import com.example.data.local.user.UserDbo
-import com.example.domain.data.User
+import com.example.domain.data.local.User
 
 fun UserDbo.toUser() =
     User(

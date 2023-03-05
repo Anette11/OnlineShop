@@ -1,6 +1,6 @@
 package com.example.domain.repository
 
-import com.example.domain.data.User
+import com.example.domain.data.local.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
-import com.example.domain.data.User
+import com.example.domain.data.local.User
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
 import com.example.effectivemobiletesttask.R

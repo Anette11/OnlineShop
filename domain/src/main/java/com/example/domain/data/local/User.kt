@@ -1,4 +1,4 @@
-package com.example.domain.data
+package com.example.domain.data.local
 
 import android.net.Uri
 
