@@ -16,4 +16,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUserByFirstName(firstName: String): User? =
         userDao.getUserByFirstName(firstName = firstName)?.toUser()
+
+    override fun getUserByIsLoggedIn(isLoggedIn: Boolean): User? =
+        userDao.getUserByIsLoggedIn(isLoggedIn = isLoggedIn)?.toUser()
 }

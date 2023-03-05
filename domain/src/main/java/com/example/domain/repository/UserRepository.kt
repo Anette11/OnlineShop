@@ -7,4 +7,6 @@ interface UserRepository {
     suspend fun saveUser(user: User)
 
     fun getUserByFirstName(firstName: String): User?
+
+    fun getUserByIsLoggedIn(isLoggedIn: Boolean): User?
 }

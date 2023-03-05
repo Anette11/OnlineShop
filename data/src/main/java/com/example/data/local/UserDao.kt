@@ -14,4 +14,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user WHERE firstName = :firstName LIMIT 1")
     fun getUserByFirstName(firstName: String): UserDbo?
+
+    @Query("SELECT * FROM user WHERE isLoggedIn = :isLoggedIn LIMIT 1")
+    fun getUserByIsLoggedIn(isLoggedIn: Boolean): UserDbo?
 }
