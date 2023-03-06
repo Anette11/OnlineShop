@@ -104,7 +104,7 @@ sealed class ScreenItem {
         val contentDescription: String,
         val textMain: String,
         val textAdditional: String,
-        @DrawableRes val iconRight: Int,
+        val iconRight: Any?,
         val contentDescriptionRight: String,
         val size: Int,
         val borderWidth: Int,

@@ -16,9 +16,11 @@ import com.example.effectivemobiletesttask.util.MapKeysCreator
 import com.example.effectivemobiletesttask.util.ResourcesProvider
 import com.example.effectivemobiletesttask.util.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,8 +60,8 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private var _screenItems = mutableStateListOf<ScreenItem>()
-    val screenItems = _screenItems
+    var screenItems = mutableStateListOf<ScreenItem>()
+        private set
 
     private fun fillScreenItems() {
         val screenItems = sortedMapOf(
@@ -206,7 +208,7 @@ class ProfileViewModel @Inject constructor(
                 )
             )
         )
-        _screenItems.addAll(screenItems.values)
+        this.screenItems.addAll(screenItems.values)
     }
 
     fun updateLoggedInUser() = launch {
@@ -219,11 +221,13 @@ class ProfileViewModel @Inject constructor(
     private fun getUserByIsLoggedInFlow() = launch {
         getUserByIsLoggedInFlow.invoke(isLoggedIn = true).collect { user ->
             user?.let {
-                val newPhotoItem = (_screenItems[indexPhoto] as ScreenItem.ItemIcon).copy(
-                    icon = if (user.imageUri != null) user.imageUri else R.drawable.image_default
-                )
-                _screenItems.removeAt(indexPhoto)
-                _screenItems.add(indexPhoto, newPhotoItem)
+                withContext(Dispatchers.Main) {
+                    val newPhotoItem = (screenItems[indexPhoto] as ScreenItem.ItemIcon).copy(
+                        icon = if (user.imageUri != null) user.imageUri else R.drawable.image_default
+                    )
+                    screenItems.removeAt(indexPhoto)
+                    screenItems.add(indexPhoto, newPhotoItem)
+                }
             }
         }
     }

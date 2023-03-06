@@ -28,7 +28,7 @@ fun IconTextIconLarge(
     contentDescription: String,
     textMain: String,
     textAdditional: String,
-    iconRight: Any,
+    iconRight: Any?,
     contentDescriptionRight: String,
     size: Int,
     borderWidth: Int,

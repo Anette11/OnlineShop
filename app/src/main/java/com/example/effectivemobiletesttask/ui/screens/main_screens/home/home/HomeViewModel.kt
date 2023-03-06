@@ -1,13 +1,16 @@
 package com.example.effectivemobiletesttask.ui.screens.main_screens.home.home
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.use_cases.GetFlashSaleUseCase
 import com.example.domain.use_cases.GetLatestUseCase
+import com.example.domain.use_cases.GetUserByIsLoggedInFlow
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.*
+import com.example.effectivemobiletesttask.util.MapKeysCreator
 import com.example.effectivemobiletesttask.util.ResourcesProvider
 import com.example.effectivemobiletesttask.util.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,165 +20,217 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    resourcesProvider: ResourcesProvider,
+    private val resourcesProvider: ResourcesProvider,
     private val getLatestUseCase: GetLatestUseCase,
-    private val getFlashSaleUseCase: GetFlashSaleUseCase
+    private val getFlashSaleUseCase: GetFlashSaleUseCase,
+    private val mapKeysCreator: MapKeysCreator,
+    private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
     val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
 
-    val screenItems = listOf(
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._23)),
-        ScreenItem.IconTextIconLarge(
-            iconLeft = R.drawable.ic_menu,
-            contentDescription = resourcesProvider.getString(R.string.menu),
-            textMain = resourcesProvider.getString(R.string.trade_by),
-            textAdditional = resourcesProvider.getString(R.string.bata),
-            iconRight = R.drawable.image_default,
-            contentDescriptionRight = resourcesProvider.getString(R.string.photo),
-            size = resourcesProvider.getInteger(R.integer._31),
-            borderWidth = resourcesProvider.getInteger(R.integer._2),
-            color = R.color.gray_lighter
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._7)),
-        ScreenItem.LocationItem(
-            text = resourcesProvider.getString(R.string.location),
-            icon = R.drawable.ic_arrow_down,
-            contentDescription = resourcesProvider.getString(R.string.expand)
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._9)),
-        ScreenItem.SearchRow(
-            placeholder = resourcesProvider.getString(R.string.what_are_you_looking_for),
-            value = resourcesProvider.getString(R.string.empty),
-            onValueChange = {}
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._17)),
-        ScreenItem.FilterRow(
-            items = listOf(
-                FilterRowItem(
-                    icon = R.drawable.ic_phone,
-                    contentDescription = resourcesProvider.getString(R.string.phones),
-                    hint = resourcesProvider.getString(R.string.phones)
-                ),
-                FilterRowItem(
-                    icon = R.drawable.ic_headphones,
-                    contentDescription = resourcesProvider.getString(R.string.headphones),
-                    hint = resourcesProvider.getString(R.string.headphones)
-                ),
-                FilterRowItem(
-                    icon = R.drawable.ic_joystick,
-                    contentDescription = resourcesProvider.getString(R.string.games),
-                    hint = resourcesProvider.getString(R.string.games)
-                ),
-                FilterRowItem(
-                    icon = R.drawable.ic_car,
-                    contentDescription = resourcesProvider.getString(R.string.cars),
-                    hint = resourcesProvider.getString(R.string.cars)
-                ),
-                FilterRowItem(
-                    icon = R.drawable.ic_bed,
-                    contentDescription = resourcesProvider.getString(R.string.furniture),
-                    hint = resourcesProvider.getString(R.string.furniture)
-                ),
-                FilterRowItem(
-                    icon = R.drawable.ic_robot,
-                    contentDescription = resourcesProvider.getString(R.string.kids),
-                    hint = resourcesProvider.getString(R.string.kids)
+    var screenItems = mutableStateListOf<ScreenItem>()
+        private set
+
+    private var indexPhoto = 0
+
+    private fun fillScreenItems() {
+        val screenItems = sortedMapOf(
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._23
                 )
-            )
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._30)),
-        ScreenItem.TextSpaceText(
-            textStart = resourcesProvider.getString(R.string.latest_deals),
-            textEnd = resourcesProvider.getString(R.string.view_all)
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._8)),
-        ScreenItem.LatestItemsRow(
-            items = buildList {
-                for (i in 0..10) {
-                    add(
-                        LatestItem(
-                            image = R.drawable.ic_rectangle,
-                            contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                            height = resourcesProvider.getInteger(R.integer._149),
-                            width = resourcesProvider.getInteger(R.integer._114),
-                            radiusImage = resourcesProvider.getInteger(R.integer._9),
-                            icon = R.drawable.ic_add_small,
-                            contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
-                            text = resourcesProvider.getString(R.string.phones),
-                            color = R.color.gray_half_transparent,
-                            radiusItem = resourcesProvider.getInteger(R.integer._5),
-                            fontSize = resourcesProvider.getInteger(R.integer._6),
-                            name = resourcesProvider.getString(R.string.play_station_5_console),
-                            price = resourcesProvider.getString(R.string.price_test)
-                        )
+            ),
+            mapKeysCreator.createMapKey().apply { indexPhoto = this } to
+                    ScreenItem.IconTextIconLarge(
+                        iconLeft = R.drawable.ic_menu,
+                        contentDescription = resourcesProvider.getString(R.string.menu),
+                        textMain = resourcesProvider.getString(R.string.trade_by),
+                        textAdditional = resourcesProvider.getString(R.string.bata),
+                        iconRight = null,
+                        contentDescriptionRight = resourcesProvider.getString(R.string.photo),
+                        size = resourcesProvider.getInteger(R.integer._31),
+                        borderWidth = resourcesProvider.getInteger(R.integer._2),
+                        color = R.color.gray_lighter
+                    ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._7
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.LocationItem(
+                text = resourcesProvider.getString(R.string.location),
+                icon = R.drawable.ic_arrow_down,
+                contentDescription = resourcesProvider.getString(R.string.expand)
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._9
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SearchRow(
+                placeholder = resourcesProvider.getString(R.string.what_are_you_looking_for),
+                value = resourcesProvider.getString(R.string.empty),
+                onValueChange = {}
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._17
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.FilterRow(
+                items = listOf(
+                    FilterRowItem(
+                        icon = R.drawable.ic_phone,
+                        contentDescription = resourcesProvider.getString(R.string.phones),
+                        hint = resourcesProvider.getString(R.string.phones)
+                    ),
+                    FilterRowItem(
+                        icon = R.drawable.ic_headphones,
+                        contentDescription = resourcesProvider.getString(R.string.headphones),
+                        hint = resourcesProvider.getString(R.string.headphones)
+                    ),
+                    FilterRowItem(
+                        icon = R.drawable.ic_joystick,
+                        contentDescription = resourcesProvider.getString(R.string.games),
+                        hint = resourcesProvider.getString(R.string.games)
+                    ),
+                    FilterRowItem(
+                        icon = R.drawable.ic_car,
+                        contentDescription = resourcesProvider.getString(R.string.cars),
+                        hint = resourcesProvider.getString(R.string.cars)
+                    ),
+                    FilterRowItem(
+                        icon = R.drawable.ic_bed,
+                        contentDescription = resourcesProvider.getString(R.string.furniture),
+                        hint = resourcesProvider.getString(R.string.furniture)
+                    ),
+                    FilterRowItem(
+                        icon = R.drawable.ic_robot,
+                        contentDescription = resourcesProvider.getString(R.string.kids),
+                        hint = resourcesProvider.getString(R.string.kids)
                     )
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._30
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.TextSpaceText(
+                textStart = resourcesProvider.getString(R.string.latest_deals),
+                textEnd = resourcesProvider.getString(R.string.view_all)
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._8
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.LatestItemsRow(
+                items = buildList {
+                    for (i in 0..10) {
+                        add(
+                            LatestItem(
+                                image = R.drawable.ic_rectangle,
+                                contentDescriptionImage = resourcesProvider.getString(R.string.empty),
+                                height = resourcesProvider.getInteger(R.integer._149),
+                                width = resourcesProvider.getInteger(R.integer._114),
+                                radiusImage = resourcesProvider.getInteger(R.integer._9),
+                                icon = R.drawable.ic_add_small,
+                                contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
+                                text = resourcesProvider.getString(R.string.phones),
+                                color = R.color.gray_half_transparent,
+                                radiusItem = resourcesProvider.getInteger(R.integer._5),
+                                fontSize = resourcesProvider.getInteger(R.integer._6),
+                                name = resourcesProvider.getString(R.string.play_station_5_console),
+                                price = resourcesProvider.getString(R.string.price_test)
+                            )
+                        )
+                    }
                 }
-            }
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._17)),
-        ScreenItem.TextSpaceText(
-            textStart = resourcesProvider.getString(R.string.flash_sale),
-            textEnd = resourcesProvider.getString(R.string.view_all)
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._8)),
-        ScreenItem.SaleItemsRow(
-            items = buildList {
-                for (i in 0..10) {
-                    add(
-                        SaleItem(
-                            image = R.drawable.ic_snickers,
-                            contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                            height = resourcesProvider.getInteger(R.integer._221),
-                            width = resourcesProvider.getInteger(R.integer._174),
-                            radiusImage = resourcesProvider.getInteger(R.integer._11),
-                            text = resourcesProvider.getString(R.string.kids),
-                            color = R.color.gray_half_transparent,
-                            radiusItem = resourcesProvider.getInteger(R.integer._8),
-                            fontSize = resourcesProvider.getInteger(R.integer._9),
-                            name = resourcesProvider.getString(R.string.new_balance_sneakers),
-                            price = resourcesProvider.getString(R.string.price_test),
-                            iconSmall = R.drawable.ic_like_small,
-                            contentDescriptionIconSmall = resourcesProvider.getString(R.string.empty),
-                            iconLarge = R.drawable.ic_add_large,
-                            contentDescriptionIconLarge = resourcesProvider.getString(R.string.empty),
-                            imageTop = R.drawable.ic_person,
-                            contentDescriptionIconTop = resourcesProvider.getString(R.string.empty),
-                            discountText = resourcesProvider.getString(R.string.discount_text),
-                            onItemClick = {
-                                launch {
-                                    _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Details.route))
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._17
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.TextSpaceText(
+                textStart = resourcesProvider.getString(R.string.flash_sale),
+                textEnd = resourcesProvider.getString(R.string.view_all)
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._8
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SaleItemsRow(
+                items = buildList {
+                    for (i in 0..10) {
+                        add(
+                            SaleItem(
+                                image = R.drawable.ic_snickers,
+                                contentDescriptionImage = resourcesProvider.getString(R.string.empty),
+                                height = resourcesProvider.getInteger(R.integer._221),
+                                width = resourcesProvider.getInteger(R.integer._174),
+                                radiusImage = resourcesProvider.getInteger(R.integer._11),
+                                text = resourcesProvider.getString(R.string.kids),
+                                color = R.color.gray_half_transparent,
+                                radiusItem = resourcesProvider.getInteger(R.integer._8),
+                                fontSize = resourcesProvider.getInteger(R.integer._9),
+                                name = resourcesProvider.getString(R.string.new_balance_sneakers),
+                                price = resourcesProvider.getString(R.string.price_test),
+                                iconSmall = R.drawable.ic_like_small,
+                                contentDescriptionIconSmall = resourcesProvider.getString(R.string.empty),
+                                iconLarge = R.drawable.ic_add_large,
+                                contentDescriptionIconLarge = resourcesProvider.getString(R.string.empty),
+                                imageTop = R.drawable.ic_person,
+                                contentDescriptionIconTop = resourcesProvider.getString(R.string.empty),
+                                discountText = resourcesProvider.getString(R.string.discount_text),
+                                onItemClick = {
+                                    launch {
+                                        _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Details.route))
+                                    }
                                 }
-                            }
+                            )
                         )
-                    )
+                    }
                 }
-            }
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._17)),
-        ScreenItem.TextSpaceText(
-            textStart = resourcesProvider.getString(R.string.brands),
-            textEnd = resourcesProvider.getString(R.string.view_all)
-        ),
-        ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._8)),
-        ScreenItem.BrandRow(
-            items = buildList {
-                for (i in 0..10) {
-                    add(
-                        BrandItem(
-                            image = R.drawable.ic_huge,
-                            text = resourcesProvider.getString(R.string.brand)
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._17
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.TextSpaceText(
+                textStart = resourcesProvider.getString(R.string.brands),
+                textEnd = resourcesProvider.getString(R.string.view_all)
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._8
+                )
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.BrandRow(
+                items = buildList {
+                    for (i in 0..10) {
+                        add(
+                            BrandItem(
+                                image = R.drawable.ic_huge,
+                                text = resourcesProvider.getString(R.string.brand)
+                            )
                         )
-                    )
+                    }
                 }
-            }
+            )
         )
-    )
+        this.screenItems.addAll(screenItems.values)
+    }
 
     private fun getTradeData() = viewModelScope.launch(Dispatchers.IO) {
         val latest = async { getLatestUseCase.invoke() }
@@ -184,7 +239,24 @@ class HomeViewModel @Inject constructor(
         flashSale.await()
     }
 
+    private fun getUserByIsLoggedInFlow() = launch {
+        getUserByIsLoggedInFlow.invoke(isLoggedIn = true).collect { user ->
+            user?.let {
+                withContext(Dispatchers.Main) {
+                    val newPhotoItem =
+                        (screenItems[indexPhoto] as ScreenItem.IconTextIconLarge).copy(
+                            iconRight = if (user.imageUri != null) user.imageUri else R.drawable.image_default
+                        )
+                    screenItems.removeAt(indexPhoto)
+                    screenItems.add(indexPhoto, newPhotoItem)
+                }
+            }
+        }
+    }
+
     init {
+        fillScreenItems()
+        getUserByIsLoggedInFlow()
         getTradeData()
     }
 }
