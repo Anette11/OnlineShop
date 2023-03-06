@@ -122,7 +122,10 @@ fun SaleItem(
             color = colorResource(id = R.color.white),
             fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),
             fontSize = dimensionResource(id = R.dimen._10sp).value.sp,
-            modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen._4dp))
+            modifier = Modifier.padding(
+                horizontal = dimensionResource(id = R.dimen._4dp),
+                vertical = dimensionResource(id = R.dimen._2dp)
+            )
         )
     }
 }
