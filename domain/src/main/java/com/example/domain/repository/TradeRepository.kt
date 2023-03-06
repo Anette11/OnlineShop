@@ -3,10 +3,15 @@ package com.example.domain.repository
 import com.example.domain.data.remote.FlashSale
 import com.example.domain.data.remote.Latest
 import com.example.domain.util.ApiResponse
+import kotlinx.coroutines.flow.Flow
 
 interface TradeRepository {
 
-    suspend fun getFlashSale(): ApiResponse<List<FlashSale>>
+    fun getFlashSale(
+        genericError: String
+    ): Flow<ApiResponse<List<FlashSale>>>
 
-    suspend fun getLatest(): ApiResponse<List<Latest>>
+    fun getLatest(
+        genericError: String
+    ): Flow<ApiResponse<List<Latest>>>
 }

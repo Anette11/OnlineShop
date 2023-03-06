@@ -18,8 +18,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    private const val nameBaseUrl = "baseUrl"
+
     @Provides
-    @Named(value = "baseUrl")
+    @Named(value = nameBaseUrl)
     fun provideBaseUrl(): String = ApiService.baseUrl
 
     @Provides
@@ -41,7 +43,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-        @Named(value = "baseUrl") baseUrl: String,
+        @Named(value = nameBaseUrl) baseUrl: String,
         okHttpClient: OkHttpClient
     ): Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)

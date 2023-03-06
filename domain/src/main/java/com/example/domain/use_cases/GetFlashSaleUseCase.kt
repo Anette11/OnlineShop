@@ -6,5 +6,7 @@ import javax.inject.Inject
 class GetFlashSaleUseCase @Inject constructor(
     private val tradeRepository: TradeRepository
 ) {
-    suspend operator fun invoke() = tradeRepository.getFlashSale()
+    operator fun invoke(
+        genericError: String
+    ) = tradeRepository.getFlashSale(genericError = genericError)
 }

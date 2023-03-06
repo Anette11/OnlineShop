@@ -25,7 +25,8 @@ fun MainNavHost(
         route = Screen.Home.route
     ) {
         HomeScreen(
-            onNavigateToScreen = { route -> navController.doNavigation(route = route) }
+            onNavigateToScreen = { route -> navController.doNavigation(route = route) },
+            onShowToast = onShowToast
         )
     }
     composable(

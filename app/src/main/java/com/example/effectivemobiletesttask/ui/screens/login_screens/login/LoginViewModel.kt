@@ -37,6 +37,7 @@ class LoginViewModel @Inject constructor(
     val screenItems = _screenItems
 
     var isLoading by mutableStateOf(false)
+        private set
 
     private val _clearFocus = MutableSharedFlow<Boolean>()
     val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()

@@ -4,7 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 
 data class LatestItem(
-    @DrawableRes val image: Int,
+    val image: Any?,
     val contentDescriptionImage: String,
     val height: Int,
     val width: Int,

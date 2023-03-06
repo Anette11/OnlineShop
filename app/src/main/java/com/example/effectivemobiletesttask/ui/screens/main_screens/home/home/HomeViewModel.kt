@@ -1,11 +1,17 @@
 package com.example.effectivemobiletesttask.ui.screens.main_screens.home.home
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.data.remote.FlashSale
+import com.example.domain.data.remote.Latest
 import com.example.domain.use_cases.GetFlashSaleUseCase
 import com.example.domain.use_cases.GetLatestUseCase
 import com.example.domain.use_cases.GetUserByIsLoggedInFlow
+import com.example.domain.util.ApiResponse
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
@@ -15,10 +21,7 @@ import com.example.effectivemobiletesttask.util.ResourcesProvider
 import com.example.effectivemobiletesttask.util.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -38,7 +41,13 @@ class HomeViewModel @Inject constructor(
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
 
+    var isLoading by mutableStateOf(false)
+        private set
+
     private var indexPhoto = 0
+    private var indexLatest = 0
+    private var indexFlashSale = 0
+    private var indexBrand = 0
 
     private fun fillScreenItems() {
         val screenItems = sortedMapOf(
@@ -132,29 +141,8 @@ class HomeViewModel @Inject constructor(
                     R.integer._8
                 )
             ),
-            mapKeysCreator.createMapKey() to ScreenItem.LatestItemsRow(
-                items = buildList {
-                    for (i in 0..10) {
-                        add(
-                            LatestItem(
-                                image = R.drawable.ic_rectangle,
-                                contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                                height = resourcesProvider.getInteger(R.integer._149),
-                                width = resourcesProvider.getInteger(R.integer._114),
-                                radiusImage = resourcesProvider.getInteger(R.integer._9),
-                                icon = R.drawable.ic_add_small,
-                                contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
-                                text = resourcesProvider.getString(R.string.phones),
-                                color = R.color.gray_half_transparent,
-                                radiusItem = resourcesProvider.getInteger(R.integer._5),
-                                fontSize = resourcesProvider.getInteger(R.integer._6),
-                                name = resourcesProvider.getString(R.string.play_station_5_console),
-                                price = resourcesProvider.getString(R.string.price_test)
-                            )
-                        )
-                    }
-                }
-            ),
+            mapKeysCreator.createMapKey().apply { indexLatest = this } to
+                    ScreenItem.LatestItemsRow(items = emptyList()),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._17
@@ -169,39 +157,8 @@ class HomeViewModel @Inject constructor(
                     R.integer._8
                 )
             ),
-            mapKeysCreator.createMapKey() to ScreenItem.SaleItemsRow(
-                items = buildList {
-                    for (i in 0..10) {
-                        add(
-                            SaleItem(
-                                image = R.drawable.ic_snickers,
-                                contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                                height = resourcesProvider.getInteger(R.integer._221),
-                                width = resourcesProvider.getInteger(R.integer._174),
-                                radiusImage = resourcesProvider.getInteger(R.integer._11),
-                                text = resourcesProvider.getString(R.string.kids),
-                                color = R.color.gray_half_transparent,
-                                radiusItem = resourcesProvider.getInteger(R.integer._8),
-                                fontSize = resourcesProvider.getInteger(R.integer._9),
-                                name = resourcesProvider.getString(R.string.new_balance_sneakers),
-                                price = resourcesProvider.getString(R.string.price_test),
-                                iconSmall = R.drawable.ic_like_small,
-                                contentDescriptionIconSmall = resourcesProvider.getString(R.string.empty),
-                                iconLarge = R.drawable.ic_add_large,
-                                contentDescriptionIconLarge = resourcesProvider.getString(R.string.empty),
-                                imageTop = R.drawable.ic_person,
-                                contentDescriptionIconTop = resourcesProvider.getString(R.string.empty),
-                                discountText = resourcesProvider.getString(R.string.discount_text),
-                                onItemClick = {
-                                    launch {
-                                        _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Details.route))
-                                    }
-                                }
-                            )
-                        )
-                    }
-                }
-            ),
+            mapKeysCreator.createMapKey().apply { indexFlashSale = this } to
+                    ScreenItem.SaleItemsRow(items = emptyList()),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._17
@@ -216,27 +173,116 @@ class HomeViewModel @Inject constructor(
                     R.integer._8
                 )
             ),
-            mapKeysCreator.createMapKey() to ScreenItem.BrandRow(
-                items = buildList {
-                    for (i in 0..10) {
-                        add(
-                            BrandItem(
-                                image = R.drawable.ic_huge,
-                                text = resourcesProvider.getString(R.string.brand)
-                            )
-                        )
-                    }
-                }
+            mapKeysCreator.createMapKey().apply { indexBrand = this } to ScreenItem.BrandRow(
+                items = emptyList()
             )
         )
         this.screenItems.addAll(screenItems.values)
     }
 
     private fun getTradeData() = viewModelScope.launch(Dispatchers.IO) {
-        val latest = async { getLatestUseCase.invoke() }
-        val flashSale = async { getFlashSaleUseCase.invoke() }
-        latest.await()
-        flashSale.await()
+        withContext(Dispatchers.Main) {
+            isLoading = true
+        }
+        val latestFlow =
+            getLatestUseCase.invoke(genericError = resourcesProvider.getString(R.string.error_occurred))
+        val flashSaleFlow =
+            getFlashSaleUseCase.invoke(genericError = resourcesProvider.getString(R.string.error_occurred))
+        latestFlow.zip(flashSaleFlow) { apiResponseLatest, apiResponseFlashSale ->
+            if (apiResponseLatest is ApiResponse.Success && apiResponseFlashSale is ApiResponse.Success) {
+                withContext(Dispatchers.Main) {
+                    updateLatest(list = apiResponseLatest.data)
+                    updateFlashSale(list = apiResponseFlashSale.data)
+                    updateBrands()
+                }
+            }
+            if (apiResponseLatest is ApiResponse.Error) {
+                _clickAction.emit(
+                    ClickAction.ShowToast(
+                        message = apiResponseLatest.message
+                            ?: resourcesProvider.getString(R.string.error_in_latest_deals)
+                    )
+                )
+            }
+            if (apiResponseFlashSale is ApiResponse.Error) {
+                if (apiResponseLatest.message != apiResponseFlashSale.message) {
+                    _clickAction.emit(
+                        ClickAction.ShowToast(
+                            message = apiResponseFlashSale.message
+                                ?: resourcesProvider.getString(R.string.error_in_flash_sale)
+                        )
+                    )
+                }
+            }
+        }.collect()
+        withContext(Dispatchers.Main) {
+            isLoading = false
+        }
+    }
+
+    private fun updateLatest(list: List<Latest>?) {
+        val newLatest = (screenItems[indexLatest] as ScreenItem.LatestItemsRow).copy(
+            items = list?.map { latest ->
+                LatestItem(
+                    image = latest.imageUrl,
+                    contentDescriptionImage = resourcesProvider.getString(R.string.empty),
+                    height = resourcesProvider.getInteger(R.integer._149),
+                    width = resourcesProvider.getInteger(R.integer._114),
+                    radiusImage = resourcesProvider.getInteger(R.integer._9),
+                    icon = R.drawable.ic_add_small,
+                    contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
+                    text = latest.category
+                        ?: resourcesProvider.getString(R.string.not_applicable),
+                    color = R.color.gray_half_transparent,
+                    radiusItem = resourcesProvider.getInteger(R.integer._5),
+                    fontSize = resourcesProvider.getInteger(R.integer._6),
+                    name = latest.name
+                        ?: resourcesProvider.getString(R.string.not_applicable),
+                    price = if (latest.price != null) "$ ${latest.price}"
+                    else resourcesProvider.getString(R.string.not_applicable)
+                )
+            } ?: emptyList()
+        )
+        screenItems.removeAt(indexLatest)
+        screenItems.add(indexLatest, newLatest)
+    }
+
+    private fun updateFlashSale(list: List<FlashSale>?) {
+        val newFlashSale = (screenItems[indexFlashSale] as ScreenItem.SaleItemsRow).copy(
+            items = list?.map { flashSale ->
+                SaleItem(
+                    image = flashSale.imageUrl,
+                    contentDescriptionImage = resourcesProvider.getString(R.string.empty),
+                    height = resourcesProvider.getInteger(R.integer._221),
+                    width = resourcesProvider.getInteger(R.integer._174),
+                    radiusImage = resourcesProvider.getInteger(R.integer._11),
+                    text = if (flashSale.category != null) "${flashSale.category}"
+                    else resourcesProvider.getString(R.string.not_applicable),
+                    color = R.color.gray_half_transparent,
+                    radiusItem = resourcesProvider.getInteger(R.integer._8),
+                    fontSize = resourcesProvider.getInteger(R.integer._9),
+                    name = if (flashSale.name != null) "${flashSale.name}"
+                    else resourcesProvider.getString(R.string.not_applicable),
+                    price = if (flashSale.price != null) "$ ${flashSale.price}"
+                    else resourcesProvider.getString(R.string.not_applicable),
+                    iconSmall = R.drawable.ic_like_small,
+                    contentDescriptionIconSmall = resourcesProvider.getString(R.string.empty),
+                    iconLarge = R.drawable.ic_add_large,
+                    contentDescriptionIconLarge = resourcesProvider.getString(R.string.empty),
+                    imageTop = R.drawable.ic_person,
+                    contentDescriptionIconTop = resourcesProvider.getString(R.string.empty),
+                    discountText = if (flashSale.discount != null) "${flashSale.discount}% off"
+                    else resourcesProvider.getString(R.string.not_applicable),
+                    onItemClick = {
+                        launch {
+                            _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Details.route))
+                        }
+                    }
+                )
+            } ?: emptyList()
+        )
+        screenItems.removeAt(indexFlashSale)
+        screenItems.add(indexFlashSale, newFlashSale)
     }
 
     private fun getUserByIsLoggedInFlow() = launch {
@@ -252,6 +298,24 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun updateBrands() {
+        val items = buildList {
+            for (i in 0..4) {
+                add(
+                    BrandItem(
+                        image = R.drawable.ic_huge,
+                        text = resourcesProvider.getString(R.string.brand)
+                    )
+                )
+            }
+        }
+        val newBrands = (screenItems[indexBrand] as ScreenItem.BrandRow).copy(
+            items = items
+        )
+        screenItems.removeAt(indexBrand)
+        screenItems.add(indexBrand, newBrands)
     }
 
     init {

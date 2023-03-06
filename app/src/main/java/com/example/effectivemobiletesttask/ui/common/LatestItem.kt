@@ -18,7 +18,7 @@ import com.example.effectivemobiletesttask.R
 
 @Composable
 fun LatestItem(
-    @DrawableRes image: Int,
+    image: Any?,
     contentDescriptionImage: String,
     height: Int,
     width: Int,

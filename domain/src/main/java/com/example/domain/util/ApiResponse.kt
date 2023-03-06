@@ -5,14 +5,14 @@ sealed class ApiResponse<T>(
     val message: String? = null
 ) {
     class Success<T>(
-        data: T,
-        message: String? = null
-    ) : ApiResponse<T>(data)
+        data: T
+    ) : ApiResponse<T>(
+        data = data
+    )
 
     class Error<T>(
-        message: String?,
-        data: T? = null
-    ) : ApiResponse<T>(data, message)
-
-    class Loading<T> : ApiResponse<T>()
+        message: String?
+    ) : ApiResponse<T>(
+        message = message
+    )
 }

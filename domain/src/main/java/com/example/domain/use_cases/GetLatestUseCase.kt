@@ -6,5 +6,7 @@ import javax.inject.Inject
 class GetLatestUseCase @Inject constructor(
     private val tradeRepository: TradeRepository
 ) {
-    suspend operator fun invoke() = tradeRepository.getLatest()
+    operator fun invoke(
+        genericError: String
+    ) = tradeRepository.getLatest(genericError = genericError)
 }
