@@ -120,7 +120,8 @@ sealed class ScreenItem {
     data class SearchRow(
         val placeholder: String,
         val value: String,
-        val onValueChange: (String) -> Unit
+        val onValueChange: (String) -> Unit,
+        val onClick: () -> Unit
     ) : ScreenItem()
 
     data class TextSpaceText(

@@ -86,7 +86,8 @@ class HomeViewModel @Inject constructor(
             mapKeysCreator.createMapKey() to ScreenItem.SearchRow(
                 placeholder = resourcesProvider.getString(R.string.what_are_you_looking_for),
                 value = resourcesProvider.getString(R.string.empty),
-                onValueChange = {}
+                onValueChange = {},
+                onClick = {}
             ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(

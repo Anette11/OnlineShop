@@ -116,7 +116,8 @@ fun ScreenContent(
             is ScreenItem.SearchRow -> SearchRow(
                 placeholder = item.placeholder,
                 value = item.value,
-                onValueChange = item.onValueChange
+                onValueChange = item.onValueChange,
+                onClick = item.onClick
             )
             is ScreenItem.TextSpaceText -> TextSpaceText(
                 textStart = item.textStart,
