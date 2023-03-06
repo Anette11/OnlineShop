@@ -1,7 +1,6 @@
 package com.example.effectivemobiletesttask.ui.common
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -26,17 +25,23 @@ import com.example.effectivemobiletesttask.R
 
 @Composable
 fun BrandItem(
-    @DrawableRes image: Int,
     text: String
-) = Box(contentAlignment = Alignment.Center) {
-    Image(
-        painter = painterResource(id = image),
-        contentDescription = stringResource(id = R.string.empty),
+) = Box(
+    contentAlignment = Alignment.Center
+) {
+    Box(
         modifier = Modifier
             .width(dimensionResource(id = R.dimen._114dp))
             .height(dimensionResource(id = R.dimen._149dp))
-            .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._9dp))),
-        contentScale = ContentScale.Crop
+            .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._9dp)))
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        colorResource(id = R.color.black_dark).copy(0.35f),
+                        colorResource(id = R.color.black_)
+                    )
+                )
+            )
     )
     Text(
         text = text,
@@ -51,7 +56,4 @@ fun BrandItem(
 @Composable
 @Preview
 fun BrandItemPreview() =
-    BrandItem(
-        image = R.drawable.ic_huge,
-        text = stringResource(id = R.string.brand)
-    )
+    BrandItem(text = stringResource(id = R.string.brand))

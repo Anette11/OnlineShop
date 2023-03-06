@@ -175,6 +175,11 @@ class HomeViewModel @Inject constructor(
             ),
             mapKeysCreator.createMapKey().apply { indexBrand = this } to ScreenItem.BrandRow(
                 items = emptyList()
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(
+                    R.integer._23
+                )
             )
         )
         this.screenItems.addAll(screenItems.values)

@@ -18,10 +18,7 @@ fun BrandRow(
     items: List<BrandItem>
 ) = LazyRow(modifier = Modifier.fillMaxWidth()) {
     itemsIndexed(items = items) { index, item ->
-        com.example.effectivemobiletesttask.ui.common.BrandItem(
-            image = item.image,
-            text = item.text
-        )
+        BrandItem(text = item.text)
         if (index != items.size - 1) {
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._12dp)))
         }
