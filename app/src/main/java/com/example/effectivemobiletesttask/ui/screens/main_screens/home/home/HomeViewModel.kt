@@ -393,6 +393,9 @@ class HomeViewModel @Inject constructor(
         )
         screenItems.removeAt(indexSearchRow)
         screenItems.add(indexSearchRow, newSearchRow)
+        launch {
+            _clearFocus.emit(true)
+        }
     }
 
     private fun onDismissAutocompleteMenu() {
