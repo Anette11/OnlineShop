@@ -181,6 +181,13 @@ fun ScreenContent(
                 isPasswordVisible = item.isPasswordVisible,
                 onTogglePasswordClick = item.onTogglePasswordClick
             )
+            is ScreenItem.AutocompleteMenu -> AutocompleteMenu(
+                words = item.words,
+                isExpanded = item.isExpanded,
+                onExpandedChange = item.onExpandedChange,
+                onClick = item.onClick,
+                onDismissRequest = item.onDismissRequest
+            )
         }
     }
 }

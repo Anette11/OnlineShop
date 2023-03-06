@@ -8,7 +8,8 @@ import com.example.effectivemobiletesttask.ui.screens.main_screens.MainScreen
 
 fun NavGraphBuilder.mainNavGraph(
     onShowToast: (String) -> Unit,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onClearFocus: () -> Unit
 ) = navigation(
     route = Graph.Main.route,
     startDestination = Screen.Main.route
@@ -21,7 +22,8 @@ fun NavGraphBuilder.mainNavGraph(
             onNavigateToScreen = { route -> navController.doNavigation(route) },
             navController = navController,
             onShowToast = onShowToast,
-            onLogout = onLogout
+            onLogout = onLogout,
+            onClearFocus = onClearFocus
         )
     }
 }

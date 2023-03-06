@@ -23,13 +23,7 @@ fun RootNavGraph(
     )
     mainNavGraph(
         onShowToast = onShowToast,
-        onLogout = {
-            navController.doNavigation(route = Graph.Root.route)
-//            navController.navigate(route = Graph.Root.route) {
-//                popUpTo(route = Graph.Root.route) {
-//                    inclusive = true
-//                }
-//            }
-        }
+        onLogout = { navController.doNavigation(route = Graph.Root.route) },
+        onClearFocus = onClearFocus
     )
 }

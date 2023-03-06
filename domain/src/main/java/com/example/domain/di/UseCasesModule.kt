@@ -2,6 +2,7 @@ package com.example.domain.di
 
 import com.example.domain.repository.TradeRepository
 import com.example.domain.repository.UserRepository
+import com.example.domain.repository.WordsRepository
 import com.example.domain.use_cases.*
 import dagger.Module
 import dagger.Provides
@@ -48,4 +49,10 @@ object UseCasesModule {
     fun provideGetFlashSaleUseCase(
         tradeRepository: TradeRepository
     ): GetFlashSaleUseCase = GetFlashSaleUseCase(tradeRepository = tradeRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetWordsUseCase(
+        wordsRepository: WordsRepository
+    ): GetWordsUseCase = GetWordsUseCase(wordsRepository = wordsRepository)
 }

@@ -2,8 +2,10 @@ package com.example.data.di
 
 import com.example.data.repositories.TradeRepositoryImpl
 import com.example.data.repositories.UserRepositoryImpl
+import com.example.data.repositories.WordsRepositoryImpl
 import com.example.domain.repository.TradeRepository
 import com.example.domain.repository.UserRepository
+import com.example.domain.repository.WordsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindTradeRepository(
         tradeRepositoryImpl: TradeRepositoryImpl
     ): TradeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindWordsRepository(
+        wordsRepositoryImpl: WordsRepositoryImpl
+    ): WordsRepository
 }

@@ -11,6 +11,7 @@ import com.example.domain.data.remote.Latest
 import com.example.domain.use_cases.GetFlashSaleUseCase
 import com.example.domain.use_cases.GetLatestUseCase
 import com.example.domain.use_cases.GetUserByIsLoggedInFlow
+import com.example.domain.use_cases.GetWordsUseCase
 import com.example.domain.util.ApiResponse
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Screen
@@ -20,10 +21,8 @@ import com.example.effectivemobiletesttask.util.MapKeysCreator
 import com.example.effectivemobiletesttask.util.ResourcesProvider
 import com.example.effectivemobiletesttask.util.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,11 +31,15 @@ class HomeViewModel @Inject constructor(
     private val getLatestUseCase: GetLatestUseCase,
     private val getFlashSaleUseCase: GetFlashSaleUseCase,
     private val mapKeysCreator: MapKeysCreator,
-    private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow
+    private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow,
+    private val getWordsUseCase: GetWordsUseCase
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
     val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
+
+    private val _clearFocus = MutableSharedFlow<Boolean>()
+    val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
@@ -44,18 +47,21 @@ class HomeViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
         private set
 
+    private var getWordsJob: Job? = null
+
     private var indexPhoto = 0
     private var indexLatest = 0
     private var indexFlashSale = 0
     private var indexBrand = 0
+    private var indexSearchRow = 0
+    private var indexAutocompleteMenu = 0
 
     private fun fillScreenItems() {
-        val screenItems = sortedMapOf(
-            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
-                height = resourcesProvider.getInteger(
-                    R.integer._23
-                )
-            ),
+        val screenItems = sortedMapOf(mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+            height = resourcesProvider.getInteger(
+                R.integer._23
+            )
+        ),
             mapKeysCreator.createMapKey().apply { indexPhoto = this } to
                     ScreenItem.IconTextIconLarge(
                         iconLeft = R.drawable.ic_menu,
@@ -83,12 +89,23 @@ class HomeViewModel @Inject constructor(
                     R.integer._9
                 )
             ),
-            mapKeysCreator.createMapKey() to ScreenItem.SearchRow(
+            mapKeysCreator.createMapKey().apply { indexSearchRow = this } to ScreenItem.SearchRow(
                 placeholder = resourcesProvider.getString(R.string.what_are_you_looking_for),
                 value = resourcesProvider.getString(R.string.empty),
-                onValueChange = {},
-                onClick = {}
+                onValueChange = { newValue ->
+                    onSearchRowValueChange(newValue = newValue)
+                    searchWords(word = newValue)
+                },
+                onClick = { }
             ),
+            mapKeysCreator.createMapKey().apply { indexAutocompleteMenu = this } to
+                    ScreenItem.AutocompleteMenu(
+                        words = emptyList(),
+                        isExpanded = false,
+                        onExpandedChange = {},
+                        onClick = { word -> onWordSelected(word) },
+                        onDismissRequest = { onDismissAutocompleteMenu() }
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._17
@@ -100,28 +117,23 @@ class HomeViewModel @Inject constructor(
                         icon = R.drawable.ic_phone,
                         contentDescription = resourcesProvider.getString(R.string.phones),
                         hint = resourcesProvider.getString(R.string.phones)
-                    ),
-                    FilterRowItem(
+                    ), FilterRowItem(
                         icon = R.drawable.ic_headphones,
                         contentDescription = resourcesProvider.getString(R.string.headphones),
                         hint = resourcesProvider.getString(R.string.headphones)
-                    ),
-                    FilterRowItem(
+                    ), FilterRowItem(
                         icon = R.drawable.ic_joystick,
                         contentDescription = resourcesProvider.getString(R.string.games),
                         hint = resourcesProvider.getString(R.string.games)
-                    ),
-                    FilterRowItem(
+                    ), FilterRowItem(
                         icon = R.drawable.ic_car,
                         contentDescription = resourcesProvider.getString(R.string.cars),
                         hint = resourcesProvider.getString(R.string.cars)
-                    ),
-                    FilterRowItem(
+                    ), FilterRowItem(
                         icon = R.drawable.ic_bed,
                         contentDescription = resourcesProvider.getString(R.string.furniture),
                         hint = resourcesProvider.getString(R.string.furniture)
-                    ),
-                    FilterRowItem(
+                    ), FilterRowItem(
                         icon = R.drawable.ic_robot,
                         contentDescription = resourcesProvider.getString(R.string.kids),
                         hint = resourcesProvider.getString(R.string.kids)
@@ -142,8 +154,9 @@ class HomeViewModel @Inject constructor(
                     R.integer._8
                 )
             ),
-            mapKeysCreator.createMapKey().apply { indexLatest = this } to
-                    ScreenItem.LatestItemsRow(items = emptyList()),
+            mapKeysCreator.createMapKey().apply { indexLatest = this } to ScreenItem.LatestItemsRow(
+                items = emptyList()
+            ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._17
@@ -174,9 +187,8 @@ class HomeViewModel @Inject constructor(
                     R.integer._8
                 )
             ),
-            mapKeysCreator.createMapKey().apply { indexBrand = this } to ScreenItem.BrandRow(
-                items = emptyList()
-            ),
+            mapKeysCreator.createMapKey().apply { indexBrand = this } to
+                    ScreenItem.BrandRow(items = emptyList()),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._23
@@ -227,8 +239,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun updateLatest(list: List<Latest>?) {
-        val newLatest = (screenItems[indexLatest] as ScreenItem.LatestItemsRow).copy(
-            items = list?.map { latest ->
+        val newLatest =
+            (screenItems[indexLatest] as ScreenItem.LatestItemsRow).copy(items = list?.map { latest ->
                 LatestItem(
                     image = latest.imageUrl,
                     contentDescriptionImage = resourcesProvider.getString(R.string.empty),
@@ -237,27 +249,25 @@ class HomeViewModel @Inject constructor(
                     radiusImage = resourcesProvider.getInteger(R.integer._9),
                     icon = R.drawable.ic_add_small,
                     contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
-                    text = latest.category
-                        ?: resourcesProvider.getString(R.string.not_applicable),
+                    text = latest.category ?: resourcesProvider.getString(R.string.not_applicable),
                     color = R.color.gray_half_transparent,
                     radiusItem = resourcesProvider.getInteger(R.integer._5),
                     fontSize = resourcesProvider.getInteger(R.integer._6),
-                    name = latest.name
-                        ?: resourcesProvider.getString(R.string.not_applicable),
+                    name = latest.name ?: resourcesProvider.getString(R.string.not_applicable),
                     price = if (latest.price != null) "$ ${latest.price}"
                     else resourcesProvider.getString(R.string.not_applicable)
                 )
-            } ?: emptyList()
-        )
+            } ?: emptyList())
         screenItems.removeAt(indexLatest)
         screenItems.add(indexLatest, newLatest)
     }
 
-    private fun updateFlashSale(list: List<FlashSale>?) {
-        val newFlashSale = (screenItems[indexFlashSale] as ScreenItem.SaleItemsRow).copy(
-            items = list?.map { flashSale ->
-                SaleItem(
-                    image = flashSale.imageUrl,
+    private fun updateFlashSale(
+        list: List<FlashSale>?
+    ) {
+        val newFlashSale =
+            (screenItems[indexFlashSale] as ScreenItem.SaleItemsRow).copy(items = list?.map { flashSale ->
+                SaleItem(image = flashSale.imageUrl,
                     contentDescriptionImage = resourcesProvider.getString(R.string.empty),
                     height = resourcesProvider.getInteger(R.integer._221),
                     width = resourcesProvider.getInteger(R.integer._174),
@@ -283,10 +293,8 @@ class HomeViewModel @Inject constructor(
                         launch {
                             _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Details.route))
                         }
-                    }
-                )
-            } ?: emptyList()
-        )
+                    })
+            } ?: emptyList())
         screenItems.removeAt(indexFlashSale)
         screenItems.add(indexFlashSale, newFlashSale)
     }
@@ -322,6 +330,79 @@ class HomeViewModel @Inject constructor(
         )
         screenItems.removeAt(indexBrand)
         screenItems.add(indexBrand, newBrands)
+    }
+
+    private fun onSearchRowValueChange(
+        newValue: String
+    ) {
+        val newSearchRow =
+            (screenItems[indexSearchRow] as ScreenItem.SearchRow).copy(value = newValue)
+        screenItems.removeAt(indexSearchRow)
+        screenItems.add(indexSearchRow, newSearchRow)
+    }
+
+    private fun searchWords(
+        word: String
+    ) {
+        if (word.isBlank()) return
+        getWordsJob?.cancel()
+        getWordsJob = launch {
+            delay(1000L)
+            getWordsUseCase.invoke(genericError = resourcesProvider.getString(R.string.error_occurred))
+                .collect { apiResponse ->
+                    when (apiResponse) {
+                        is ApiResponse.Error -> _clickAction.emit(
+                            ClickAction.ShowToast(
+                                message = apiResponse.message
+                                    ?: resourcesProvider.getString(R.string.error_occurred)
+                            )
+                        )
+                        is ApiResponse.Success -> {
+                            val filteredWords = apiResponse.data?.filter { foundWord ->
+                                foundWord.contains(word, true)
+                            } ?: emptyList()
+                            withContext(Dispatchers.Main) {
+                                val textInSearchRow =
+                                    (screenItems[indexSearchRow] as ScreenItem.SearchRow).value
+                                val newAutocompleteMenu =
+                                    (screenItems[indexAutocompleteMenu] as ScreenItem.AutocompleteMenu).copy(
+                                        words = filteredWords,
+                                        isExpanded = filteredWords.isNotEmpty() && textInSearchRow.isNotBlank()
+                                    )
+                                screenItems.removeAt(indexAutocompleteMenu)
+                                screenItems.add(indexAutocompleteMenu, newAutocompleteMenu)
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun onWordSelected(
+        word: String
+    ) {
+        val newAutocompleteMenu =
+            (screenItems[indexAutocompleteMenu] as ScreenItem.AutocompleteMenu).copy(
+                words = emptyList(),
+                isExpanded = false
+            )
+        screenItems.removeAt(indexAutocompleteMenu)
+        screenItems.add(indexAutocompleteMenu, newAutocompleteMenu)
+        val newSearchRow = (screenItems[indexSearchRow] as ScreenItem.SearchRow).copy(
+            value = word
+        )
+        screenItems.removeAt(indexSearchRow)
+        screenItems.add(indexSearchRow, newSearchRow)
+    }
+
+    private fun onDismissAutocompleteMenu() {
+        val newAutocompleteMenu =
+            (screenItems[indexAutocompleteMenu] as ScreenItem.AutocompleteMenu).copy(
+                words = emptyList(),
+                isExpanded = false
+            )
+        screenItems.removeAt(indexAutocompleteMenu)
+        screenItems.add(indexAutocompleteMenu, newAutocompleteMenu)
     }
 
     init {

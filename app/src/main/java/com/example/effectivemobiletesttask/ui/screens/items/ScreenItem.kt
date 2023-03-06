@@ -198,4 +198,12 @@ sealed class ScreenItem {
         val isPasswordVisible: Boolean,
         val onTogglePasswordClick: () -> Unit
     ) : ScreenItem()
+
+    data class AutocompleteMenu(
+        val words: List<String>,
+        val isExpanded: Boolean,
+        val onExpandedChange: (Boolean) -> Unit,
+        val onClick: (String) -> Unit,
+        val onDismissRequest: () -> Unit
+    ) : ScreenItem()
 }

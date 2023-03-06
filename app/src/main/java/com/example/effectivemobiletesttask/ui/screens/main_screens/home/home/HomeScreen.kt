@@ -19,7 +19,8 @@ import com.example.effectivemobiletesttask.ui.screens.ClickAction
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToScreen: (String) -> Unit,
-    onShowToast: (String) -> Unit
+    onShowToast: (String) -> Unit,
+    onClearFocus: () -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
@@ -30,6 +31,12 @@ fun HomeScreen(
                 is ClickAction.ShowToast -> onShowToast(clickAction.message)
                 else -> Unit
             }
+        }
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.clearFocus.collect {
+            if (it) onClearFocus()
         }
     }
 

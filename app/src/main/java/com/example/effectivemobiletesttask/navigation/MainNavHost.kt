@@ -16,7 +16,8 @@ fun MainNavHost(
     navController: NavHostController,
     onShowToast: (String) -> Unit,
     onNavigateToScreen: (String) -> Unit,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onClearFocus: () -> Unit
 ) = NavHost(
     navController = navController,
     startDestination = Screen.Home.route
@@ -26,7 +27,8 @@ fun MainNavHost(
     ) {
         HomeScreen(
             onNavigateToScreen = { route -> navController.doNavigation(route = route) },
-            onShowToast = onShowToast
+            onShowToast = onShowToast,
+            onClearFocus = onClearFocus
         )
     }
     composable(
