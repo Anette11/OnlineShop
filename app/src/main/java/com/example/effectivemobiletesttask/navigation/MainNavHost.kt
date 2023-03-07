@@ -34,7 +34,10 @@ fun MainNavHost(
     composable(
         route = Screen.Details.route
     ) {
-        DetailsScreen(onShowToast = onShowToast)
+        DetailsScreen(
+            onShowToast = onShowToast,
+            onPopBackStack = { navController.popBackStack() }
+        )
     }
     composable(
         route = Screen.Favourite.route

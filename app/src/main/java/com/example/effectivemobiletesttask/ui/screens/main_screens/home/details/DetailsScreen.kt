@@ -19,12 +19,14 @@ import com.example.effectivemobiletesttask.ui.screens.ClickAction
 @Composable
 fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel(),
-    onShowToast: (String) -> Unit
+    onShowToast: (String) -> Unit,
+    onPopBackStack: () -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
             when (clickAction) {
                 is ClickAction.ShowToast -> onShowToast(clickAction.message)
+                ClickAction.PopBackStack -> onPopBackStack()
                 else -> Unit
             }
         }
@@ -45,7 +47,6 @@ fun DetailsScreen(
                 )
                 if (viewModel.isLoading) ProgressBar()
             }
-
         }
     )
 }

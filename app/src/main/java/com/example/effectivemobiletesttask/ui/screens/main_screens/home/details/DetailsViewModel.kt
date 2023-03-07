@@ -65,7 +65,11 @@ class DetailsViewModel @Inject constructor(
                         contentDescriptionIconMiddle = resourcesProvider.getString(R.string.empty),
                         iconBottom = R.drawable.ic_share,
                         contentDescriptionIconBottom = resourcesProvider.getString(R.string.empty),
-                        onBackClick = {},
+                        onBackClick = {
+                            launch(dispatchersProvider.io) {
+                                _clickAction.emit(ClickAction.PopBackStack)
+                            }
+                        },
                         onLikeClick = {},
                         onShareClick = {}
                     ),
