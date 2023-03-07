@@ -222,11 +222,9 @@ class ProfileViewModel @Inject constructor(
         getUserByIsLoggedInFlow.invoke(isLoggedIn = true).collect { user ->
             user?.let {
                 withContext(Dispatchers.Main) {
-                    val newPhotoItem = (screenItems[indexPhoto] as ScreenItem.ItemIcon).copy(
+                    screenItems[indexPhoto] = (screenItems[indexPhoto] as ScreenItem.ItemIcon).copy(
                         icon = if (user.imageUri != null) user.imageUri else R.drawable.image_default
                     )
-                    screenItems.removeAt(indexPhoto)
-                    screenItems.add(indexPhoto, newPhotoItem)
                 }
             }
         }

@@ -37,10 +37,11 @@ class SingInViewModel @Inject constructor(
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
     val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
 
-    private var _screenItems = mutableStateListOf<ScreenItem>()
-    val screenItems = _screenItems
+    var screenItems = mutableStateListOf<ScreenItem>()
+        private set
 
     var isLoading by mutableStateOf(false)
+        private set
 
     private val _clearFocus = MutableSharedFlow<Boolean>()
     val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
@@ -57,7 +58,7 @@ class SingInViewModel @Inject constructor(
             onEmailChange(resourcesProvider.getString(R.string.empty))
             isLoading = true
             updateSignInEnable()
-            val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+            val firstName = (screenItems[indexFirstName] as ScreenItem.SimpleRow).value
             val userExisting = getUserByFirstNameUseCase.invoke(firstName = firstName)
             if (userExisting != null) {
                 isLoading = false
@@ -71,8 +72,8 @@ class SingInViewModel @Inject constructor(
                 )
                 return@launch
             }
-            val email = (_screenItems[indexEmail] as ScreenItem.SimpleRow).value
-            val lastName = (_screenItems[indexLastName] as ScreenItem.SimpleRow).value
+            val email = (screenItems[indexEmail] as ScreenItem.SimpleRow).value
+            val lastName = (screenItems[indexLastName] as ScreenItem.SimpleRow).value
             val password = resourcesProvider.getString(R.string.empty)
             val user = User(
                 firstName = firstName,
@@ -243,16 +244,14 @@ class SingInViewModel @Inject constructor(
                 )
             )
         )
-        _screenItems.addAll(screenItems.values)
+        this.screenItems.addAll(screenItems.values)
     }
 
     private fun onValueChange(
         newValue: String,
         index: Int
     ) {
-        val newSimpleRow = (_screenItems[index] as ScreenItem.SimpleRow).copy(value = newValue)
-        _screenItems.removeAt(index)
-        _screenItems.add(index, newSimpleRow)
+        screenItems[index] = (screenItems[index] as ScreenItem.SimpleRow).copy(value = newValue)
     }
 
     private fun onEmailChange(
@@ -260,27 +259,23 @@ class SingInViewModel @Inject constructor(
     ) {
         val isEmailVisible = newEmail.isNotEmpty()
         val isEmailValid = emailValidator.isEmailValid(email = newEmail)
-        val newChangeColorText =
-            (_screenItems[indexChangeColorText] as ScreenItem.ChangeColorText).copy(
+        screenItems[indexChangeColorText] =
+            (screenItems[indexChangeColorText] as ScreenItem.ChangeColorText).copy(
                 isVisible = isEmailVisible,
                 isValid = isEmailValid
             )
-        _screenItems.removeAt(indexChangeColorText)
-        _screenItems.add(indexChangeColorText, newChangeColorText)
     }
 
     private fun updateSignInEnable() {
-        val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
-        val lastName = (_screenItems[indexLastName] as ScreenItem.SimpleRow).value
-        val email = (_screenItems[indexEmail] as ScreenItem.SimpleRow).value
+        val firstName = (screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+        val lastName = (screenItems[indexLastName] as ScreenItem.SimpleRow).value
+        val email = (screenItems[indexEmail] as ScreenItem.SimpleRow).value
         val isSignInEnable = firstName.trim().isNotBlank() &&
                 lastName.trim().isNotBlank() &&
                 emailValidator.isEmailValid(email = email) &&
                 isLoading.not()
-        val updatedSignInButton =
-            (_screenItems[indexSignInButton] as ScreenItem.LargeButton).copy(isEnable = isSignInEnable)
-        _screenItems.removeAt(indexSignInButton)
-        _screenItems.add(indexSignInButton, updatedSignInButton)
+        screenItems[indexSignInButton] =
+            (screenItems[indexSignInButton] as ScreenItem.LargeButton).copy(isEnable = isSignInEnable)
     }
 
     init {

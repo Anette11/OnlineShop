@@ -33,8 +33,8 @@ class LoginViewModel @Inject constructor(
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
     val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
 
-    private var _screenItems = mutableStateListOf<ScreenItem>()
-    val screenItems = _screenItems
+    var screenItems = mutableStateListOf<ScreenItem>()
+        private set
 
     var isLoading by mutableStateOf(false)
         private set
@@ -51,7 +51,7 @@ class LoginViewModel @Inject constructor(
             _clearFocus.emit(true)
             isLoading = true
             updateLoginEnable()
-            val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+            val firstName = (screenItems[indexFirstName] as ScreenItem.SimpleRow).value
             val userExisting = getUserByFirstNameUseCase.invoke(firstName = firstName)
             if (userExisting == null) {
                 _clickAction.emit(
@@ -141,46 +141,38 @@ class LoginViewModel @Inject constructor(
                 )
             )
         )
-        _screenItems.addAll(screenItems.values)
+        this.screenItems.addAll(screenItems.values)
     }
 
     private fun onValueChange(
         newValue: String,
         index: Int
     ) {
-        val newSimpleRow = (_screenItems[index] as ScreenItem.SimpleRow).copy(value = newValue)
-        _screenItems.removeAt(index)
-        _screenItems.add(index, newSimpleRow)
+        screenItems[index] = (screenItems[index] as ScreenItem.SimpleRow).copy(value = newValue)
     }
 
     private fun onPasswordValueChange(
         newValue: String
     ) {
-        val newSimpleRow =
-            (_screenItems[indexPassword] as ScreenItem.PasswordRow).copy(value = newValue)
-        _screenItems.removeAt(indexPassword)
-        _screenItems.add(indexPassword, newSimpleRow)
+        screenItems[indexPassword] =
+            (screenItems[indexPassword] as ScreenItem.PasswordRow).copy(value = newValue)
     }
 
     private fun onTogglePasswordClick() {
         val isPasswordVisible =
-            (_screenItems[indexPassword] as ScreenItem.PasswordRow).isPasswordVisible
-        val newSimpleRow =
-            (_screenItems[indexPassword] as ScreenItem.PasswordRow).copy(isPasswordVisible = isPasswordVisible.not())
-        _screenItems.removeAt(indexPassword)
-        _screenItems.add(indexPassword, newSimpleRow)
+            (screenItems[indexPassword] as ScreenItem.PasswordRow).isPasswordVisible
+        screenItems[indexPassword] =
+            (screenItems[indexPassword] as ScreenItem.PasswordRow).copy(isPasswordVisible = isPasswordVisible.not())
     }
 
     private fun updateLoginEnable() {
-        val firstName = (_screenItems[indexFirstName] as ScreenItem.SimpleRow).value
-        val password = (_screenItems[indexPassword] as ScreenItem.PasswordRow).value
+        val firstName = (screenItems[indexFirstName] as ScreenItem.SimpleRow).value
+        val password = (screenItems[indexPassword] as ScreenItem.PasswordRow).value
         val isLoginEnable = firstName.trim().isNotBlank() &&
                 password.trim().isNotBlank() &&
                 isLoading.not()
-        val updateLoginButton =
-            (_screenItems[indexLoginButton] as ScreenItem.LargeButton).copy(isEnable = isLoginEnable)
-        _screenItems.removeAt(indexLoginButton)
-        _screenItems.add(indexLoginButton, updateLoginButton)
+        screenItems[indexLoginButton] =
+            (screenItems[indexLoginButton] as ScreenItem.LargeButton).copy(isEnable = isLoginEnable)
     }
 
     init {
