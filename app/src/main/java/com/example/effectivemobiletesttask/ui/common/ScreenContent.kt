@@ -169,9 +169,6 @@ fun ScreenContent(
                 horizontalPadding = item.horizontalPadding,
                 onSelect = item.onSelect
             )
-            is ScreenItem.AddToCart -> AddToCart(
-                amount = item.amount
-            )
             is ScreenItem.BrandRow -> BrandRow(
                 items = item.items
             )
