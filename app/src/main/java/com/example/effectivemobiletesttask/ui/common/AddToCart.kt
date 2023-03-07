@@ -1,8 +1,10 @@
 package com.example.effectivemobiletesttask.ui.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,7 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -20,11 +25,14 @@ import com.example.effectivemobiletesttask.R
 
 @Composable
 fun AddToCart(
-    amount: String
+    amount: String,
+    onIncreaseClick: () -> Unit,
+    onDecreaseClick: () -> Unit,
+    onAddToCardCardClick: () -> Unit
 ) = Row(
     modifier = Modifier
         .fillMaxWidth()
-        .height(dimensionResource(R.dimen._100dp))
+        .height(dimensionResource(R.dimen._88dp))
         .clip(
             shape = RoundedCornerShape(
                 topStart = dimensionResource(id = R.dimen._25dp),
@@ -32,12 +40,7 @@ fun AddToCart(
             )
         )
         .background(color = colorResource(id = R.color.black_dark))
-        .padding(
-            top = dimensionResource(id = R.dimen._14dp),
-            bottom = dimensionResource(id = R.dimen._22dp),
-            start = dimensionResource(id = R.dimen._22dp),
-            end = dimensionResource(id = R.dimen._22dp)
-        ),
+        .padding(dimensionResource(id = R.dimen._22dp)),
     verticalAlignment = Alignment.CenterVertically
 ) {
     Column(modifier = Modifier.weight(1f)) {
@@ -49,49 +52,78 @@ fun AddToCart(
         )
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen._10dp)))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            SmallButton(
-                text = stringResource(id = R.string.minus),
-                modifier = Modifier.weight(1f)
-            )
+            Row(
+                modifier = Modifier
+                    .width(dimensionResource(id = R.dimen._38dp))
+                    .height(dimensionResource(id = R.dimen._22dp))
+                    .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._8dp)))
+                    .background(color = colorResource(id = R.color.blue))
+                    .clickable { onDecreaseClick() },
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_horizontal_bar),
+                    contentDescription = stringResource(id = R.string.empty),
+                    tint = colorResource(id = R.color.white)
+                )
+            }
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._20dp)))
-            SmallButton(
-                text = stringResource(id = R.string.plus),
-                modifier = Modifier.weight(1f)
-            )
+            Row(
+                modifier = Modifier
+                    .width(dimensionResource(id = R.dimen._38dp))
+                    .height(dimensionResource(id = R.dimen._22dp))
+                    .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._8dp)))
+                    .background(color = colorResource(id = R.color.blue))
+                    .clickable { onIncreaseClick() },
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_horizontal_bar),
+                        contentDescription = stringResource(id = R.string.empty),
+                        tint = colorResource(id = R.color.white)
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_vertical_bar),
+                        contentDescription = stringResource(id = R.string.empty),
+                        tint = colorResource(id = R.color.white)
+                    )
+                }
+            }
         }
     }
     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._8dp)))
     Row(
         modifier = Modifier
             .weight(1f)
+            .height(dimensionResource(id = R.dimen._44dp))
             .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._15dp)))
             .background(color = colorResource(id = R.color.blue))
-            .padding(
-                horizontal = dimensionResource(id = R.dimen._16dp),
-                vertical = dimensionResource(id = R.dimen._18dp)
-            ),
-        verticalAlignment = Alignment.CenterVertically
+            .clickable { onAddToCardCardClick() }
+            .padding(dimensionResource(id = R.dimen._8dp)),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
             text = amount,
             color = colorResource(id = R.color.blue_lighter),
             fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),
             fontSize = dimensionResource(id = R.dimen._8sp).value.sp,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
         )
         Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._8dp)))
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
             text = stringResource(id = R.string.add_to_cart),
             color = colorResource(id = R.color.white),
             fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),
             fontSize = dimensionResource(id = R.dimen._8sp).value.sp,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
         )
     }
 }
@@ -99,4 +131,8 @@ fun AddToCart(
 @Composable
 @Preview
 fun AddToCartPreview() =
-    AddToCart(amount = stringResource(id = R.string.balance_value))
+    AddToCart(amount = stringResource(id = R.string.balance_value),
+        onIncreaseClick = {},
+        onDecreaseClick = {},
+        onAddToCardCardClick = {}
+    )

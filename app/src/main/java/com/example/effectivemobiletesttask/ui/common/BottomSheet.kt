@@ -18,7 +18,12 @@ fun BottomSheet(
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
-            AddToCart(amount = amount)
+            AddToCart(
+                amount = amount,
+                onIncreaseClick = {},
+                onDecreaseClick = {},
+                onAddToCardCardClick = {}
+            )
         }
     ) {
         content()
