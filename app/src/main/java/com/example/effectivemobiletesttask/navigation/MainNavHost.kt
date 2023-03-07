@@ -36,7 +36,8 @@ fun MainNavHost(
     ) {
         DetailsScreen(
             onShowToast = onShowToast,
-            onPopBackStack = { navController.popBackStack() }
+            onPopBackStack = { navController.popBackStack() },
+            onNavigateToScreen = onNavigateToScreen
         )
     }
     composable(

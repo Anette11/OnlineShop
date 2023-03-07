@@ -20,20 +20,26 @@ import com.example.effectivemobiletesttask.ui.screens.ClickAction
 fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel(),
     onShowToast: (String) -> Unit,
-    onPopBackStack: () -> Unit
+    onPopBackStack: () -> Unit,
+    onNavigateToScreen: (String) -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
             when (clickAction) {
                 is ClickAction.ShowToast -> onShowToast(clickAction.message)
                 ClickAction.PopBackStack -> onPopBackStack()
-                else -> Unit
+                is ClickAction.NavigateToScreen -> {
+                    onNavigateToScreen(clickAction.route)
+                }
             }
         }
     }
 
     BottomSheet(
-        amount = "Some amount",
+        amount = viewModel.addToCartItem.amountString,
+        onIncreaseClick = viewModel.addToCartItem.onIncreaseClick,
+        onDecreaseClick = viewModel.addToCartItem.onDecreaseClick,
+        onAddToCardCardClick = viewModel.addToCartItem.onAddToCardCardClick,
         content = {
             Box(
                 modifier = Modifier

@@ -10,7 +10,9 @@ import com.example.domain.data.remote.ProductDetails
 import com.example.domain.use_cases.GetProductDetailsUseCase
 import com.example.domain.util.ApiResponse
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
+import com.example.effectivemobiletesttask.ui.screens.items.AddToCartItem
 import com.example.effectivemobiletesttask.ui.screens.items.ColorItem
 import com.example.effectivemobiletesttask.ui.screens.items.DetailImageItem
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
@@ -41,6 +43,21 @@ class DetailsViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
         private set
 
+    var addToCartItem by mutableStateOf(
+        AddToCartItem(
+            amountString = resourcesProvider.getString(R.string.empty),
+            amountDouble = 0.0,
+            onIncreaseClick = {},
+            onDecreaseClick = {},
+            onAddToCardCardClick = {
+                launch(dispatchersProvider.io) {
+                    _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Shopping.route))
+                }
+            }
+        )
+    )
+        private set
+
     private var indexHugeImage = 0
     private var indexDetailImagesRow = 0
     private var indexTextTextLarge = 0
@@ -49,75 +66,68 @@ class DetailsViewModel @Inject constructor(
     private var indexColorsItem = 0
 
     private fun fillScreenItems() {
-        val screenItems = sortedMapOf(
-            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
-                height = resourcesProvider.getInteger(R.integer._32)
-            ),
-            mapKeysCreator.createMapKey().apply { indexHugeImage = this } to
-                    ScreenItem.HugeImage(
-                        image = null,
-                        contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                        icon = R.drawable.ic_arrow_back_small,
-                        contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
-                        iconTop = R.drawable.ic_heart_large,
-                        contentDescriptionIconTop = resourcesProvider.getString(R.string.empty),
-                        iconMiddle = R.drawable.ic_dash,
-                        contentDescriptionIconMiddle = resourcesProvider.getString(R.string.empty),
-                        iconBottom = R.drawable.ic_share,
-                        contentDescriptionIconBottom = resourcesProvider.getString(R.string.empty),
-                        onBackClick = {
-                            launch(dispatchersProvider.io) {
-                                _clickAction.emit(ClickAction.PopBackStack)
-                            }
-                        },
-                        onLikeClick = {},
-                        onShareClick = {}
-                    ),
+        val screenItems = sortedMapOf(mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+            height = resourcesProvider.getInteger(R.integer._32)
+        ),
+            mapKeysCreator.createMapKey().apply { indexHugeImage = this } to ScreenItem.HugeImage(
+                image = null,
+                contentDescriptionImage = resourcesProvider.getString(R.string.empty),
+                icon = R.drawable.ic_arrow_back_small,
+                contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
+                iconTop = R.drawable.ic_heart_large,
+                contentDescriptionIconTop = resourcesProvider.getString(R.string.empty),
+                iconMiddle = R.drawable.ic_dash,
+                contentDescriptionIconMiddle = resourcesProvider.getString(R.string.empty),
+                iconBottom = R.drawable.ic_share,
+                contentDescriptionIconBottom = resourcesProvider.getString(R.string.empty),
+                onBackClick = {
+                    launch(dispatchersProvider.io) {
+                        _clickAction.emit(ClickAction.PopBackStack)
+                    }
+                },
+                onLikeClick = {},
+                onShareClick = {}),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._35)
             ),
-            mapKeysCreator.createMapKey().apply { indexDetailImagesRow = this } to
-                    ScreenItem.DetailImagesRow(
-                        items = emptyList(),
-                        horizontalPadding = resourcesProvider.getInteger(R.integer._24),
-                        onSelect = { index -> onDetailImageSelected(indexSelected = index) }
-                    ),
+            mapKeysCreator.createMapKey().apply {
+                indexDetailImagesRow = this
+            } to ScreenItem.DetailImagesRow(items = emptyList(),
+                horizontalPadding = resourcesProvider.getInteger(R.integer._24),
+                onSelect = { index -> onDetailImageSelected(indexSelected = index) }),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._21)
             ),
-            mapKeysCreator.createMapKey().apply { indexTextTextLarge = this } to
-                    ScreenItem.TextTextLarge(
-                        textStart = resourcesProvider.getString(R.string.empty),
-                        textEnd = resourcesProvider.getString(R.string.empty),
-                        horizontalPadding = resourcesProvider.getInteger(R.integer._24)
-                    ),
+            mapKeysCreator.createMapKey()
+                .apply { indexTextTextLarge = this } to ScreenItem.TextTextLarge(
+                textStart = resourcesProvider.getString(R.string.empty),
+                textEnd = resourcesProvider.getString(R.string.empty),
+                horizontalPadding = resourcesProvider.getInteger(R.integer._24)
+            ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._11)
             ),
-            mapKeysCreator.createMapKey().apply { indexDetailDescription = this } to
-                    ScreenItem.DetailDescription(
-                        text = resourcesProvider.getString(R.string.empty),
-                        horizontalPadding = resourcesProvider.getInteger(R.integer._24)
-                    ),
+            mapKeysCreator.createMapKey()
+                .apply { indexDetailDescription = this } to ScreenItem.DetailDescription(
+                text = resourcesProvider.getString(R.string.empty),
+                horizontalPadding = resourcesProvider.getInteger(R.integer._24)
+            ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._11)
             ),
-            mapKeysCreator.createMapKey().apply { indexReviews = this } to
-                    ScreenItem.Reviews(
-                        rating = resourcesProvider.getString(R.string.empty),
-                        reviews = resourcesProvider.getString(R.string.empty),
-                        horizontalPadding = resourcesProvider.getInteger(R.integer._24)
-                    ),
+            mapKeysCreator.createMapKey().apply { indexReviews = this } to ScreenItem.Reviews(
+                rating = resourcesProvider.getString(R.string.empty),
+                reviews = resourcesProvider.getString(R.string.empty),
+                horizontalPadding = resourcesProvider.getInteger(R.integer._24)
+            ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._13)
             ),
-            mapKeysCreator.createMapKey().apply { indexColorsItem = this } to
-                    ScreenItem.ColorsItem(
-                        text = resourcesProvider.getString(R.string.color),
-                        items = emptyList(),
-                        horizontalPadding = resourcesProvider.getInteger(R.integer._24),
-                        onSelect = { index -> onColorsItemSelected(indexSelected = index) }
-                    ),
+            mapKeysCreator.createMapKey().apply { indexColorsItem = this } to ScreenItem.ColorsItem(
+                text = resourcesProvider.getString(R.string.color),
+                items = emptyList(),
+                horizontalPadding = resourcesProvider.getInteger(R.integer._24),
+                onSelect = { index -> onColorsItemSelected(indexSelected = index) }),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._100)
             ),
@@ -131,19 +141,18 @@ class DetailsViewModel @Inject constructor(
     private fun getProductDetails() = launch(dispatchersProvider.io) {
         withContext(dispatchersProvider.main) { isLoading = true }
         val genericError = resourcesProvider.getString(R.string.error_occurred)
-        getProductDetailsUseCase.invoke(genericError = genericError)
-            .collect { apiResponse ->
-                when (apiResponse) {
-                    is ApiResponse.Error -> _clickAction.emit(
-                        ClickAction.ShowToast(message = apiResponse.message ?: genericError)
-                    )
-                    is ApiResponse.Success -> apiResponse.data?.let {
-                        withContext(dispatchersProvider.main) {
-                            onGetProductDetailsSuccess(data = apiResponse.data!!)
-                        }
+        getProductDetailsUseCase.invoke(genericError = genericError).collect { apiResponse ->
+            when (apiResponse) {
+                is ApiResponse.Error -> _clickAction.emit(
+                    ClickAction.ShowToast(message = apiResponse.message ?: genericError)
+                )
+                is ApiResponse.Success -> apiResponse.data?.let {
+                    withContext(dispatchersProvider.main) {
+                        onGetProductDetailsSuccess(data = apiResponse.data!!)
                     }
                 }
             }
+        }
         withContext(dispatchersProvider.main) { isLoading = false }
     }
 
@@ -155,15 +164,14 @@ class DetailsViewModel @Inject constructor(
             image = if (data.imageUrls.isNotEmpty()) data.imageUrls[defaultIndexSelected] else null
         )
         screenItems[indexDetailImagesRow] =
-            (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow).copy(
-                items = data.imageUrls.mapIndexed { index, image ->
+            (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow)
+                .copy(items = data.imageUrls.mapIndexed { index, image ->
                     DetailImageItem(
                         image = image,
                         contentDescription = resourcesProvider.getString(R.string.empty),
                         isSelected = index == defaultIndexSelected
                     )
-                }
-            )
+                })
         screenItems[indexTextTextLarge] =
             (screenItems[indexTextTextLarge] as ScreenItem.TextTextLarge).copy(
                 textStart = if (data.name == null) resourcesProvider.getString(R.string.not_applicable)
@@ -182,30 +190,35 @@ class DetailsViewModel @Inject constructor(
             reviews = if (data.numberOfReviews == null) resourcesProvider.getString(R.string.not_applicable)
             else "(${data.numberOfReviews}) reviews"
         )
-        screenItems[indexColorsItem] = (screenItems[indexColorsItem] as ScreenItem.ColorsItem).copy(
-            items = data.colors.mapIndexed { index, color ->
-                ColorItem(
-                    color = color,
-                    isSelected = index == defaultIndexSelected
-                )
-            }
-        )
+        screenItems[indexColorsItem] =
+            (screenItems[indexColorsItem] as ScreenItem.ColorsItem)
+                .copy(items = data.colors.mapIndexed { index, color ->
+                    ColorItem(
+                        color = color,
+                        isSelected = index == defaultIndexSelected
+                    )
+                })
+        data.price?.let {
+            addToCartItem = addToCartItem.copy(
+                amountDouble = data.price!!,
+                amountString = "#${data.price}"
+            )
+        }
     }
 
     private fun onDetailImageSelected(
         indexSelected: Int
     ) {
         screenItems[indexDetailImagesRow] =
-            (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow).copy(
-                items = (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow).items
-                    .mapIndexed { index, detailImageItem ->
+            (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow)
+                .copy(items = (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow)
+                    .items.mapIndexed { index, detailImageItem ->
                         detailImageItem.copy(
                             image = detailImageItem.image,
                             contentDescription = detailImageItem.contentDescription,
                             isSelected = index == indexSelected
                         )
-                    }
-            )
+                    })
         screenItems[indexHugeImage] = (screenItems[indexHugeImage] as ScreenItem.HugeImage).copy(
             image = (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow).items[indexSelected].image
         )
@@ -214,15 +227,15 @@ class DetailsViewModel @Inject constructor(
     private fun onColorsItemSelected(
         indexSelected: Int
     ) {
-        screenItems[indexColorsItem] = (screenItems[indexColorsItem] as ScreenItem.ColorsItem).copy(
-            items = (screenItems[indexColorsItem] as ScreenItem.ColorsItem).items
-                .mapIndexed { index, colorItem ->
-                    colorItem.copy(
-                        color = colorItem.color,
-                        isSelected = index == indexSelected
-                    )
-                }
-        )
+        screenItems[indexColorsItem] =
+            (screenItems[indexColorsItem] as ScreenItem.ColorsItem)
+                .copy(items = (screenItems[indexColorsItem] as ScreenItem.ColorsItem)
+                    .items.mapIndexed { index, colorItem ->
+                        colorItem.copy(
+                            color = colorItem.color,
+                            isSelected = index == indexSelected
+                        )
+                    })
     }
 
     init {

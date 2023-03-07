@@ -7,7 +7,10 @@ import androidx.compose.runtime.Composable
 @Composable
 fun BottomSheet(
     amount: String,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    onIncreaseClick: () -> Unit,
+    onDecreaseClick: () -> Unit,
+    onAddToCardCardClick: () -> Unit
 ) {
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberBottomSheetState(
@@ -20,9 +23,9 @@ fun BottomSheet(
         sheetContent = {
             AddToCart(
                 amount = amount,
-                onIncreaseClick = {},
-                onDecreaseClick = {},
-                onAddToCardCardClick = {}
+                onIncreaseClick = onIncreaseClick,
+                onDecreaseClick = onDecreaseClick,
+                onAddToCardCardClick = onAddToCardCardClick
             )
         }
     ) {
