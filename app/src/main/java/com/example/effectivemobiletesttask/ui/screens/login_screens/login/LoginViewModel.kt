@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
+import com.example.data.remote.DispatchersProvider
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
 import com.example.effectivemobiletesttask.R
@@ -27,7 +28,8 @@ class LoginViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
     private val mapKeysCreator: MapKeysCreator,
     private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase,
-    private val saveUserUseCase: SaveUserUseCase
+    private val saveUserUseCase: SaveUserUseCase,
+    private val dispatchersProvider: DispatchersProvider
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
@@ -46,7 +48,7 @@ class LoginViewModel @Inject constructor(
     private var indexPassword = 0
     private var indexLoginButton = 0
 
-    private fun onLogin() = launch {
+    private fun onLogin() = launch(dispatchersProvider.io) {
         try {
             _clearFocus.emit(true)
             isLoading = true

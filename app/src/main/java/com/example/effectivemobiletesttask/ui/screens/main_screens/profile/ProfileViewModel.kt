@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.data.remote.DispatchersProvider
 import com.example.domain.use_cases.GetUserByIsLoggedInFlow
 import com.example.domain.use_cases.GetUserByIsLoggedInUseCase
 import com.example.domain.use_cases.SaveUserUseCase
@@ -16,7 +17,6 @@ import com.example.effectivemobiletesttask.util.MapKeysCreator
 import com.example.effectivemobiletesttask.util.ResourcesProvider
 import com.example.effectivemobiletesttask.util.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -29,13 +29,14 @@ class ProfileViewModel @Inject constructor(
     private val mapKeysCreator: MapKeysCreator,
     private val getUserByIsLoggedInUseCase: GetUserByIsLoggedInUseCase,
     private val saveUserUseCase: SaveUserUseCase,
-    private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow
+    private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow,
+    private val dispatchersProvider: DispatchersProvider
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
     val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
 
-    private fun onClickActionShowToast(message: String) = launch {
+    private fun onClickActionShowToast(message: String) = launch(dispatchersProvider.io) {
         _clickAction.emit(ClickAction.ShowToast(message = message))
     }
 
@@ -51,7 +52,7 @@ class ProfileViewModel @Inject constructor(
 
     private var indexPhoto = 0
 
-    fun changePhotoUri(newPhotoUri: Any?) = launch {
+    fun changePhotoUri(newPhotoUri: Any?) = launch(dispatchersProvider.io) {
         if (newPhotoUri != null) {
             val loggedInUser = getUserByIsLoggedInUseCase.invoke(isLoggedIn = true)
             loggedInUser?.let {
@@ -74,7 +75,11 @@ class ProfileViewModel @Inject constructor(
                 icon = R.drawable.arrow_left,
                 contentDescription = resourcesProvider.getString(R.string.back),
                 text = resourcesProvider.getString(R.string.profile),
-                onClick = { launch { _clickAction.emit(ClickAction.PopBackStack) } }
+                onClick = {
+                    launch(dispatchersProvider.io) {
+                        _clickAction.emit(ClickAction.PopBackStack)
+                    }
+                }
             ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
@@ -95,7 +100,11 @@ class ProfileViewModel @Inject constructor(
             ),
             mapKeysCreator.createMapKey() to ScreenItem.ItemAdditionalInfo(
                 text = resourcesProvider.getString(R.string.change_photo),
-                onClick = { launch { _pickPhotoFromGallery.emit(Unit) } }
+                onClick = {
+                    launch(dispatchersProvider.io) {
+                        _pickPhotoFromGallery.emit(Unit)
+                    }
+                }
             ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
@@ -211,17 +220,17 @@ class ProfileViewModel @Inject constructor(
         this.screenItems.addAll(screenItems.values)
     }
 
-    fun updateLoggedInUser() = launch {
+    fun updateLoggedInUser() = launch(dispatchersProvider.io) {
         val loggedInUser = getUserByIsLoggedInUseCase.invoke(isLoggedIn = true)
         loggedInUser?.let {
             saveUserUseCase.invoke(user = loggedInUser.copy(isLoggedIn = false))
         }
     }
 
-    private fun getUserByIsLoggedInFlow() = launch {
+    private fun getUserByIsLoggedInFlow() = launch(dispatchersProvider.io) {
         getUserByIsLoggedInFlow.invoke(isLoggedIn = true).collect { user ->
             user?.let {
-                withContext(Dispatchers.Main) {
+                withContext(dispatchersProvider.main) {
                     screenItems[indexPhoto] = (screenItems[indexPhoto] as ScreenItem.ItemIcon).copy(
                         icon = if (user.imageUri != null) user.imageUri else R.drawable.image_default
                     )

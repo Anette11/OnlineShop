@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
+import com.example.data.remote.DispatchersProvider
 import com.example.domain.data.local.User
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
@@ -31,7 +32,8 @@ class SingInViewModel @Inject constructor(
     private val emailValidator: EmailValidator,
     private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase,
     private val saveUserUseCase: SaveUserUseCase,
-    private val mapKeysCreator: MapKeysCreator
+    private val mapKeysCreator: MapKeysCreator,
+    private val dispatchersProvider: DispatchersProvider
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
@@ -52,7 +54,7 @@ class SingInViewModel @Inject constructor(
     private var indexChangeColorText = 0
     private var indexSignInButton = 0
 
-    private fun onSignIn() = launch {
+    private fun onSignIn() = launch(dispatchersProvider.io) {
         try {
             _clearFocus.emit(true)
             onEmailChange(resourcesProvider.getString(R.string.empty))
@@ -191,7 +193,7 @@ class SingInViewModel @Inject constructor(
                 textInfo = resourcesProvider.getString(R.string.already_have_an_account),
                 textClickable = resourcesProvider.getString(R.string.log_in),
                 onClick = {
-                    launch {
+                    launch(dispatchersProvider.io) {
                         _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.LogIn.route))
                     }
                 }
@@ -206,7 +208,7 @@ class SingInViewModel @Inject constructor(
                 contentDescription = resourcesProvider.getString(R.string.sign_in_with_google),
                 text = resourcesProvider.getString(R.string.sign_in_with_google),
                 onClick = {
-                    launch {
+                    launch(dispatchersProvider.io) {
                         _clickAction.emit(
                             ClickAction.ShowToast(
                                 message = resourcesProvider.getString(
@@ -227,7 +229,7 @@ class SingInViewModel @Inject constructor(
                 contentDescription = resourcesProvider.getString(R.string.sign_in_with_apple),
                 text = resourcesProvider.getString(R.string.sign_in_with_apple),
                 onClick = {
-                    launch {
+                    launch(dispatchersProvider.io) {
                         _clickAction.emit(
                             ClickAction.ShowToast(
                                 message = resourcesProvider.getString(

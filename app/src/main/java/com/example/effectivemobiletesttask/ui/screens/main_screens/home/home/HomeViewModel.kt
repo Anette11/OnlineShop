@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.data.remote.DispatchersProvider
 import com.example.domain.data.remote.FlashSale
 import com.example.domain.data.remote.Latest
 import com.example.domain.use_cases.GetFlashSaleUseCase
@@ -32,7 +33,8 @@ class HomeViewModel @Inject constructor(
     private val getFlashSaleUseCase: GetFlashSaleUseCase,
     private val mapKeysCreator: MapKeysCreator,
     private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow,
-    private val getWordsUseCase: GetWordsUseCase
+    private val getWordsUseCase: GetWordsUseCase,
+    private val dispatchersProvider: DispatchersProvider
 ) : ViewModel() {
 
     private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
@@ -199,14 +201,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getTradeData() = viewModelScope.launch(Dispatchers.IO) {
-        withContext(Dispatchers.Main) { isLoading = true }
+        withContext(dispatchersProvider.main) { isLoading = true }
         val latestFlow =
             getLatestUseCase.invoke(genericError = resourcesProvider.getString(R.string.error_occurred))
         val flashSaleFlow =
             getFlashSaleUseCase.invoke(genericError = resourcesProvider.getString(R.string.error_occurred))
         latestFlow.zip(flashSaleFlow) { apiResponseLatest, apiResponseFlashSale ->
             if (apiResponseLatest is ApiResponse.Success && apiResponseFlashSale is ApiResponse.Success) {
-                withContext(Dispatchers.Main) {
+                withContext(dispatchersProvider.main) {
                     updateLatest(list = apiResponseLatest.data)
                     updateFlashSale(list = apiResponseFlashSale.data)
                     updateBrands()
@@ -231,7 +233,7 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }.collect()
-        withContext(Dispatchers.Main) { isLoading = false }
+        withContext(dispatchersProvider.main) { isLoading = false }
     }
 
     private fun updateLatest(list: List<Latest>?) {
@@ -284,17 +286,17 @@ class HomeViewModel @Inject constructor(
                     discountText = if (flashSale.discount != null) "${flashSale.discount}% off"
                     else resourcesProvider.getString(R.string.not_applicable),
                     onItemClick = {
-                        launch {
+                        launch(dispatchersProvider.io) {
                             _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Details.route))
                         }
                     })
             } ?: emptyList())
     }
 
-    private fun getUserByIsLoggedInFlow() = launch {
+    private fun getUserByIsLoggedInFlow() = launch(dispatchersProvider.io) {
         getUserByIsLoggedInFlow.invoke(isLoggedIn = true).collect { user ->
             user?.let {
-                withContext(Dispatchers.Main) {
+                withContext(dispatchersProvider.main) {
                     screenItems[indexPhoto] =
                         (screenItems[indexPhoto] as ScreenItem.IconTextIconLarge).copy(
                             iconRight = if (user.imageUri != null) user.imageUri else R.drawable.image_default
@@ -332,7 +334,7 @@ class HomeViewModel @Inject constructor(
     ) {
         if (word.isBlank()) return
         getWordsJob?.cancel()
-        getWordsJob = launch {
+        getWordsJob = launch(dispatchersProvider.io) {
             delay(1000L)
             getWordsUseCase.invoke(genericError = resourcesProvider.getString(R.string.error_occurred))
                 .collect { apiResponse ->
@@ -347,7 +349,7 @@ class HomeViewModel @Inject constructor(
                             val filteredWords = apiResponse.data?.filter { foundWord ->
                                 foundWord.contains(word, true)
                             } ?: emptyList()
-                            withContext(Dispatchers.Main) {
+                            withContext(dispatchersProvider.main) {
                                 val textInSearchRow =
                                     (screenItems[indexSearchRow] as ScreenItem.SearchRow).value
                                 screenItems[indexAutocompleteMenu] =
@@ -373,7 +375,9 @@ class HomeViewModel @Inject constructor(
         screenItems[indexSearchRow] = (screenItems[indexSearchRow] as ScreenItem.SearchRow).copy(
             value = word
         )
-        launch { _clearFocus.emit(true) }
+        launch(dispatchersProvider.io) {
+            _clearFocus.emit(true)
+        }
     }
 
     private fun onDismissAutocompleteMenu() {
