@@ -2,7 +2,6 @@ package com.example.effectivemobiletesttask.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -10,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -19,14 +19,16 @@ import androidx.core.graphics.toColorInt
 import com.example.effectivemobiletesttask.R
 
 @Composable
-fun ColorItemSimple(
-    color: String,
-    index: Int,
-    onSelect: (Int) -> Unit
+fun ColorItemSelected(
+    color: String
 ) = Row(
     modifier = Modifier
-        .width(dimensionResource(id = R.dimen._34dp))
-        .height(dimensionResource(id = R.dimen._26dp))
+        .width(dimensionResource(id = R.dimen._45dp))
+        .height(dimensionResource(id = R.dimen._34dp))
+        .shadow(
+            elevation = dimensionResource(id = R.dimen._4dp),
+            shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._6dp))
+        )
         .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._9dp)))
         .background(Color(color.toColorInt()))
         .border(
@@ -39,14 +41,10 @@ fun ColorItemSimple(
             else Color.Transparent,
             shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._9dp))
         )
-        .clickable { onSelect(index) }
+
 ) {}
 
 @Composable
 @Preview
-fun ColorItemPreview() =
-    ColorItemSimple(
-        color = stringResource(id = R.string.color_test),
-        index = 0,
-        onSelect = {}
-    )
+fun ColorItemSelectedPreview() =
+    ColorItemSelected(color = stringResource(id = R.string.color_test))

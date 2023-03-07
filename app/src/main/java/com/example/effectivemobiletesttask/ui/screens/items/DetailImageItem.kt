@@ -1,9 +1,7 @@
 package com.example.effectivemobiletesttask.ui.screens.items
 
-import androidx.annotation.DrawableRes
-
 data class DetailImageItem(
-    @DrawableRes val image: Int,
+    val image: Any?,
     val contentDescription: String,
     val isSelected: Boolean
 )

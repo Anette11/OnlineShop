@@ -138,7 +138,7 @@ sealed class ScreenItem {
     ) : ScreenItem()
 
     data class HugeImage(
-        @DrawableRes val image: Int,
+        val image: Any?,
         val contentDescriptionImage: String,
         @DrawableRes val icon: Int,
         val contentDescriptionIcon: String,
@@ -154,26 +154,33 @@ sealed class ScreenItem {
     ) : ScreenItem()
 
     data class DetailImagesRow(
-        val items: List<DetailImageItem>
+        val items: List<DetailImageItem>,
+        val horizontalPadding: Int,
+        val onSelect: (Int) -> Unit
     ) : ScreenItem()
 
     data class TextTextLarge(
         val textStart: String,
-        val textEnd: String
+        val textEnd: String,
+        val horizontalPadding: Int
     ) : ScreenItem()
 
     data class DetailDescription(
-        val text: String
+        val text: String,
+        val horizontalPadding: Int
     ) : ScreenItem()
 
     data class Reviews(
         val rating: String,
-        val reviews: String
+        val reviews: String,
+        val horizontalPadding: Int
     ) : ScreenItem()
 
     data class ColorsItem(
         val text: String,
-        val items: List<ColorItem>
+        val items: List<ColorItem>,
+        val horizontalPadding: Int,
+        val onSelect: (Int) -> Unit
     ) : ScreenItem()
 
     data class AddToCart(

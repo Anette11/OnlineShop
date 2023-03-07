@@ -34,7 +34,7 @@ fun MainNavHost(
     composable(
         route = Screen.Details.route
     ) {
-        DetailsScreen()
+        DetailsScreen(onShowToast = onShowToast)
     }
     composable(
         route = Screen.Favourite.route

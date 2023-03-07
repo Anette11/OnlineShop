@@ -29,10 +29,12 @@
     <dimen name="_42dp">42dp</dimen>
     <dimen name="_45dp">45dp</dimen>
     <dimen name="_47dp">47dp</dimen>
+    <dimen name="_52dp">52dp</dimen>
     <dimen name="_66dp">66dp</dimen>
     <dimen name="_83dp">83dp</dimen>
     <dimen name="_114dp">114dp</dimen>
     <dimen name="_149dp">149dp</dimen>
+    <dimen name="_279dp">279dp</dimen>
 
     <dimen name="_6sp">6sp</dimen>
     <dimen name="_7sp">7sp</dimen>

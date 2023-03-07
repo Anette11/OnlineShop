@@ -1,7 +1,6 @@
 package com.example.effectivemobiletesttask.ui.common
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,11 +16,14 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.effectivemobiletesttask.R
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HugeImage(
-    @DrawableRes image: Int,
+    image: Any?,
     contentDescriptionImage: String,
     @DrawableRes icon: Int,
     contentDescriptionIcon: String,
@@ -35,16 +37,18 @@ fun HugeImage(
     onLikeClick: () -> Unit,
     onShareClick: () -> Unit
 ) = Box(
-    modifier = Modifier.fillMaxWidth()
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(dimensionResource(id = R.dimen._279dp))
 ) {
-    Image(
-        painter = painterResource(id = image),
+    GlideImage(
+        model = image,
         contentDescription = contentDescriptionImage,
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .padding(
                 top = dimensionResource(id = R.dimen._7dp),
-                end = dimensionResource(id = R.dimen._40dp)
+                end = dimensionResource(id = R.dimen._52dp)
             )
             .clip(
                 shape = RoundedCornerShape(
@@ -70,7 +74,10 @@ fun HugeImage(
     Row(
         modifier = Modifier
             .align(Alignment.BottomEnd)
-            .padding(bottom = dimensionResource(id = R.dimen._28dp))
+            .padding(
+                bottom = dimensionResource(id = R.dimen._28dp),
+                end = dimensionResource(id = R.dimen._12dp)
+            )
     ) {
         Column(
             modifier = Modifier

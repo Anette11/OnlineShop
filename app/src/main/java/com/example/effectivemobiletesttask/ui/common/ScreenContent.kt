@@ -145,22 +145,29 @@ fun ScreenContent(
                 onShareClick = item.onShareClick
             )
             is ScreenItem.DetailImagesRow -> DetailImagesRow(
-                items = item.items
+                items = item.items,
+                horizontalPadding = item.horizontalPadding,
+                onSelect = item.onSelect
             )
             is ScreenItem.TextTextLarge -> TextTextLarge(
                 textStart = item.textStart,
-                textEnd = item.textEnd
+                textEnd = item.textEnd,
+                horizontalPadding = item.horizontalPadding
             )
             is ScreenItem.DetailDescription -> DetailDescription(
-                text = item.text
+                text = item.text,
+                horizontalPadding = item.horizontalPadding
             )
             is ScreenItem.Reviews -> Reviews(
                 rating = item.rating,
-                reviews = item.reviews
+                reviews = item.reviews,
+                horizontalPadding = item.horizontalPadding
             )
             is ScreenItem.ColorsItem -> ColorsItem(
                 text = item.text,
-                items = item.items
+                items = item.items,
+                horizontalPadding = item.horizontalPadding,
+                onSelect = item.onSelect
             )
             is ScreenItem.AddToCart -> AddToCart(
                 amount = item.amount
