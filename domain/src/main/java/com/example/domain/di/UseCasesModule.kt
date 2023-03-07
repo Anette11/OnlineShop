@@ -1,5 +1,6 @@
 package com.example.domain.di
 
+import com.example.domain.repository.ProductRepository
 import com.example.domain.repository.TradeRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.repository.WordsRepository
@@ -55,4 +56,10 @@ object UseCasesModule {
     fun provideGetWordsUseCase(
         wordsRepository: WordsRepository
     ): GetWordsUseCase = GetWordsUseCase(wordsRepository = wordsRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetProductDetailsUseCase(
+        productRepository: ProductRepository
+    ): GetProductDetailsUseCase = GetProductDetailsUseCase(productRepository = productRepository)
 }

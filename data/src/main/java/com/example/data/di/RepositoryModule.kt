@@ -1,8 +1,10 @@
 package com.example.data.di
 
+import com.example.data.repositories.ProductRepositoryImpl
 import com.example.data.repositories.TradeRepositoryImpl
 import com.example.data.repositories.UserRepositoryImpl
 import com.example.data.repositories.WordsRepositoryImpl
+import com.example.domain.repository.ProductRepository
 import com.example.domain.repository.TradeRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.repository.WordsRepository
@@ -33,4 +35,10 @@ abstract class RepositoryModule {
     abstract fun bindWordsRepository(
         wordsRepositoryImpl: WordsRepositoryImpl
     ): WordsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindProductRepository(
+        productRepositoryImpl: ProductRepositoryImpl
+    ): ProductRepository
 }

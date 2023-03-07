@@ -1,6 +1,7 @@
 package com.example.data.remote
 
 import com.example.data.remote.flash_sale.GetFlashSaleResponse
+import com.example.data.remote.goods_details.ProductDetailsDto
 import com.example.data.remote.latest.GetLatestResponse
 import com.example.data.remote.words.GetWordsResponse
 import retrofit2.Response
@@ -20,4 +21,7 @@ interface ApiService {
 
     @GET("4c9cd822-9479-4509-803d-63197e5a9e19")
     suspend fun getWords(): Response<GetWordsResponse>
+
+    @GET("f7f99d04-4971-45d5-92e0-70333383c239")
+    suspend fun getProductDetails(): Response<ProductDetailsDto>
 }

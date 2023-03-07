@@ -2,7 +2,7 @@ package com.example.data.remote.goods_details
 
 import com.google.gson.annotations.SerializedName
 
-data class GetGoodsDetailsResponse(
+data class ProductDetailsDto(
     val colors: List<String> = emptyList(),
     val description: String?,
 
