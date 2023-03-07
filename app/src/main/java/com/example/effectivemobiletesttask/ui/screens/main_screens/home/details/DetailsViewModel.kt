@@ -115,6 +115,9 @@ class DetailsViewModel @Inject constructor(
                         onSelect = { index -> onColorsItemSelected(indexSelected = index) }
                     ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
+                height = resourcesProvider.getInteger(R.integer._100)
+            ),
+            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._32)
             )
         )

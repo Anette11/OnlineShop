@@ -24,6 +24,7 @@ fun AddToCart(
 ) = Row(
     modifier = Modifier
         .fillMaxWidth()
+        .height(dimensionResource(R.dimen._100dp))
         .clip(
             shape = RoundedCornerShape(
                 topStart = dimensionResource(id = R.dimen._25dp),

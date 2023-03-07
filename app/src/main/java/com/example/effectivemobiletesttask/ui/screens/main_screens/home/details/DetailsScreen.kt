@@ -11,6 +11,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.ui.common.BottomSheet
 import com.example.effectivemobiletesttask.ui.common.ProgressBar
 import com.example.effectivemobiletesttask.ui.common.ScreenContent
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
@@ -29,16 +30,22 @@ fun DetailsScreen(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorResource(id = R.color.white_dark)),
-        contentAlignment = Alignment.Center
-    ) {
-        ScreenContent(
-            items = viewModel.screenItems,
-            horizontalPadding = dimensionResource(id = R.dimen._0dp)
-        )
-        if (viewModel.isLoading) ProgressBar()
-    }
+    BottomSheet(
+        amount = "Some amount",
+        content = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = colorResource(id = R.color.white_dark)),
+                contentAlignment = Alignment.Center
+            ) {
+                ScreenContent(
+                    items = viewModel.screenItems,
+                    horizontalPadding = dimensionResource(id = R.dimen._0dp)
+                )
+                if (viewModel.isLoading) ProgressBar()
+            }
+
+        }
+    )
 }
