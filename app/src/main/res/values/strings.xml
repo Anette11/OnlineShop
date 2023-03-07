@@ -11,6 +11,7 @@
     <string name="brand">Brand</string>
     <string name="brands">Brands</string>
     <string name="cars">Cars</string>
+    <string name="cart">Cart</string>
     <string name="change_password_visibility">Change password visibility</string>
     <string name="change_photo">Change photo</string>
     <string name="chat_screen">ChatScreen</string>
