@@ -37,29 +37,25 @@ fun DetailsScreen(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorResource(id = R.color.black_dark))
-    ) {
-        BottomSheet(quantity = viewModel.addToCartItem.quantity,
-            amount = viewModel.addToCartItem.amountString,
-            onIncreaseClick = viewModel.addToCartItem.onIncreaseClick,
-            onDecreaseClick = viewModel.addToCartItem.onDecreaseClick,
-            onAddToCardCardClick = viewModel.addToCartItem.onAddToCardCardClick,
-            content = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = colorResource(id = R.color.white_dark)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    ScreenContent(
-                        items = viewModel.screenItems,
-                        horizontalPadding = dimensionResource(id = R.dimen._0dp)
-                    )
-                    if (viewModel.isLoading) ProgressBar()
-                }
-            })
-    }
+    BottomSheet(
+        quantity = viewModel.addToCartItem.quantity,
+        amount = viewModel.addToCartItem.amountString,
+        onIncreaseClick = viewModel.addToCartItem.onIncreaseClick,
+        onDecreaseClick = viewModel.addToCartItem.onDecreaseClick,
+        onAddToCardCardClick = viewModel.addToCartItem.onAddToCardCardClick,
+        content = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = colorResource(id = R.color.white_dark)),
+                contentAlignment = Alignment.Center
+            ) {
+                ScreenContent(
+                    items = viewModel.screenItems,
+                    horizontalPadding = dimensionResource(id = R.dimen._0dp)
+                )
+                if (viewModel.isLoading) ProgressBar()
+            }
+        }
+    )
 }

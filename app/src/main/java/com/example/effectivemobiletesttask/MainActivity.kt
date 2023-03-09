@@ -6,7 +6,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Surface
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.navigation.Graph
 import com.example.effectivemobiletesttask.navigation.RootNavGraph
@@ -23,14 +28,19 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel: MainActivityViewModel = hiltViewModel()
             val focusManager = LocalFocusManager.current
-
-            RootNavGraph(
-                onShowToast = { message -> showToast(message = message) },
-                onClearFocus = { focusManager.clearFocus() },
-                startDestination = if (viewModel.checkIfUserIsLoggedIn()) Graph.Main.route
-                else Graph.Login.route,
-                onShareClick = { image -> onShareClick(image = image) }
-            )
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = colorResource(id = R.color.white_dark))
+            ) {
+                RootNavGraph(
+                    onShowToast = { message -> showToast(message = message) },
+                    onClearFocus = { focusManager.clearFocus() },
+                    startDestination = if (viewModel.checkIfUserIsLoggedIn()) Graph.Main.route
+                    else Graph.Login.route,
+                    onShareClick = { image -> onShareClick(image = image) }
+                )
+            }
         }
     }
 

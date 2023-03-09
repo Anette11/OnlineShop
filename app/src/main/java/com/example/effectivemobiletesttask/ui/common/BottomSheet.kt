@@ -1,7 +1,14 @@
 package com.example.effectivemobiletesttask.ui.common
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import com.example.effectivemobiletesttask.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -20,6 +27,9 @@ fun BottomSheet(
     )
 
     BottomSheetScaffold(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = colorResource(id = R.color.white_dark)),
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
             AddToCart(
@@ -29,7 +39,11 @@ fun BottomSheet(
                 onDecreaseClick = onDecreaseClick,
                 onAddToCardCardClick = onAddToCardCardClick
             )
-        }
+        },
+        sheetShape = RoundedCornerShape(
+            topStart = dimensionResource(id = R.dimen._25dp),
+            topEnd = dimensionResource(id = R.dimen._25dp)
+        )
     ) {
         content()
     }

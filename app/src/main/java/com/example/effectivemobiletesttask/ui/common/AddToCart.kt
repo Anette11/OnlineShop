@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
@@ -30,13 +31,8 @@ fun AddToCart(
 ) = Row(
     modifier = Modifier
         .fillMaxWidth()
+        .background(color = Color.Transparent)
         .height(dimensionResource(R.dimen._88dp))
-        .clip(
-            shape = RoundedCornerShape(
-                topStart = dimensionResource(id = R.dimen._25dp),
-                topEnd = dimensionResource(id = R.dimen._25dp)
-            )
-        )
         .background(color = colorResource(id = R.color.black_dark))
         .padding(dimensionResource(id = R.dimen._22dp)),
     verticalAlignment = Alignment.CenterVertically

@@ -38,6 +38,7 @@ fun MainScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(color = colorResource(id = R.color.white_dark))
             .padding(paddingValues = paddingValues)
     ) {
         MainNavHost(
