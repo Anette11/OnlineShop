@@ -14,6 +14,7 @@
     <string name="cart">Cart</string>
     <string name="change_password_visibility">Change password visibility</string>
     <string name="change_photo">Change photo</string>
+    <string name="chat">Chat</string>
     <string name="chat_screen">ChatScreen</string>
     <string name="color">Color:</string>
     <string name="color_test">#181726</string>
@@ -29,6 +30,7 @@
     <string name="error_occurred">Error occurred</string>
     <string name="example_name">Satria Adhi Pradana</string>
     <string name="expand">Expand</string>
+    <string name="favourite">Favourite</string>
     <string name="favourite_screen">FavouriteScreen</string>
     <string name="first_name">First name</string>
     <string name="flash_sale">Flash Sale</string>
