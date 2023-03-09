@@ -21,7 +21,8 @@ fun MainScreen(
     onNavigateToScreen: (String) -> Unit,
     navController: NavHostController,
     onLogout: () -> Unit,
-    onClearFocus: () -> Unit
+    onClearFocus: () -> Unit,
+    onShareClick: (String) -> Unit
 ) = Scaffold(
     modifier = Modifier
         .fillMaxSize()
@@ -44,7 +45,8 @@ fun MainScreen(
             onShowToast = onShowToast,
             onNavigateToScreen = onNavigateToScreen,
             onLogout = onLogout,
-            onClearFocus = onClearFocus
+            onClearFocus = onClearFocus,
+            onShareClick = onShareClick
         )
     }
 }

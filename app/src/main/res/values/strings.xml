@@ -51,6 +51,7 @@
     <string name="menu">Menu</string>
     <string name="minus">-</string>
     <string name="new_balance_sneakers">New balance sneakers</string>
+    <string name="no_activity_found_message">No Activity was found to handle intent</string>
     <string name="not_applicable">N/A</string>
     <string name="password">Password</string>
     <string name="password_hide">Hide password</string>
@@ -66,10 +67,13 @@
     <string name="rating">3.9</string>
     <string name="restore_purchase">Restore Purchase</string>
     <string name="reviews">(4000 reviews)</string>
+    <string name="share_intent_chooser_title">Share with:</string>
+    <string name="share_intent_extra_title">Share image</string>
     <string name="shopping_screen">ShoppingScreen</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_in_with_apple">Sign in with Apple</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="text_plain_type">text/plain</string>
     <string name="trade_by">Trade by\u0020</string>
     <string name="trade_history">Trade history</string>
     <string name="trade_store">Trade store</string>

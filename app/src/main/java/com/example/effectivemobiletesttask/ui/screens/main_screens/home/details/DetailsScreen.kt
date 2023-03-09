@@ -21,7 +21,8 @@ fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel(),
     onShowToast: (String) -> Unit,
     onPopBackStack: () -> Unit,
-    onNavigateToScreen: (String) -> Unit
+    onNavigateToScreen: (String) -> Unit,
+    onShareClick: (String) -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
@@ -31,29 +32,34 @@ fun DetailsScreen(
                 is ClickAction.NavigateToScreen -> {
                     onNavigateToScreen(clickAction.route)
                 }
+                is ClickAction.Share -> onShareClick(clickAction.image)
             }
         }
     }
 
-    BottomSheet(
-        quantity = viewModel.addToCartItem.quantity,
-        amount = viewModel.addToCartItem.amountString,
-        onIncreaseClick = viewModel.addToCartItem.onIncreaseClick,
-        onDecreaseClick = viewModel.addToCartItem.onDecreaseClick,
-        onAddToCardCardClick = viewModel.addToCartItem.onAddToCardCardClick,
-        content = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = colorResource(id = R.color.white_dark)),
-                contentAlignment = Alignment.Center
-            ) {
-                ScreenContent(
-                    items = viewModel.screenItems,
-                    horizontalPadding = dimensionResource(id = R.dimen._0dp)
-                )
-                if (viewModel.isLoading) ProgressBar()
-            }
-        }
-    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorResource(id = R.color.black_dark))
+    ) {
+        BottomSheet(quantity = viewModel.addToCartItem.quantity,
+            amount = viewModel.addToCartItem.amountString,
+            onIncreaseClick = viewModel.addToCartItem.onIncreaseClick,
+            onDecreaseClick = viewModel.addToCartItem.onDecreaseClick,
+            onAddToCardCardClick = viewModel.addToCartItem.onAddToCardCardClick,
+            content = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = colorResource(id = R.color.white_dark)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    ScreenContent(
+                        items = viewModel.screenItems,
+                        horizontalPadding = dimensionResource(id = R.dimen._0dp)
+                    )
+                    if (viewModel.isLoading) ProgressBar()
+                }
+            })
+    }
 }

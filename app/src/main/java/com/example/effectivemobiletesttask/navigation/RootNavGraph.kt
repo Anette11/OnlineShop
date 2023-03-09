@@ -10,7 +10,8 @@ fun RootNavGraph(
     navController: NavHostController = rememberNavController(),
     onShowToast: (String) -> Unit,
     onClearFocus: () -> Unit,
-    startDestination: String
+    startDestination: String,
+    onShareClick: (String) -> Unit
 ) = NavHost(
     navController = navController,
     route = Graph.Root.route,
@@ -24,6 +25,7 @@ fun RootNavGraph(
     mainNavGraph(
         onShowToast = onShowToast,
         onLogout = { navController.doNavigation(route = Graph.Root.route) },
-        onClearFocus = onClearFocus
+        onClearFocus = onClearFocus,
+        onShareClick = onShareClick
     )
 }

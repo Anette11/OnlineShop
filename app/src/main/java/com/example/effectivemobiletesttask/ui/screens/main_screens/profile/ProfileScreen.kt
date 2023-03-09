@@ -38,6 +38,7 @@ fun ProfileScreen(
                 is ClickAction.ShowToast -> onShowToast(clickAction.message)
                 is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
                 ClickAction.PopBackStack -> onPopBackStack()
+                else -> Unit
             }
         }
     }

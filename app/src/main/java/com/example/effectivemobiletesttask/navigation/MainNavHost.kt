@@ -17,7 +17,8 @@ fun MainNavHost(
     onShowToast: (String) -> Unit,
     onNavigateToScreen: (String) -> Unit,
     onLogout: () -> Unit,
-    onClearFocus: () -> Unit
+    onClearFocus: () -> Unit,
+    onShareClick: (String) -> Unit
 ) = NavHost(
     navController = navController,
     startDestination = Screen.Home.route
@@ -37,7 +38,8 @@ fun MainNavHost(
         DetailsScreen(
             onShowToast = onShowToast,
             onPopBackStack = { navController.popBackStack() },
-            onNavigateToScreen = onNavigateToScreen
+            onNavigateToScreen = onNavigateToScreen,
+            onShareClick = onShareClick
         )
     }
     composable(

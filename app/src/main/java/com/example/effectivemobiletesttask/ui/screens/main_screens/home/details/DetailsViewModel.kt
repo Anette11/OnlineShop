@@ -111,7 +111,16 @@ class DetailsViewModel @Inject constructor(
                     }
                 },
                 onLikeClick = {},
-                onShareClick = {}),
+                onShareClick = {
+                    launch(dispatchersProvider.io) {
+                        _clickAction.emit(
+                            ClickAction.Share(
+                                image = (screenItems[indexHugeImage] as ScreenItem.HugeImage).image.toString()
+                            )
+                        )
+                    }
+                }
+            ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._35)
             ),

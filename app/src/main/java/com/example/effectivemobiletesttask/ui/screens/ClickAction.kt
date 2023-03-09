@@ -10,6 +10,10 @@ sealed class ClickAction {
         val route: String
     ) : ClickAction()
 
+    data class Share(
+        val image: String
+    ) : ClickAction()
+
     object PopBackStack
         : ClickAction()
 }
