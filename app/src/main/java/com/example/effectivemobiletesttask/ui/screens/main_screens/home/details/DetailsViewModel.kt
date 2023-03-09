@@ -45,10 +45,12 @@ class DetailsViewModel @Inject constructor(
 
     var addToCartItem by mutableStateOf(
         AddToCartItem(
+            quantity = 0,
             amountString = resourcesProvider.getString(R.string.empty),
             amountDouble = 0.0,
-            onIncreaseClick = {},
-            onDecreaseClick = {},
+            price = 0.0,
+            onIncreaseClick = { onIncreaseClick() },
+            onDecreaseClick = { onDecreaseClick() },
             onAddToCardCardClick = {
                 launch(dispatchersProvider.io) {
                     _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Shopping.route))
@@ -57,6 +59,29 @@ class DetailsViewModel @Inject constructor(
         )
     )
         private set
+
+    private fun onIncreaseClick() {
+        val price = addToCartItem.price
+        val newAmountDouble = addToCartItem.amountDouble + price
+        val newQuantity = addToCartItem.quantity.plus(1)
+        addToCartItem = addToCartItem.copy(
+            quantity = newQuantity,
+            amountString = "#$newAmountDouble",
+            amountDouble = newAmountDouble
+        )
+    }
+
+    private fun onDecreaseClick() {
+        val price = addToCartItem.price
+        val newAmountDouble = addToCartItem.amountDouble - price
+        val newQuantity = addToCartItem.quantity.minus(1)
+        if (newQuantity < 1 || newAmountDouble < 0) return
+        addToCartItem = addToCartItem.copy(
+            quantity = newQuantity,
+            amountString = "#$newAmountDouble",
+            amountDouble = newAmountDouble
+        )
+    }
 
     private var indexHugeImage = 0
     private var indexDetailImagesRow = 0
@@ -198,12 +223,10 @@ class DetailsViewModel @Inject constructor(
                         isSelected = index == defaultIndexSelected
                     )
                 })
-        data.price?.let {
-            addToCartItem = addToCartItem.copy(
-                amountDouble = data.price!!,
-                amountString = "#${data.price}"
-            )
-        }
+        addToCartItem = addToCartItem.copy(
+            price = data.price ?: 0.0
+        )
+        onIncreaseClick()
     }
 
     private fun onDetailImageSelected(

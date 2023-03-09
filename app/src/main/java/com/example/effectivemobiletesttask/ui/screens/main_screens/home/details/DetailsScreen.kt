@@ -36,6 +36,7 @@ fun DetailsScreen(
     }
 
     BottomSheet(
+        quantity = viewModel.addToCartItem.quantity,
         amount = viewModel.addToCartItem.amountString,
         onIncreaseClick = viewModel.addToCartItem.onIncreaseClick,
         onDecreaseClick = viewModel.addToCartItem.onDecreaseClick,
