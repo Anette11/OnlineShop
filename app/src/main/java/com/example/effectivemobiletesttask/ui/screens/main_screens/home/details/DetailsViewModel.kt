@@ -222,7 +222,7 @@ class DetailsViewModel @Inject constructor(
             rating = if (data.rating == null) resourcesProvider.getString(R.string.not_applicable)
             else "${data.rating}",
             reviews = if (data.numberOfReviews == null) resourcesProvider.getString(R.string.not_applicable)
-            else "(${data.numberOfReviews}) reviews"
+            else "(${data.numberOfReviews} reviews)"
         )
         screenItems[indexColorsItem] =
             (screenItems[indexColorsItem] as ScreenItem.ColorsItem)
