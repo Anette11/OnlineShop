@@ -8,26 +8,16 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun RootNavGraph(
     navController: NavHostController = rememberNavController(),
-    onShowToast: (String) -> Unit,
-    onClearFocus: () -> Unit,
-    startDestination: String,
-    onShareClick: (String) -> Unit,
-    onGoogleSignIn: () -> Unit
+    startDestination: String
 ) = NavHost(
     navController = navController,
     route = Graph.Root.route,
     startDestination = startDestination
 ) {
     loginNavGraph(
-        onShowToast = onShowToast,
-        onNavigateToScreen = { route -> navController.doNavigation(route = route) },
-        onClearFocus = onClearFocus,
-        onGoogleSignIn = onGoogleSignIn
+        onNavigateToScreen = { route -> navController.doNavigation(route = route) }
     )
     mainNavGraph(
-        onShowToast = onShowToast,
-        onLogout = { navController.doNavigation(route = Graph.Root.route) },
-        onClearFocus = onClearFocus,
-        onShareClick = onShareClick
+        onLogout = { navController.doNavigation(route = Graph.Root.route) }
     )
 }

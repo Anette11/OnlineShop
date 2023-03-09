@@ -17,12 +17,9 @@ import com.example.effectivemobiletesttask.ui.common.ShopBottomNavigation
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
-    onShowToast: (String) -> Unit,
     onNavigateToScreen: (String) -> Unit,
     navController: NavHostController,
-    onLogout: () -> Unit,
-    onClearFocus: () -> Unit,
-    onShareClick: (String) -> Unit
+    onLogout: () -> Unit
 ) = Scaffold(
     modifier = Modifier
         .fillMaxSize()
@@ -43,11 +40,8 @@ fun MainScreen(
     ) {
         MainNavHost(
             navController = navController,
-            onShowToast = onShowToast,
             onNavigateToScreen = onNavigateToScreen,
-            onLogout = onLogout,
-            onClearFocus = onClearFocus,
-            onShareClick = onShareClick
+            onLogout = onLogout
         )
     }
 }

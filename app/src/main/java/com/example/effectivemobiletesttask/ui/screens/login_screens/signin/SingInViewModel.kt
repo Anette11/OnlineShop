@@ -11,8 +11,10 @@ import com.example.data.remote.DispatchersProvider
 import com.example.domain.data.local.User
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
+import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
+import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
@@ -33,20 +35,18 @@ class SingInViewModel @Inject constructor(
     private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase,
     private val saveUserUseCase: SaveUserUseCase,
     private val mapKeysCreator: MapKeysCreator,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val clickActionTransmitter: ClickActionTransmitter
 ) : ViewModel() {
 
-    private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
-    val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
+    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
+    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
 
     var isLoading by mutableStateOf(false)
         private set
-
-    private val _clearFocus = MutableSharedFlow<Boolean>()
-    val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
 
     private var indexFirstName = 0
     private var indexLastName = 0
@@ -56,7 +56,7 @@ class SingInViewModel @Inject constructor(
 
     private fun onSignIn() = launch(dispatchersProvider.io) {
         try {
-            _clearFocus.emit(true)
+            clickActionTransmitter.flow.emit(ClickAction.ClearFocus)
             onEmailChange(resourcesProvider.getString(R.string.empty))
             isLoading = true
             updateSignInEnable()
@@ -65,8 +65,8 @@ class SingInViewModel @Inject constructor(
             if (userExisting != null) {
                 isLoading = false
                 updateSignInEnable()
-                _clickAction.emit(
-                    value = ClickAction.ShowToast(
+                clickActionTransmitter.flow.emit(
+                    ClickAction.ShowToast(
                         message = resourcesProvider.getString(
                             R.string.user_exists
                         )
@@ -86,10 +86,10 @@ class SingInViewModel @Inject constructor(
                 email = email
             )
             saveUserUseCase.invoke(user = user)
-            _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route))
+            _navigationAction.emit(NavigationAction.NavigateToScreen(route = Graph.Main.route))
         } catch (e: Exception) {
-            _clickAction.emit(
-                value = ClickAction.ShowToast(
+            clickActionTransmitter.flow.emit(
+                ClickAction.ShowToast(
                     message = resourcesProvider.getString(
                         R.string.user_save_error
                     )
@@ -194,7 +194,7 @@ class SingInViewModel @Inject constructor(
                 textClickable = resourcesProvider.getString(R.string.log_in),
                 onClick = {
                     launch(dispatchersProvider.io) {
-                        _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.LogIn.route))
+                        _navigationAction.emit(NavigationAction.NavigateToScreen(route = Screen.LogIn.route))
                     }
                 }
             ),
@@ -209,7 +209,7 @@ class SingInViewModel @Inject constructor(
                 text = resourcesProvider.getString(R.string.sign_in_with_google),
                 onClick = {
                     launch(dispatchersProvider.io) {
-                        _clickAction.emit(ClickAction.GoogleSignIn)
+                        clickActionTransmitter.flow.emit(ClickAction.GoogleSignIn)
                     }
                 }
             ),
@@ -224,7 +224,7 @@ class SingInViewModel @Inject constructor(
                 text = resourcesProvider.getString(R.string.sign_in_with_apple),
                 onClick = {
                     launch(dispatchersProvider.io) {
-                        _clickAction.emit(
+                        clickActionTransmitter.flow.emit(
                             ClickAction.ShowToast(
                                 message = resourcesProvider.getString(
                                     R.string.sign_in_with_apple

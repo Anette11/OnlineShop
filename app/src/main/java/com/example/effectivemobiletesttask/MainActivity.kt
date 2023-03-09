@@ -12,20 +12,26 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.navigation.Graph
 import com.example.effectivemobiletesttask.navigation.RootNavGraph
+import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var googleSignInActivityResultLauncher: ActivityResultLauncher<Intent>
+
+    @Inject
+    lateinit var clickActionTransmitter: ClickActionTransmitter
 
     override fun onCreate(
         savedInstanceState: Bundle?
@@ -49,13 +55,20 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .background(color = colorResource(id = R.color.white_dark))
             ) {
+                LaunchedEffect(key1 = true) {
+                    clickActionTransmitter.flow.collect { clickSAction ->
+                        when (clickSAction) {
+                            ClickAction.ClearFocus -> focusManager.clearFocus()
+                            ClickAction.GoogleSignIn -> onGoogleSignIn()
+                            is ClickAction.Share -> onShareClick(image = clickSAction.image)
+                            is ClickAction.ShowToast -> showToast(message = clickSAction.message)
+                        }
+                    }
+                }
+
                 RootNavGraph(
-                    onShowToast = { message -> showToast(message = message) },
-                    onClearFocus = { focusManager.clearFocus() },
                     startDestination = if (viewModel.checkIfUserIsLoggedIn()) Graph.Main.route
-                    else Graph.Login.route,
-                    onShareClick = { image -> onShareClick(image = image) },
-                    onGoogleSignIn = { onGoogleSignIn() }
+                    else Graph.Login.route
                 )
             }
         }

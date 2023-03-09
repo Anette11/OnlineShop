@@ -10,8 +10,10 @@ import androidx.lifecycle.ViewModel
 import com.example.data.remote.DispatchersProvider
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
+import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
+import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
 import com.example.effectivemobiletesttask.util.MapKeysCreator
@@ -29,11 +31,12 @@ class LoginViewModel @Inject constructor(
     private val mapKeysCreator: MapKeysCreator,
     private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase,
     private val saveUserUseCase: SaveUserUseCase,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val clickActionTransmitter: ClickActionTransmitter
 ) : ViewModel() {
 
-    private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
-    val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
+    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
+    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
@@ -41,23 +44,20 @@ class LoginViewModel @Inject constructor(
     var isLoading by mutableStateOf(false)
         private set
 
-    private val _clearFocus = MutableSharedFlow<Boolean>()
-    val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
-
     private var indexFirstName = 0
     private var indexPassword = 0
     private var indexLoginButton = 0
 
     private fun onLogin() = launch(dispatchersProvider.io) {
         try {
-            _clearFocus.emit(true)
+            clickActionTransmitter.flow.emit(ClickAction.ClearFocus)
             isLoading = true
             updateLoginEnable()
             val firstName = (screenItems[indexFirstName] as ScreenItem.SimpleRow).value
             val userExisting = getUserByFirstNameUseCase.invoke(firstName = firstName)
             if (userExisting == null) {
-                _clickAction.emit(
-                    value = ClickAction.ShowToast(
+                clickActionTransmitter.flow.emit(
+                    ClickAction.ShowToast(
                         message = resourcesProvider.getString(
                             R.string.user_not_found
                         )
@@ -67,10 +67,10 @@ class LoginViewModel @Inject constructor(
             }
             val updatedUser = userExisting.copy(isLoggedIn = true)
             saveUserUseCase.invoke(user = updatedUser)
-            _clickAction.emit(ClickAction.NavigateToScreen(route = Graph.Main.route))
+            _navigationAction.emit(NavigationAction.NavigateToScreen(route = Graph.Main.route))
         } catch (e: Exception) {
-            _clickAction.emit(
-                value = ClickAction.ShowToast(
+            clickActionTransmitter.flow.emit(
+                ClickAction.ShowToast(
                     message = resourcesProvider.getString(
                         R.string.user_not_found
                     )

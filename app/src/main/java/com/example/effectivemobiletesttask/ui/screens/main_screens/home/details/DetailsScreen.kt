@@ -11,27 +11,22 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.ui.common.BottomSheet
 import com.example.effectivemobiletesttask.ui.common.ProgressBar
 import com.example.effectivemobiletesttask.ui.common.ScreenContent
-import com.example.effectivemobiletesttask.ui.screens.ClickAction
 
 @Composable
 fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel(),
-    onShowToast: (String) -> Unit,
     onPopBackStack: () -> Unit,
-    onNavigateToScreen: (String) -> Unit,
-    onShareClick: (String) -> Unit
+    onNavigateToScreen: (String) -> Unit
 ) {
     LaunchedEffect(key1 = true) {
-        viewModel.clickAction.collect { clickAction ->
-            when (clickAction) {
-                is ClickAction.ShowToast -> onShowToast(clickAction.message)
-                ClickAction.PopBackStack -> onPopBackStack()
-                is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
-                is ClickAction.Share -> onShareClick(clickAction.image)
-                else -> Unit
+        viewModel.navigationAction.collect { navigationAction ->
+            when (navigationAction) {
+                NavigationAction.PopBackStack -> onPopBackStack()
+                is NavigationAction.NavigateToScreen -> onNavigateToScreen(navigationAction.route)
             }
         }
     }

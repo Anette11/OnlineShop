@@ -9,7 +9,9 @@ import com.example.data.remote.DispatchersProvider
 import com.example.domain.data.remote.ProductDetails
 import com.example.domain.use_cases.GetProductDetailsUseCase
 import com.example.domain.util.ApiResponse
+import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.AddToCartItem
@@ -31,11 +33,12 @@ class DetailsViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
     private val mapKeysCreator: MapKeysCreator,
     private val dispatchersProvider: DispatchersProvider,
-    private val getProductDetailsUseCase: GetProductDetailsUseCase
+    private val getProductDetailsUseCase: GetProductDetailsUseCase,
+    private val clickActionTransmitter: ClickActionTransmitter
 ) : ViewModel() {
 
-    private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
-    val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
+    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
+    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
@@ -53,7 +56,7 @@ class DetailsViewModel @Inject constructor(
             onDecreaseClick = { onDecreaseClick() },
             onAddToCardCardClick = {
                 launch(dispatchersProvider.io) {
-                    _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Shopping.route))
+                    _navigationAction.emit(NavigationAction.NavigateToScreen(route = Screen.Shopping.route))
                 }
             }
         )
@@ -107,13 +110,13 @@ class DetailsViewModel @Inject constructor(
                 contentDescriptionIconBottom = resourcesProvider.getString(R.string.empty),
                 onBackClick = {
                     launch(dispatchersProvider.io) {
-                        _clickAction.emit(ClickAction.PopBackStack)
+                        _navigationAction.emit(NavigationAction.PopBackStack)
                     }
                 },
                 onLikeClick = {},
                 onShareClick = {
                     launch(dispatchersProvider.io) {
-                        _clickAction.emit(
+                        clickActionTransmitter.flow.emit(
                             ClickAction.Share(
                                 image = (screenItems[indexHugeImage] as ScreenItem.HugeImage).image.toString()
                             )
@@ -177,7 +180,7 @@ class DetailsViewModel @Inject constructor(
         val genericError = resourcesProvider.getString(R.string.error_occurred)
         getProductDetailsUseCase.invoke(genericError = genericError).collect { apiResponse ->
             when (apiResponse) {
-                is ApiResponse.Error -> _clickAction.emit(
+                is ApiResponse.Error -> clickActionTransmitter.flow.emit(
                     ClickAction.ShowToast(message = apiResponse.message ?: genericError)
                 )
                 is ApiResponse.Success -> apiResponse.data?.let {

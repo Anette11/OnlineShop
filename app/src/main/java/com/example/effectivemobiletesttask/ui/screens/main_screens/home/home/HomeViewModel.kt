@@ -14,7 +14,9 @@ import com.example.domain.use_cases.GetLatestUseCase
 import com.example.domain.use_cases.GetUserByIsLoggedInFlow
 import com.example.domain.use_cases.GetWordsUseCase
 import com.example.domain.util.ApiResponse
+import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.*
@@ -34,14 +36,12 @@ class HomeViewModel @Inject constructor(
     private val mapKeysCreator: MapKeysCreator,
     private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow,
     private val getWordsUseCase: GetWordsUseCase,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val clickActionTransmitter: ClickActionTransmitter
 ) : ViewModel() {
 
-    private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
-    val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
-
-    private val _clearFocus = MutableSharedFlow<Boolean>()
-    val clearFocus: SharedFlow<Boolean> = _clearFocus.asSharedFlow()
+    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
+    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
@@ -215,7 +215,7 @@ class HomeViewModel @Inject constructor(
                 }
             }
             if (apiResponseLatest is ApiResponse.Error) {
-                _clickAction.emit(
+                clickActionTransmitter.flow.emit(
                     ClickAction.ShowToast(
                         message = apiResponseLatest.message
                             ?: resourcesProvider.getString(R.string.error_in_latest_deals)
@@ -224,7 +224,7 @@ class HomeViewModel @Inject constructor(
             }
             if (apiResponseFlashSale is ApiResponse.Error) {
                 if (apiResponseLatest.message != apiResponseFlashSale.message) {
-                    _clickAction.emit(
+                    clickActionTransmitter.flow.emit(
                         ClickAction.ShowToast(
                             message = apiResponseFlashSale.message
                                 ?: resourcesProvider.getString(R.string.error_in_flash_sale)
@@ -287,7 +287,7 @@ class HomeViewModel @Inject constructor(
                     else resourcesProvider.getString(R.string.not_applicable),
                     onItemClick = {
                         launch(dispatchersProvider.io) {
-                            _clickAction.emit(ClickAction.NavigateToScreen(route = Screen.Details.route))
+                            _navigationAction.emit(NavigationAction.NavigateToScreen(route = Screen.Details.route))
                         }
                     })
             } ?: emptyList())
@@ -339,7 +339,7 @@ class HomeViewModel @Inject constructor(
             getWordsUseCase.invoke(genericError = resourcesProvider.getString(R.string.error_occurred))
                 .collect { apiResponse ->
                     when (apiResponse) {
-                        is ApiResponse.Error -> _clickAction.emit(
+                        is ApiResponse.Error -> clickActionTransmitter.flow.emit(
                             ClickAction.ShowToast(
                                 message = apiResponse.message
                                     ?: resourcesProvider.getString(R.string.error_occurred)
@@ -376,7 +376,7 @@ class HomeViewModel @Inject constructor(
             value = word
         )
         launch(dispatchersProvider.io) {
-            _clearFocus.emit(true)
+            clickActionTransmitter.flow.emit(ClickAction.ClearFocus)
         }
     }
 

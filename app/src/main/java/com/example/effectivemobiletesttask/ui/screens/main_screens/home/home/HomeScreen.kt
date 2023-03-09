@@ -11,32 +11,21 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.ui.common.ProgressBar
 import com.example.effectivemobiletesttask.ui.common.ScreenContent
-import com.example.effectivemobiletesttask.ui.screens.ClickAction
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onNavigateToScreen: (String) -> Unit,
-    onShowToast: (String) -> Unit,
-    onClearFocus: () -> Unit
+    onNavigateToScreen: (String) -> Unit
 ) {
     LaunchedEffect(key1 = true) {
-        viewModel.clickAction.collect { clickAction ->
-            when (clickAction) {
-                is ClickAction.NavigateToScreen -> {
-                    onNavigateToScreen(clickAction.route)
-                }
-                is ClickAction.ShowToast -> onShowToast(clickAction.message)
+        viewModel.navigationAction.collect { navigationAction ->
+            when (navigationAction) {
+                is NavigationAction.NavigateToScreen -> onNavigateToScreen(navigationAction.route)
                 else -> Unit
             }
-        }
-    }
-
-    LaunchedEffect(key1 = true) {
-        viewModel.clearFocus.collect {
-            if (it) onClearFocus()
         }
     }
 

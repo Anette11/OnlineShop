@@ -6,17 +6,13 @@ sealed class ClickAction {
         val message: String
     ) : ClickAction()
 
-    data class NavigateToScreen(
-        val route: String
-    ) : ClickAction()
-
     data class Share(
         val image: String
     ) : ClickAction()
 
-    object PopBackStack
+    object GoogleSignIn
         : ClickAction()
 
-    object GoogleSignIn
+    object ClearFocus
         : ClickAction()
 }

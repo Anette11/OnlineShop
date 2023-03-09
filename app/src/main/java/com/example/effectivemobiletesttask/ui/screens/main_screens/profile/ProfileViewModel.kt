@@ -10,7 +10,9 @@ import com.example.data.remote.DispatchersProvider
 import com.example.domain.use_cases.GetUserByIsLoggedInFlow
 import com.example.domain.use_cases.GetUserByIsLoggedInUseCase
 import com.example.domain.use_cases.SaveUserUseCase
+import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
 import com.example.effectivemobiletesttask.util.MapKeysCreator
@@ -30,14 +32,15 @@ class ProfileViewModel @Inject constructor(
     private val getUserByIsLoggedInUseCase: GetUserByIsLoggedInUseCase,
     private val saveUserUseCase: SaveUserUseCase,
     private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val clickActionTransmitter: ClickActionTransmitter
 ) : ViewModel() {
 
-    private val _clickAction: MutableSharedFlow<ClickAction> = MutableSharedFlow()
-    val clickAction: SharedFlow<ClickAction> = _clickAction.asSharedFlow()
+    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
+    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     private fun onClickActionShowToast(message: String) = launch(dispatchersProvider.io) {
-        _clickAction.emit(ClickAction.ShowToast(message = message))
+        clickActionTransmitter.flow.emit(ClickAction.ShowToast(message = message))
     }
 
     private val _pickPhotoFromGallery: MutableSharedFlow<Unit> = MutableSharedFlow()
@@ -77,7 +80,7 @@ class ProfileViewModel @Inject constructor(
                 text = resourcesProvider.getString(R.string.profile),
                 onClick = {
                     launch(dispatchersProvider.io) {
-                        _clickAction.emit(ClickAction.PopBackStack)
+                        _navigationAction.emit(NavigationAction.PopBackStack)
                     }
                 }
             ),

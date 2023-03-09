@@ -1,5 +1,6 @@
 package com.example.effectivemobiletesttask.di
 
+import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.util.EmailValidator
 import com.example.effectivemobiletesttask.util.MapKeysCreator
 import dagger.Module
@@ -18,4 +19,8 @@ object UtilModule {
 
     @Provides
     fun provideMapKeysCreator(): MapKeysCreator = MapKeysCreator()
+    
+    @Provides
+    @Singleton
+    fun provideClickActionTransmitter(): ClickActionTransmitter = ClickActionTransmitter()
 }
