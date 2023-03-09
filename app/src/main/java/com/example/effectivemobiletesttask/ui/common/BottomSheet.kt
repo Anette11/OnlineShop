@@ -22,7 +22,7 @@ fun BottomSheet(
 ) {
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberBottomSheetState(
-            initialValue = BottomSheetValue.Expanded
+            initialValue = BottomSheetValue.Collapsed
         )
     )
 
@@ -43,7 +43,8 @@ fun BottomSheet(
         sheetShape = RoundedCornerShape(
             topStart = dimensionResource(id = R.dimen._25dp),
             topEnd = dimensionResource(id = R.dimen._25dp)
-        )
+        ),
+        sheetPeekHeight = dimensionResource(id = R.dimen._88dp)
     ) {
         content()
     }
