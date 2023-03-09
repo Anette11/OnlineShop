@@ -9,7 +9,8 @@ import com.example.effectivemobiletesttask.ui.screens.login_screens.signin.SignI
 fun NavGraphBuilder.loginNavGraph(
     onShowToast: (String) -> Unit,
     onNavigateToScreen: (String) -> Unit,
-    onClearFocus: () -> Unit
+    onClearFocus: () -> Unit,
+    onGoogleSignIn: () -> Unit
 ) = navigation(
     route = Graph.Login.route,
     startDestination = Screen.SingIn.route
@@ -20,7 +21,8 @@ fun NavGraphBuilder.loginNavGraph(
         SignInScreen(
             onShowToast = onShowToast,
             onNavigateToScreen = onNavigateToScreen,
-            onClearFocus = onClearFocus
+            onClearFocus = onClearFocus,
+            onGoogleSignIn = onGoogleSignIn
         )
     }
     composable(

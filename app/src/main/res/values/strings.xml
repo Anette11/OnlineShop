@@ -34,6 +34,8 @@
     <string name="flash_sale">Flash Sale</string>
     <string name="furniture">Furniture</string>
     <string name="games">Games</string>
+    <string name="google_sign_in_success">Success Google Sign in</string>
+    <string name="google_sign_in_fail">Fail Google Sign in</string>
     <string name="headphones">Headphones</string>
     <string name="help">Help</string>
     <string name="icon">Icon</string>

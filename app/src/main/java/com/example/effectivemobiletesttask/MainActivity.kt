@@ -1,11 +1,14 @@
 package com.example.effectivemobiletesttask
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
@@ -15,15 +18,28 @@ import androidx.compose.ui.res.colorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.navigation.Graph
 import com.example.effectivemobiletesttask.navigation.RootNavGraph
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private lateinit var googleSignInActivityResultLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreate(
         savedInstanceState: Bundle?
     ) {
         super.onCreate(savedInstanceState)
+
+        googleSignInActivityResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { activityResult ->
+            when (activityResult.resultCode == Activity.RESULT_OK) {
+                true -> showToast(message = getString(R.string.google_sign_in_success))
+                false -> showToast(message = getString(R.string.google_sign_in_fail))
+            }
+        }
 
         setContent {
             val viewModel: MainActivityViewModel = hiltViewModel()
@@ -38,10 +54,21 @@ class MainActivity : ComponentActivity() {
                     onClearFocus = { focusManager.clearFocus() },
                     startDestination = if (viewModel.checkIfUserIsLoggedIn()) Graph.Main.route
                     else Graph.Login.route,
-                    onShareClick = { image -> onShareClick(image = image) }
+                    onShareClick = { image -> onShareClick(image = image) },
+                    onGoogleSignIn = { onGoogleSignIn() }
                 )
             }
         }
+    }
+
+    private fun onGoogleSignIn() {
+        val googleSignInOptions = GoogleSignInOptions
+            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        val googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
+        val signInIntent = googleSignInClient.signInIntent
+        googleSignInActivityResultLauncher.launch(signInIntent)
     }
 
     private fun onShareClick(

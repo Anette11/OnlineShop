@@ -209,13 +209,7 @@ class SingInViewModel @Inject constructor(
                 text = resourcesProvider.getString(R.string.sign_in_with_google),
                 onClick = {
                     launch(dispatchersProvider.io) {
-                        _clickAction.emit(
-                            ClickAction.ShowToast(
-                                message = resourcesProvider.getString(
-                                    R.string.sign_in_with_google
-                                )
-                            )
-                        )
+                        _clickAction.emit(ClickAction.GoogleSignIn)
                     }
                 }
             ),

@@ -11,7 +11,8 @@ fun RootNavGraph(
     onShowToast: (String) -> Unit,
     onClearFocus: () -> Unit,
     startDestination: String,
-    onShareClick: (String) -> Unit
+    onShareClick: (String) -> Unit,
+    onGoogleSignIn: () -> Unit
 ) = NavHost(
     navController = navController,
     route = Graph.Root.route,
@@ -20,7 +21,8 @@ fun RootNavGraph(
     loginNavGraph(
         onShowToast = onShowToast,
         onNavigateToScreen = { route -> navController.doNavigation(route = route) },
-        onClearFocus = onClearFocus
+        onClearFocus = onClearFocus,
+        onGoogleSignIn = onGoogleSignIn
     )
     mainNavGraph(
         onShowToast = onShowToast,

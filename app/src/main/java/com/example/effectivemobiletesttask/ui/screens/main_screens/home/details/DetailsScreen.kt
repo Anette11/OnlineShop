@@ -29,10 +29,9 @@ fun DetailsScreen(
             when (clickAction) {
                 is ClickAction.ShowToast -> onShowToast(clickAction.message)
                 ClickAction.PopBackStack -> onPopBackStack()
-                is ClickAction.NavigateToScreen -> {
-                    onNavigateToScreen(clickAction.route)
-                }
+                is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
                 is ClickAction.Share -> onShareClick(clickAction.image)
+                else -> Unit
             }
         }
     }

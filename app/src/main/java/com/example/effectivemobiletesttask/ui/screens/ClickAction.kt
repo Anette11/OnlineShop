@@ -16,4 +16,7 @@ sealed class ClickAction {
 
     object PopBackStack
         : ClickAction()
+
+    object GoogleSignIn
+        : ClickAction()
 }

@@ -20,13 +20,15 @@ fun SignInScreen(
     viewModel: SingInViewModel = hiltViewModel(),
     onShowToast: (String) -> Unit,
     onNavigateToScreen: (String) -> Unit,
-    onClearFocus: () -> Unit
+    onClearFocus: () -> Unit,
+    onGoogleSignIn: () -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         viewModel.clickAction.collect { clickAction ->
             when (clickAction) {
                 is ClickAction.ShowToast -> onShowToast(clickAction.message)
                 is ClickAction.NavigateToScreen -> onNavigateToScreen(clickAction.route)
+                ClickAction.GoogleSignIn -> onGoogleSignIn()
                 else -> Unit
             }
         }
