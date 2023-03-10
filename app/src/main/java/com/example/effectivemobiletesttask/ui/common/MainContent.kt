@@ -60,10 +60,8 @@ fun MainContent(
                 when (navigationAction) {
                     is NavigationAction.Logout -> findNavController(navigationAction.navControllerType)
                         .doNavigation(route = Graph.Root.route)
-//                        .navigate(route = Graph.Root.route)
                     is NavigationAction.NavigateToScreen -> findNavController(navigationAction.navControllerType)
                         .doNavigation(route = navigationAction.route)
-//                        .navigate(route = navigationAction.route)
                     is NavigationAction.PopBackStack -> findNavController(navigationAction.navControllerType)
                         .popBackStack()
                 }
