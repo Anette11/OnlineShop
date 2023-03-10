@@ -59,7 +59,7 @@ fun MainContent(
             navigationActionTransmitter.flow.collect { navigationAction ->
                 when (navigationAction) {
                     is NavigationAction.Logout -> findNavController(navigationAction.navControllerType)
-                        .doNavigation(route = Graph.Root.route)
+                        .logout()
                     is NavigationAction.NavigateToScreen -> findNavController(navigationAction.navControllerType)
                         .doNavigation(route = navigationAction.route)
                     is NavigationAction.PopBackStack -> findNavController(navigationAction.navControllerType)

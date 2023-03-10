@@ -14,3 +14,10 @@ fun NavController.doNavigation(
     launchSingleTop = true
     restoreState = true
 }
+
+fun NavController.logout() =
+    this.navigate(
+        route = Graph.Login.route
+    ) {
+        popUpTo(route = Graph.Login.route)
+    }
