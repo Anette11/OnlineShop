@@ -18,6 +18,7 @@ import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
 import com.example.effectivemobiletesttask.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -66,6 +67,7 @@ class LoginViewModel @Inject constructor(
                     navControllerType = NavControllerType.Root
                 )
             )
+            withContext(dispatchersProvider.main) { fillScreenItems() }
         } catch (e: Exception) {
             clickActionTransmitter.flow.emit(
                 ClickAction.ShowToast(
@@ -81,6 +83,8 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun fillScreenItems() {
+        mapKeysCreator.refresh()
+        this.screenItems.clear()
         val screenItems = sortedMapOf(
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
