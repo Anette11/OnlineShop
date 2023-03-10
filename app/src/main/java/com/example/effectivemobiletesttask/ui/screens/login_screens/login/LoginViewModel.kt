@@ -10,19 +10,14 @@ import androidx.lifecycle.ViewModel
 import com.example.data.remote.DispatchersProvider
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
-import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
+import com.example.effectivemobiletesttask.navigation.NavControllerType
 import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
-import com.example.effectivemobiletesttask.util.MapKeysCreator
-import com.example.effectivemobiletesttask.util.ResourcesProvider
-import com.example.effectivemobiletesttask.util.launch
+import com.example.effectivemobiletesttask.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,11 +27,9 @@ class LoginViewModel @Inject constructor(
     private val getUserByFirstNameUseCase: GetUserByFirstNameUseCase,
     private val saveUserUseCase: SaveUserUseCase,
     private val dispatchersProvider: DispatchersProvider,
-    private val clickActionTransmitter: ClickActionTransmitter
+    private val clickActionTransmitter: ClickActionTransmitter,
+    private val navigationActionTransmitter: NavigationActionTransmitter
 ) : ViewModel() {
-
-    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
-    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
@@ -67,7 +60,12 @@ class LoginViewModel @Inject constructor(
             }
             val updatedUser = userExisting.copy(isLoggedIn = true)
             saveUserUseCase.invoke(user = updatedUser)
-            _navigationAction.emit(NavigationAction.NavigateToScreen(route = Graph.Main.route))
+            navigationActionTransmitter.flow.emit(
+                NavigationAction.NavigateToScreen(
+                    route = Graph.Main.route,
+                    navControllerType = NavControllerType.Root
+                )
+            )
         } catch (e: Exception) {
             clickActionTransmitter.flow.emit(
                 ClickAction.ShowToast(

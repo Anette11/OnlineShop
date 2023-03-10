@@ -9,17 +9,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.colorResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.effectivemobiletesttask.navigation.Graph
-import com.example.effectivemobiletesttask.navigation.RootNavGraph
-import com.example.effectivemobiletesttask.ui.screens.ClickAction
+import com.example.effectivemobiletesttask.ui.common.MainContent
+import com.example.effectivemobiletesttask.util.ClickActionTransmitter
+import com.example.effectivemobiletesttask.util.NavigationActionTransmitter
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +24,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var clickActionTransmitter: ClickActionTransmitter
+
+    @Inject
+    lateinit var navigationActionTransmitter: NavigationActionTransmitter
 
     override fun onCreate(
         savedInstanceState: Bundle?
@@ -48,29 +43,13 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            val viewModel: MainActivityViewModel = hiltViewModel()
-            val focusManager = LocalFocusManager.current
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = colorResource(id = R.color.white_dark))
-            ) {
-                LaunchedEffect(key1 = true) {
-                    clickActionTransmitter.flow.collect { clickSAction ->
-                        when (clickSAction) {
-                            ClickAction.ClearFocus -> focusManager.clearFocus()
-                            ClickAction.GoogleSignIn -> onGoogleSignIn()
-                            is ClickAction.Share -> onShareClick(image = clickSAction.image)
-                            is ClickAction.ShowToast -> showToast(message = clickSAction.message)
-                        }
-                    }
-                }
-
-                RootNavGraph(
-                    startDestination = if (viewModel.checkIfUserIsLoggedIn()) Graph.Main.route
-                    else Graph.Login.route
-                )
-            }
+            MainContent(
+                clickActionTransmitter = clickActionTransmitter,
+                navigationActionTransmitter = navigationActionTransmitter,
+                onGoogleSignIn = { onGoogleSignIn() },
+                onShareClick = { image -> onShareClick(image) },
+                showToast = { message -> showToast(message) }
+            )
         }
     }
 

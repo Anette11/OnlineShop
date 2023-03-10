@@ -6,24 +6,19 @@ import androidx.navigation.navigation
 import com.example.effectivemobiletesttask.ui.screens.login_screens.login.LoginScreen
 import com.example.effectivemobiletesttask.ui.screens.login_screens.signin.SignInScreen
 
-fun NavGraphBuilder.loginNavGraph(
-    onNavigateToScreen: (String) -> Unit
-) = navigation(
-    route = Graph.Login.route,
-    startDestination = Screen.SingIn.route
-) {
-    composable(
-        route = Screen.SingIn.route
+fun NavGraphBuilder.loginNavGraph() =
+    navigation(
+        route = Graph.Login.route,
+        startDestination = Screen.SingIn.route
     ) {
-        SignInScreen(
-            onNavigateToScreen = onNavigateToScreen
-        )
+        composable(
+            route = Screen.SingIn.route
+        ) {
+            SignInScreen()
+        }
+        composable(
+            route = Screen.LogIn.route
+        ) {
+            LoginScreen()
+        }
     }
-    composable(
-        route = Screen.LogIn.route
-    ) {
-        LoginScreen(
-            onNavigateToScreen = onNavigateToScreen
-        )
-    }
-}

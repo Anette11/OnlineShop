@@ -17,9 +17,7 @@ import com.example.effectivemobiletesttask.ui.common.ShopBottomNavigation
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel(),
-    onNavigateToScreen: (String) -> Unit,
-    navController: NavHostController,
-    onLogout: () -> Unit
+    navController: NavHostController
 ) = Scaffold(
     modifier = Modifier
         .fillMaxSize()
@@ -28,7 +26,7 @@ fun MainScreen(
         ShopBottomNavigation(
             items = viewModel.items,
             navController = navController,
-            onNavigateToScreen = onNavigateToScreen
+            onNavigationAction = { navigationAction -> viewModel.onNavigationAction(navigationAction = navigationAction) }
         )
     }
 ) { paddingValues ->
@@ -39,9 +37,7 @@ fun MainScreen(
             .padding(paddingValues = paddingValues)
     ) {
         MainNavHost(
-            navController = navController,
-            onNavigateToScreen = onNavigateToScreen,
-            onLogout = onLogout
+            navController = navController
         )
     }
 }

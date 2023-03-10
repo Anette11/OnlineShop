@@ -10,14 +10,12 @@ import com.example.data.remote.DispatchersProvider
 import com.example.domain.use_cases.GetUserByIsLoggedInFlow
 import com.example.domain.use_cases.GetUserByIsLoggedInUseCase
 import com.example.domain.use_cases.SaveUserUseCase
-import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavControllerType
 import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
-import com.example.effectivemobiletesttask.util.MapKeysCreator
-import com.example.effectivemobiletesttask.util.ResourcesProvider
-import com.example.effectivemobiletesttask.util.launch
+import com.example.effectivemobiletesttask.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -33,15 +31,9 @@ class ProfileViewModel @Inject constructor(
     private val saveUserUseCase: SaveUserUseCase,
     private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow,
     private val dispatchersProvider: DispatchersProvider,
-    private val clickActionTransmitter: ClickActionTransmitter
+    private val clickActionTransmitter: ClickActionTransmitter,
+    private val navigationActionTransmitter: NavigationActionTransmitter
 ) : ViewModel() {
-
-    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
-    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
-
-    private fun onClickActionShowToast(message: String) = launch(dispatchersProvider.io) {
-        clickActionTransmitter.flow.emit(ClickAction.ShowToast(message = message))
-    }
 
     private val _pickPhotoFromGallery: MutableSharedFlow<Unit> = MutableSharedFlow()
     val pickPhotoFromGallery: SharedFlow<Unit> = _pickPhotoFromGallery.asSharedFlow()
@@ -51,6 +43,12 @@ class ProfileViewModel @Inject constructor(
 
     fun changeValueShowLogoutDialog() {
         showLogoutDialog = !showLogoutDialog
+    }
+
+    private fun onClickActionShowToast(
+        message: String
+    ) = launch(dispatchersProvider.io) {
+        clickActionTransmitter.flow.emit(ClickAction.ShowToast(message = message))
     }
 
     private var indexPhoto = 0
@@ -80,7 +78,11 @@ class ProfileViewModel @Inject constructor(
                 text = resourcesProvider.getString(R.string.profile),
                 onClick = {
                     launch(dispatchersProvider.io) {
-                        _navigationAction.emit(NavigationAction.PopBackStack)
+                        navigationActionTransmitter.flow.emit(
+                            NavigationAction.PopBackStack(
+                                navControllerType = NavControllerType.Main
+                            )
+                        )
                     }
                 }
             ),
@@ -240,6 +242,16 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun onLogout() = launch(dispatchersProvider.io) {
+        changeValueShowLogoutDialog()
+        updateLoggedInUser()
+        navigationActionTransmitter.flow.emit(
+            NavigationAction.Logout(
+                navControllerType = NavControllerType.Root
+            )
+        )
     }
 
     init {

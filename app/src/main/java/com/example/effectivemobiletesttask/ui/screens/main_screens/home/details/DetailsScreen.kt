@@ -4,52 +4,37 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.effectivemobiletesttask.R
-import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.ui.common.BottomSheet
 import com.example.effectivemobiletesttask.ui.common.ProgressBar
 import com.example.effectivemobiletesttask.ui.common.ScreenContent
 
 @Composable
 fun DetailsScreen(
-    viewModel: DetailsViewModel = hiltViewModel(),
-    onPopBackStack: () -> Unit,
-    onNavigateToScreen: (String) -> Unit
-) {
-    LaunchedEffect(key1 = true) {
-        viewModel.navigationAction.collect { navigationAction ->
-            when (navigationAction) {
-                NavigationAction.PopBackStack -> onPopBackStack()
-                is NavigationAction.NavigateToScreen -> onNavigateToScreen(navigationAction.route)
-            }
+    viewModel: DetailsViewModel = hiltViewModel()
+) = BottomSheet(
+    quantity = viewModel.addToCartItem.quantity,
+    amount = viewModel.addToCartItem.amountString,
+    onIncreaseClick = viewModel.addToCartItem.onIncreaseClick,
+    onDecreaseClick = viewModel.addToCartItem.onDecreaseClick,
+    onAddToCardCardClick = viewModel.addToCartItem.onAddToCardCardClick,
+    content = {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(id = R.color.white_dark)),
+            contentAlignment = Alignment.Center
+        ) {
+            ScreenContent(
+                items = viewModel.screenItems,
+                horizontalPadding = dimensionResource(id = R.dimen._0dp)
+            )
+            if (viewModel.isLoading) ProgressBar()
         }
     }
-
-    BottomSheet(
-        quantity = viewModel.addToCartItem.quantity,
-        amount = viewModel.addToCartItem.amountString,
-        onIncreaseClick = viewModel.addToCartItem.onIncreaseClick,
-        onDecreaseClick = viewModel.addToCartItem.onDecreaseClick,
-        onAddToCardCardClick = viewModel.addToCartItem.onAddToCardCardClick,
-        content = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = colorResource(id = R.color.white_dark)),
-                contentAlignment = Alignment.Center
-            ) {
-                ScreenContent(
-                    items = viewModel.screenItems,
-                    horizontalPadding = dimensionResource(id = R.dimen._0dp)
-                )
-                if (viewModel.isLoading) ProgressBar()
-            }
-        }
-    )
-}
+)

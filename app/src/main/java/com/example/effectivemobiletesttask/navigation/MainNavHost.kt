@@ -13,9 +13,7 @@ import com.example.effectivemobiletesttask.ui.screens.main_screens.shopping.Shop
 
 @Composable
 fun MainNavHost(
-    navController: NavHostController,
-    onNavigateToScreen: (String) -> Unit,
-    onLogout: () -> Unit
+    navController: NavHostController
 ) = NavHost(
     navController = navController,
     startDestination = Screen.Home.route
@@ -23,17 +21,12 @@ fun MainNavHost(
     composable(
         route = Screen.Home.route
     ) {
-        HomeScreen(
-            onNavigateToScreen = { route -> navController.doNavigation(route = route) }
-        )
+        HomeScreen()
     }
     composable(
         route = Screen.Details.route
     ) {
-        DetailsScreen(
-            onPopBackStack = { navController.popBackStack() },
-            onNavigateToScreen = onNavigateToScreen
-        )
+        DetailsScreen()
     }
     composable(
         route = Screen.Favourite.route
@@ -53,10 +46,6 @@ fun MainNavHost(
     composable(
         route = Screen.Profile.route
     ) {
-        ProfileScreen(
-            onNavigateToScreen = onNavigateToScreen,
-            onPopBackStack = { navController.popBackStack() },
-            onLogout = onLogout
-        )
+        ProfileScreen()
     }
 }

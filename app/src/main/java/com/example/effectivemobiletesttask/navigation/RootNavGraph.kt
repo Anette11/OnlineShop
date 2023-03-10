@@ -3,21 +3,23 @@ package com.example.effectivemobiletesttask.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.composable
+import com.example.effectivemobiletesttask.ui.screens.main_screens.MainScreen
 
 @Composable
 fun RootNavGraph(
-    navController: NavHostController = rememberNavController(),
+    rootNavController: NavHostController,
+    mainNavController: NavHostController,
     startDestination: String
 ) = NavHost(
-    navController = navController,
+    navController = rootNavController,
     route = Graph.Root.route,
     startDestination = startDestination
 ) {
-    loginNavGraph(
-        onNavigateToScreen = { route -> navController.doNavigation(route = route) }
-    )
-    mainNavGraph(
-        onLogout = { navController.doNavigation(route = Graph.Root.route) }
-    )
+    loginNavGraph()
+    composable(route = Graph.Main.route) {
+        MainScreen(
+            navController = mainNavController
+        )
+    }
 }

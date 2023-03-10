@@ -9,8 +9,8 @@ import com.example.data.remote.DispatchersProvider
 import com.example.domain.data.remote.ProductDetails
 import com.example.domain.use_cases.GetProductDetailsUseCase
 import com.example.domain.util.ApiResponse
-import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavControllerType
 import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
@@ -18,13 +18,8 @@ import com.example.effectivemobiletesttask.ui.screens.items.AddToCartItem
 import com.example.effectivemobiletesttask.ui.screens.items.ColorItem
 import com.example.effectivemobiletesttask.ui.screens.items.DetailImageItem
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
-import com.example.effectivemobiletesttask.util.MapKeysCreator
-import com.example.effectivemobiletesttask.util.ResourcesProvider
-import com.example.effectivemobiletesttask.util.launch
+import com.example.effectivemobiletesttask.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -34,11 +29,9 @@ class DetailsViewModel @Inject constructor(
     private val mapKeysCreator: MapKeysCreator,
     private val dispatchersProvider: DispatchersProvider,
     private val getProductDetailsUseCase: GetProductDetailsUseCase,
-    private val clickActionTransmitter: ClickActionTransmitter
+    private val clickActionTransmitter: ClickActionTransmitter,
+    private val navigationActionTransmitter: NavigationActionTransmitter
 ) : ViewModel() {
-
-    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
-    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
@@ -56,7 +49,12 @@ class DetailsViewModel @Inject constructor(
             onDecreaseClick = { onDecreaseClick() },
             onAddToCardCardClick = {
                 launch(dispatchersProvider.io) {
-                    _navigationAction.emit(NavigationAction.NavigateToScreen(route = Screen.Shopping.route))
+                    navigationActionTransmitter.flow.emit(
+                        NavigationAction.NavigateToScreen(
+                            route = Screen.Shopping.route,
+                            navControllerType = NavControllerType.Main
+                        )
+                    )
                 }
             }
         )
@@ -110,7 +108,11 @@ class DetailsViewModel @Inject constructor(
                 contentDescriptionIconBottom = resourcesProvider.getString(R.string.empty),
                 onBackClick = {
                     launch(dispatchersProvider.io) {
-                        _navigationAction.emit(NavigationAction.PopBackStack)
+                        navigationActionTransmitter.flow.emit(
+                            NavigationAction.PopBackStack(
+                                navControllerType = NavControllerType.Main
+                            )
+                        )
                     }
                 },
                 onLikeClick = {},

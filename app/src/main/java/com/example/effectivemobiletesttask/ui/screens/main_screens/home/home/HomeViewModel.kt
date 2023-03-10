@@ -14,18 +14,17 @@ import com.example.domain.use_cases.GetLatestUseCase
 import com.example.domain.use_cases.GetUserByIsLoggedInFlow
 import com.example.domain.use_cases.GetWordsUseCase
 import com.example.domain.util.ApiResponse
-import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavControllerType
 import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.*
-import com.example.effectivemobiletesttask.util.MapKeysCreator
-import com.example.effectivemobiletesttask.util.ResourcesProvider
-import com.example.effectivemobiletesttask.util.launch
+import com.example.effectivemobiletesttask.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,11 +36,9 @@ class HomeViewModel @Inject constructor(
     private val getUserByIsLoggedInFlow: GetUserByIsLoggedInFlow,
     private val getWordsUseCase: GetWordsUseCase,
     private val dispatchersProvider: DispatchersProvider,
-    private val clickActionTransmitter: ClickActionTransmitter
+    private val clickActionTransmitter: ClickActionTransmitter,
+    private val navigationActionTransmitter: NavigationActionTransmitter
 ) : ViewModel() {
-
-    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
-    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
@@ -287,7 +284,12 @@ class HomeViewModel @Inject constructor(
                     else resourcesProvider.getString(R.string.not_applicable),
                     onItemClick = {
                         launch(dispatchersProvider.io) {
-                            _navigationAction.emit(NavigationAction.NavigateToScreen(route = Screen.Details.route))
+                            navigationActionTransmitter.flow.emit(
+                                NavigationAction.NavigateToScreen(
+                                    route = Screen.Details.route,
+                                    navControllerType = NavControllerType.Main
+                                )
+                            )
                         }
                     })
             } ?: emptyList())

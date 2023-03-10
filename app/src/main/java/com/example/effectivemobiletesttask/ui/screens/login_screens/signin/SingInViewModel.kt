@@ -11,21 +11,15 @@ import com.example.data.remote.DispatchersProvider
 import com.example.domain.data.local.User
 import com.example.domain.use_cases.GetUserByFirstNameUseCase
 import com.example.domain.use_cases.SaveUserUseCase
-import com.example.effectivemobiletesttask.ClickActionTransmitter
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.navigation.Graph
+import com.example.effectivemobiletesttask.navigation.NavControllerType
 import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.navigation.Screen
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import com.example.effectivemobiletesttask.ui.screens.items.ScreenItem
-import com.example.effectivemobiletesttask.util.EmailValidator
-import com.example.effectivemobiletesttask.util.MapKeysCreator
-import com.example.effectivemobiletesttask.util.ResourcesProvider
-import com.example.effectivemobiletesttask.util.launch
+import com.example.effectivemobiletesttask.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,11 +30,9 @@ class SingInViewModel @Inject constructor(
     private val saveUserUseCase: SaveUserUseCase,
     private val mapKeysCreator: MapKeysCreator,
     private val dispatchersProvider: DispatchersProvider,
-    private val clickActionTransmitter: ClickActionTransmitter
+    private val clickActionTransmitter: ClickActionTransmitter,
+    private val navigationActionTransmitter: NavigationActionTransmitter
 ) : ViewModel() {
-
-    private val _navigationAction: MutableSharedFlow<NavigationAction> = MutableSharedFlow()
-    val navigationAction: SharedFlow<NavigationAction> = _navigationAction.asSharedFlow()
 
     var screenItems = mutableStateListOf<ScreenItem>()
         private set
@@ -86,7 +78,12 @@ class SingInViewModel @Inject constructor(
                 email = email
             )
             saveUserUseCase.invoke(user = user)
-            _navigationAction.emit(NavigationAction.NavigateToScreen(route = Graph.Main.route))
+            navigationActionTransmitter.flow.emit(
+                NavigationAction.NavigateToScreen(
+                    route = Graph.Main.route,
+                    navControllerType = NavControllerType.Main
+                )
+            )
         } catch (e: Exception) {
             clickActionTransmitter.flow.emit(
                 ClickAction.ShowToast(
@@ -194,7 +191,12 @@ class SingInViewModel @Inject constructor(
                 textClickable = resourcesProvider.getString(R.string.log_in),
                 onClick = {
                     launch(dispatchersProvider.io) {
-                        _navigationAction.emit(NavigationAction.NavigateToScreen(route = Screen.LogIn.route))
+                        navigationActionTransmitter.flow.emit(
+                            NavigationAction.NavigateToScreen(
+                                route = Screen.LogIn.route,
+                                navControllerType = NavControllerType.Root
+                            )
+                        )
                     }
                 }
             ),

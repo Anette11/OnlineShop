@@ -1,4 +1,4 @@
-package com.example.effectivemobiletesttask
+package com.example.effectivemobiletesttask.util
 
 import com.example.effectivemobiletesttask.ui.screens.ClickAction
 import kotlinx.coroutines.flow.MutableSharedFlow

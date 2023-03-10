@@ -22,16 +22,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.navigation.NavControllerType
+import com.example.effectivemobiletesttask.navigation.NavigationAction
 import com.example.effectivemobiletesttask.navigation.Screen
 
 @Composable
 fun ShopBottomNavigation(
     items: List<Screen>,
     navController: NavHostController,
-    onNavigateToScreen: (String) -> Unit
+    onNavigationAction: (NavigationAction) -> Unit
 ) = BottomNavigation(
     modifier = Modifier
-//        .background(color = colorResource(id = R.color.white_dark))
         .fillMaxWidth()
         .clip(
             RoundedCornerShape(
@@ -50,7 +51,14 @@ fun ShopBottomNavigation(
         BottomNavigationItem(
             modifier = Modifier.padding(dimensionResource(id = R.dimen._12dp)),
             selected = isSelected,
-            onClick = { onNavigateToScreen(item.route) },
+            onClick = {
+                onNavigationAction(
+                    NavigationAction.NavigateToScreen(
+                        route = item.route,
+                        navControllerType = NavControllerType.Main
+                    )
+                )
+            },
             icon = {
                 Box(
                     modifier = Modifier
@@ -88,5 +96,5 @@ fun ShopBottomNavigationPreview() =
             Screen.Profile
         ),
         navController = rememberNavController(),
-        onNavigateToScreen = {}
+        onNavigationAction = {}
     )
