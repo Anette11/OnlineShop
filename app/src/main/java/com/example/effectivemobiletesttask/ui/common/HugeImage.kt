@@ -32,8 +32,6 @@ fun HugeImage(
     contentDescriptionImage: String,
     @DrawableRes icon: Int,
     contentDescriptionIcon: String,
-    @DrawableRes iconTop: Int,
-    contentDescriptionIconTop: String,
     @DrawableRes iconMiddle: Int,
     contentDescriptionIconMiddle: String,
     @DrawableRes iconBottom: Int,
@@ -41,7 +39,8 @@ fun HugeImage(
     onBackClick: () -> Unit,
     onLikeClick: () -> Unit,
     onShareClick: (Int) -> Unit,
-    list: List<DetailImageItem>
+    list: List<DetailImageItem>,
+    isLiked: Boolean
 ) {
     val pageState = rememberPagerState()
     val scope = rememberCoroutineScope()
@@ -100,28 +99,35 @@ fun HugeImage(
                 Column(
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(size = dimensionResource(id = R.dimen._14dp)))
-                        .background(color = colorResource(id = R.color.gray_middle))
-                        .padding(dimensionResource(id = R.dimen._14dp)),
+                        .background(color = colorResource(id = R.color.gray_middle)),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
-                        painter = painterResource(id = iconTop),
-                        contentDescription = contentDescriptionIconTop,
-                        tint = colorResource(id = R.color.purple),
-                        modifier = Modifier.clickable { onLikeClick() }
+                        painter = painterResource(
+                            id = if (isLiked) R.drawable.ic_heart_large_selected
+                            else R.drawable.ic_heart_large
+                        ),
+                        contentDescription = stringResource(id = R.string.empty),
+                        tint = colorResource(
+                            id = if (isLiked) R.color.red
+                            else R.color.purple
+                        ),
+                        modifier = Modifier
+                            .clickable { onLikeClick() }
+                            .padding(dimensionResource(id = R.dimen._14dp))
                     )
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen._14dp)))
                     Icon(
                         painter = painterResource(id = iconMiddle),
                         contentDescription = contentDescriptionIconMiddle,
                         tint = colorResource(id = R.color.purple)
                     )
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen._14dp)))
                     Icon(
                         painter = painterResource(id = iconBottom),
                         contentDescription = contentDescriptionIconBottom,
                         tint = colorResource(id = R.color.purple),
-                        modifier = Modifier.clickable { onShareClick(pageState.currentPage) }
+                        modifier = Modifier
+                            .clickable { onShareClick(pageState.currentPage) }
+                            .padding(dimensionResource(id = R.dimen._14dp))
                     )
                 }
                 Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._18dp)))
@@ -148,8 +154,6 @@ fun HugeImagePreview() =
         contentDescriptionImage = stringResource(id = R.string.empty),
         icon = R.drawable.ic_arrow_back_small,
         contentDescriptionIcon = stringResource(id = R.string.empty),
-        iconTop = R.drawable.ic_heart_large,
-        contentDescriptionIconTop = stringResource(id = R.string.empty),
         iconMiddle = R.drawable.ic_dash,
         contentDescriptionIconMiddle = stringResource(id = R.string.empty),
         iconBottom = R.drawable.ic_share,
@@ -157,5 +161,6 @@ fun HugeImagePreview() =
         onBackClick = {},
         onLikeClick = {},
         onShareClick = {},
-        list = emptyList()
+        list = emptyList(),
+        isLiked = false
     )

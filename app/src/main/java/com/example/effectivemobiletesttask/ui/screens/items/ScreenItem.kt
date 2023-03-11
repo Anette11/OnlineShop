@@ -141,8 +141,6 @@ sealed class ScreenItem {
         val contentDescriptionImage: String,
         @DrawableRes val icon: Int,
         val contentDescriptionIcon: String,
-        @DrawableRes val iconTop: Int,
-        val contentDescriptionIconTop: String,
         @DrawableRes val iconMiddle: Int,
         val contentDescriptionIconMiddle: String,
         @DrawableRes val iconBottom: Int,
@@ -150,7 +148,8 @@ sealed class ScreenItem {
         val onBackClick: () -> Unit,
         val onLikeClick: () -> Unit,
         val onShareClick: (Int) -> Unit,
-        val list: List<DetailImageItem>
+        val list: List<DetailImageItem>,
+        val isLiked: Boolean
     ) : ScreenItem()
 
     data class TextTextLarge(

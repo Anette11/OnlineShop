@@ -98,8 +98,6 @@ class DetailsViewModel @Inject constructor(
                 contentDescriptionImage = resourcesProvider.getString(R.string.empty),
                 icon = R.drawable.ic_arrow_back_small,
                 contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
-                iconTop = R.drawable.ic_heart_large,
-                contentDescriptionIconTop = resourcesProvider.getString(R.string.empty),
                 iconMiddle = R.drawable.ic_dash,
                 contentDescriptionIconMiddle = resourcesProvider.getString(R.string.empty),
                 iconBottom = R.drawable.ic_share,
@@ -113,7 +111,7 @@ class DetailsViewModel @Inject constructor(
                         )
                     }
                 },
-                onLikeClick = {},
+                onLikeClick = { onLikeClick() },
                 onShareClick = { selectedImage ->
                     launch(dispatchersProvider.io) {
                         clickActionTransmitter.flow.emit(
@@ -123,14 +121,10 @@ class DetailsViewModel @Inject constructor(
                                     .image.toString()
                             )
                         )
-                        println(
-                            (screenItems[indexHugeImage] as ScreenItem.HugeImage)
-                                .list[selectedImage]
-                                .image.toString()
-                        )
                     }
                 },
-                list = emptyList()
+                list = emptyList(),
+                isLiked = false
             ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._21)
@@ -198,7 +192,7 @@ class DetailsViewModel @Inject constructor(
     ) {
         val defaultIndexSelected = 0
         screenItems[indexHugeImage] = (screenItems[indexHugeImage] as ScreenItem.HugeImage).copy(
-            list = data.imageUrls.mapIndexed { index, image ->
+            list = data.imageUrls.map { image ->
                 DetailImageItem(
                     image = image,
                     contentDescription = resourcesProvider.getString(R.string.empty)
@@ -249,6 +243,12 @@ class DetailsViewModel @Inject constructor(
                             isSelected = index == indexSelected
                         )
                     })
+    }
+
+    private fun onLikeClick() {
+        screenItems[indexHugeImage] = (screenItems[indexHugeImage] as ScreenItem.HugeImage).copy(
+            isLiked = (screenItems[indexHugeImage] as ScreenItem.HugeImage).isLiked.not()
+        )
     }
 
     init {

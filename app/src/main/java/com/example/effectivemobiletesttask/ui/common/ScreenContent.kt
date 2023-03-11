@@ -133,8 +133,6 @@ fun ScreenContent(
                 contentDescriptionImage = item.contentDescriptionImage,
                 icon = item.icon,
                 contentDescriptionIcon = item.contentDescriptionIcon,
-                iconTop = item.iconTop,
-                contentDescriptionIconTop = item.contentDescriptionIconTop,
                 iconMiddle = item.iconMiddle,
                 contentDescriptionIconMiddle = item.contentDescriptionIconMiddle,
                 iconBottom = item.iconBottom,
@@ -142,7 +140,8 @@ fun ScreenContent(
                 onBackClick = item.onBackClick,
                 onLikeClick = item.onLikeClick,
                 onShareClick = item.onShareClick,
-                list = item.list
+                list = item.list,
+                isLiked = item.isLiked
             )
             is ScreenItem.TextTextLarge -> TextTextLarge(
                 textStart = item.textStart,
