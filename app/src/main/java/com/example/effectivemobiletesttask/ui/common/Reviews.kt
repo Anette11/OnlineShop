@@ -4,11 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.*
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,8 +21,7 @@ fun Reviews(
 ) = Row(
     modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = horizontalPadding.dp),
-    verticalAlignment = Alignment.CenterVertically
+        .padding(horizontal = horizontalPadding.dp)
 ) {
     Icon(
         painter = painterResource(id = R.drawable.ic_star),
@@ -37,16 +33,14 @@ fun Reviews(
         text = rating,
         fontFamily = FontFamily(Font((R.font.poppins_semi_bold))),
         color = colorResource(id = R.color.black),
-        fontSize = dimensionResource(id = R.dimen._9sp).value.sp,
-        style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
+        fontSize = dimensionResource(id = R.dimen._9sp).value.sp
     )
     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._3dp)))
     Text(
         text = reviews,
         fontFamily = FontFamily(Font((R.font.poppins_regular))),
         color = colorResource(id = R.color.gray_darker),
-        fontSize = dimensionResource(id = R.dimen._9sp).value.sp,
-        style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
+        fontSize = dimensionResource(id = R.dimen._9sp).value.sp
     )
 }
 
