@@ -6,7 +6,8 @@ import com.example.data.local.user.UserDbo
 
 @Database(
     entities = [UserDbo::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @androidx.room.TypeConverters(TypeConverters::class)
 abstract class ShopDatabase : RoomDatabase() {
