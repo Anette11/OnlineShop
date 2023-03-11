@@ -74,7 +74,7 @@ fun SearchRow(
                     innerTextField = it,
                     enabled = true,
                     singleLine = true,
-                    interactionSource = MutableInteractionSource(),
+                    interactionSource = MutableInteractionSource()
                 )
             }
         )

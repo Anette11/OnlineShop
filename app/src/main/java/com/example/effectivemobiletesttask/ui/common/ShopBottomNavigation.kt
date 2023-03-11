@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -69,11 +70,11 @@ fun ShopBottomNavigation(
                             color = if (isSelected) colorResource(id = R.color.gray_lighter)
                             else Color.Transparent
                         ),
-                    contentAlignment = Alignment.Center,
+                    contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = item.icon ?: R.drawable.ic_placeholder),
-                        contentDescription = null
+                        contentDescription = stringResource(id = R.string.empty)
                     )
                 }
             },

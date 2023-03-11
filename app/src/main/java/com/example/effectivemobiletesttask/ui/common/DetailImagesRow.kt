@@ -41,7 +41,7 @@ fun DetailImagesRow(
                 onSelect = onSelect
             )
         }
-        if (index != items.size - 1) {
+        if (index != items.size.minus(1)) {
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._4dp)))
         }
     }

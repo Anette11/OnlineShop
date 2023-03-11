@@ -48,7 +48,7 @@ fun LatestItem(
             .padding(
                 start = dimensionResource(id = R.dimen._7dp),
                 end = dimensionResource(id = R.dimen._5dp),
-                bottom = dimensionResource(id = R.dimen._5dp),
+                bottom = dimensionResource(id = R.dimen._5dp)
             ),
         verticalAlignment = Alignment.Bottom
     ) {

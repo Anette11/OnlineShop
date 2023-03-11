@@ -39,7 +39,7 @@ fun IconTextIconLarge(
 ) {
     Icon(
         painter = painterResource(id = iconLeft),
-        contentDescription = contentDescription,
+        contentDescription = contentDescription
     )
     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._8dp)))
     Text(

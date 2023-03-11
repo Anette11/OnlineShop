@@ -23,7 +23,7 @@ fun FilterRow(
             contentDescription = item.contentDescription,
             hint = item.hint
         )
-        if (index != items.size - 1) {
+        if (index != items.size.minus(1)) {
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._20dp)))
         }
     }

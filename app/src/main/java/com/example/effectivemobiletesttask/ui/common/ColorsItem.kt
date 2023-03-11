@@ -66,15 +66,15 @@ fun ColorsItemPreview() =
         items = listOf(
             ColorItem(
                 color = "#ffffff",
-                isSelected = false
+                isSelected = true
             ),
             ColorItem(
                 color = "#b5b5b5",
-                isSelected = true
+                isSelected = false
             ),
             ColorItem(
                 color = "#000000",
-                isSelected = true
+                isSelected = false
             )
         ),
         horizontalPadding = integerResource(id = R.integer._24),

@@ -19,7 +19,7 @@ fun BrandRow(
 ) = LazyRow(modifier = Modifier.fillMaxWidth()) {
     itemsIndexed(items = items) { index, item ->
         BrandItem(text = item.text)
-        if (index != items.size - 1) {
+        if (index != items.size.minus(1)) {
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._12dp)))
         }
     }
