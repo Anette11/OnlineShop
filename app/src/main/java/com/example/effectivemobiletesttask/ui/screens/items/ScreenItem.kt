@@ -138,7 +138,6 @@ sealed class ScreenItem {
     ) : ScreenItem()
 
     data class HugeImage(
-        val image: Any?,
         val contentDescriptionImage: String,
         @DrawableRes val icon: Int,
         val contentDescriptionIcon: String,
@@ -150,13 +149,8 @@ sealed class ScreenItem {
         val contentDescriptionIconBottom: String,
         val onBackClick: () -> Unit,
         val onLikeClick: () -> Unit,
-        val onShareClick: () -> Unit
-    ) : ScreenItem()
-
-    data class DetailImagesRow(
-        val items: List<DetailImageItem>,
-        val horizontalPadding: Int,
-        val onSelect: (Int) -> Unit
+        val onShareClick: (Int) -> Unit,
+        val list: List<DetailImageItem>
     ) : ScreenItem()
 
     data class TextTextLarge(

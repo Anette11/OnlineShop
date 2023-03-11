@@ -85,7 +85,6 @@ class DetailsViewModel @Inject constructor(
     }
 
     private var indexHugeImage = 0
-    private var indexDetailImagesRow = 0
     private var indexTextTextLarge = 0
     private var indexDetailDescription = 0
     private var indexReviews = 0
@@ -96,7 +95,6 @@ class DetailsViewModel @Inject constructor(
             height = resourcesProvider.getInteger(R.integer._32)
         ),
             mapKeysCreator.createMapKey().apply { indexHugeImage = this } to ScreenItem.HugeImage(
-                image = null,
                 contentDescriptionImage = resourcesProvider.getString(R.string.empty),
                 icon = R.drawable.ic_arrow_back_small,
                 contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
@@ -116,33 +114,33 @@ class DetailsViewModel @Inject constructor(
                     }
                 },
                 onLikeClick = {},
-                onShareClick = {
+                onShareClick = { selectedImage ->
                     launch(dispatchersProvider.io) {
                         clickActionTransmitter.flow.emit(
                             ClickAction.Share(
-                                image = (screenItems[indexHugeImage] as ScreenItem.HugeImage).image.toString()
+                                image = (screenItems[indexHugeImage] as ScreenItem.HugeImage)
+                                    .list[selectedImage]
+                                    .image.toString()
                             )
                         )
+                        println(
+                            (screenItems[indexHugeImage] as ScreenItem.HugeImage)
+                                .list[selectedImage]
+                                .image.toString()
+                        )
                     }
-                }
+                },
+                list = emptyList()
             ),
-            mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
-                height = resourcesProvider.getInteger(R.integer._35)
-            ),
-            mapKeysCreator.createMapKey().apply {
-                indexDetailImagesRow = this
-            } to ScreenItem.DetailImagesRow(items = emptyList(),
-                horizontalPadding = resourcesProvider.getInteger(R.integer._24),
-                onSelect = { index -> onDetailImageSelected(indexSelected = index) }),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._21)
             ),
-            mapKeysCreator.createMapKey()
-                .apply { indexTextTextLarge = this } to ScreenItem.TextTextLarge(
-                textStart = resourcesProvider.getString(R.string.empty),
-                textEnd = resourcesProvider.getString(R.string.empty),
-                horizontalPadding = resourcesProvider.getInteger(R.integer._24)
-            ),
+            mapKeysCreator.createMapKey().apply { indexTextTextLarge = this } to
+                    ScreenItem.TextTextLarge(
+                        textStart = resourcesProvider.getString(R.string.empty),
+                        textEnd = resourcesProvider.getString(R.string.empty),
+                        horizontalPadding = resourcesProvider.getInteger(R.integer._24)
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._11)
             ),
@@ -200,17 +198,13 @@ class DetailsViewModel @Inject constructor(
     ) {
         val defaultIndexSelected = 0
         screenItems[indexHugeImage] = (screenItems[indexHugeImage] as ScreenItem.HugeImage).copy(
-            image = if (data.imageUrls.isNotEmpty()) data.imageUrls[defaultIndexSelected] else null
+            list = data.imageUrls.mapIndexed { index, image ->
+                DetailImageItem(
+                    image = image,
+                    contentDescription = resourcesProvider.getString(R.string.empty)
+                )
+            }
         )
-        screenItems[indexDetailImagesRow] =
-            (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow)
-                .copy(items = data.imageUrls.mapIndexed { index, image ->
-                    DetailImageItem(
-                        image = image,
-                        contentDescription = resourcesProvider.getString(R.string.empty),
-                        isSelected = index == defaultIndexSelected
-                    )
-                })
         screenItems[indexTextTextLarge] =
             (screenItems[indexTextTextLarge] as ScreenItem.TextTextLarge).copy(
                 textStart = if (data.name == null) resourcesProvider.getString(R.string.not_applicable)
@@ -241,24 +235,6 @@ class DetailsViewModel @Inject constructor(
             price = data.price ?: 0.0
         )
         onIncreaseClick()
-    }
-
-    private fun onDetailImageSelected(
-        indexSelected: Int
-    ) {
-        screenItems[indexDetailImagesRow] =
-            (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow)
-                .copy(items = (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow)
-                    .items.mapIndexed { index, detailImageItem ->
-                        detailImageItem.copy(
-                            image = detailImageItem.image,
-                            contentDescription = detailImageItem.contentDescription,
-                            isSelected = index == indexSelected
-                        )
-                    })
-        screenItems[indexHugeImage] = (screenItems[indexHugeImage] as ScreenItem.HugeImage).copy(
-            image = (screenItems[indexDetailImagesRow] as ScreenItem.DetailImagesRow).items[indexSelected].image
-        )
     }
 
     private fun onColorsItemSelected(

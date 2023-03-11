@@ -130,7 +130,6 @@ fun ScreenContent(
                 items = item.items
             )
             is ScreenItem.HugeImage -> HugeImage(
-                image = item.image,
                 contentDescriptionImage = item.contentDescriptionImage,
                 icon = item.icon,
                 contentDescriptionIcon = item.contentDescriptionIcon,
@@ -142,12 +141,8 @@ fun ScreenContent(
                 contentDescriptionIconBottom = item.contentDescriptionIconBottom,
                 onBackClick = item.onBackClick,
                 onLikeClick = item.onLikeClick,
-                onShareClick = item.onShareClick
-            )
-            is ScreenItem.DetailImagesRow -> DetailImagesRow(
-                items = item.items,
-                horizontalPadding = item.horizontalPadding,
-                onSelect = item.onSelect
+                onShareClick = item.onShareClick,
+                list = item.list
             )
             is ScreenItem.TextTextLarge -> TextTextLarge(
                 textStart = item.textStart,

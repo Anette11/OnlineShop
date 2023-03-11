@@ -18,7 +18,8 @@ import com.example.effectivemobiletesttask.ui.screens.items.DetailImageItem
 fun DetailImagesRow(
     items: List<DetailImageItem>,
     horizontalPadding: Int,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
+    currentPage: Int
 ) = LazyRow(
     modifier = Modifier
         .fillMaxWidth()
@@ -27,7 +28,7 @@ fun DetailImagesRow(
     horizontalArrangement = Arrangement.Center
 ) {
     itemsIndexed(items = items) { index, item ->
-        if (item.isSelected) {
+        if (index == currentPage) {
             DetailImageSelected(
                 image = item.image,
                 contentDescription = item.contentDescription
@@ -53,20 +54,18 @@ fun DetailImagesRowPreview() =
         items = listOf(
             DetailImageItem(
                 image = R.drawable.ic_huge,
-                contentDescription = stringResource(id = R.string.empty),
-                isSelected = false
+                contentDescription = stringResource(id = R.string.empty)
             ),
             DetailImageItem(
                 image = R.drawable.ic_huge,
-                contentDescription = stringResource(id = R.string.empty),
-                isSelected = true
+                contentDescription = stringResource(id = R.string.empty)
             ),
             DetailImageItem(
                 image = R.drawable.ic_huge,
-                contentDescription = stringResource(id = R.string.empty),
-                isSelected = false
+                contentDescription = stringResource(id = R.string.empty)
             )
         ),
         horizontalPadding = integerResource(id = R.integer._24),
-        onSelect = {}
+        onSelect = {},
+        currentPage = integerResource(id = R.integer._1)
     )
