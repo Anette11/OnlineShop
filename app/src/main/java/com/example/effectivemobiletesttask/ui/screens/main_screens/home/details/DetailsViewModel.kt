@@ -91,41 +91,41 @@ class DetailsViewModel @Inject constructor(
     private var indexColorsItem = 0
 
     private fun fillScreenItems() {
-        val screenItems = sortedMapOf(mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
-            height = resourcesProvider.getInteger(R.integer._32)
-        ),
-            mapKeysCreator.createMapKey().apply { indexHugeImage = this } to ScreenItem.HugeImage(
-                contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                icon = R.drawable.ic_arrow_back_small,
-                contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
-                iconMiddle = R.drawable.ic_dash,
-                contentDescriptionIconMiddle = resourcesProvider.getString(R.string.empty),
-                iconBottom = R.drawable.ic_share,
-                contentDescriptionIconBottom = resourcesProvider.getString(R.string.empty),
-                onBackClick = {
-                    launch(dispatchersProvider.io) {
-                        navigationActionTransmitter.flow.emit(
-                            NavigationAction.PopBackStack(
-                                navControllerType = NavControllerType.Main
-                            )
-                        )
-                    }
-                },
-                onLikeClick = { onLikeClick() },
-                onShareClick = { selectedImage ->
-                    launch(dispatchersProvider.io) {
-                        clickActionTransmitter.flow.emit(
-                            ClickAction.Share(
-                                image = (screenItems[indexHugeImage] as ScreenItem.HugeImage)
-                                    .list[selectedImage]
-                                    .image.toString()
-                            )
-                        )
-                    }
-                },
-                list = emptyList(),
-                isLiked = false
-            ),
+        val screenItems = sortedMapOf(mapKeysCreator.createMapKey() to
+                ScreenItem.SpacerRow(height = resourcesProvider.getInteger(R.integer._32)),
+            mapKeysCreator.createMapKey().apply { indexHugeImage = this } to
+                    ScreenItem.HugeImage(
+                        contentDescriptionImage = resourcesProvider.getString(R.string.empty),
+                        icon = R.drawable.ic_arrow_back_small,
+                        contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
+                        iconMiddle = R.drawable.ic_dash,
+                        contentDescriptionIconMiddle = resourcesProvider.getString(R.string.empty),
+                        iconBottom = R.drawable.ic_share,
+                        contentDescriptionIconBottom = resourcesProvider.getString(R.string.empty),
+                        onBackClick = {
+                            launch(dispatchersProvider.io) {
+                                navigationActionTransmitter.flow.emit(
+                                    NavigationAction.PopBackStack(
+                                        navControllerType = NavControllerType.Main
+                                    )
+                                )
+                            }
+                        },
+                        onLikeClick = { onLikeClick() },
+                        onShareClick = { selectedImage ->
+                            launch(dispatchersProvider.io) {
+                                clickActionTransmitter.flow.emit(
+                                    ClickAction.Share(
+                                        image = (screenItems[indexHugeImage] as ScreenItem.HugeImage)
+                                            .list[selectedImage]
+                                            .image.toString()
+                                    )
+                                )
+                            }
+                        },
+                        list = emptyList(),
+                        isLiked = false
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._21)
             ),
@@ -138,27 +138,29 @@ class DetailsViewModel @Inject constructor(
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._11)
             ),
-            mapKeysCreator.createMapKey()
-                .apply { indexDetailDescription = this } to ScreenItem.DetailDescription(
-                text = resourcesProvider.getString(R.string.empty),
-                horizontalPadding = resourcesProvider.getInteger(R.integer._24)
-            ),
+            mapKeysCreator.createMapKey().apply { indexDetailDescription = this } to
+                    ScreenItem.DetailDescription(
+                        text = resourcesProvider.getString(R.string.empty),
+                        horizontalPadding = resourcesProvider.getInteger(R.integer._24)
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._11)
             ),
-            mapKeysCreator.createMapKey().apply { indexReviews = this } to ScreenItem.Reviews(
-                rating = resourcesProvider.getString(R.string.empty),
-                reviews = resourcesProvider.getString(R.string.empty),
-                horizontalPadding = resourcesProvider.getInteger(R.integer._24)
-            ),
+            mapKeysCreator.createMapKey().apply { indexReviews = this } to
+                    ScreenItem.Reviews(
+                        rating = resourcesProvider.getString(R.string.empty),
+                        reviews = resourcesProvider.getString(R.string.empty),
+                        horizontalPadding = resourcesProvider.getInteger(R.integer._24)
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._13)
             ),
-            mapKeysCreator.createMapKey().apply { indexColorsItem = this } to ScreenItem.ColorsItem(
-                text = resourcesProvider.getString(R.string.color),
-                items = emptyList(),
-                horizontalPadding = resourcesProvider.getInteger(R.integer._24),
-                onSelect = { index -> onColorsItemSelected(indexSelected = index) }),
+            mapKeysCreator.createMapKey().apply { indexColorsItem = this } to
+                    ScreenItem.ColorsItem(
+                        text = resourcesProvider.getString(R.string.color),
+                        items = emptyList(),
+                        horizontalPadding = resourcesProvider.getInteger(R.integer._24),
+                        onSelect = { index -> onColorsItemSelected(indexSelected = index) }),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(R.integer._100)
             ),

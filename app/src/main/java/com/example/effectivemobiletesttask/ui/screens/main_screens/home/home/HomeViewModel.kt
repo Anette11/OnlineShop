@@ -88,15 +88,16 @@ class HomeViewModel @Inject constructor(
                     R.integer._9
                 )
             ),
-            mapKeysCreator.createMapKey().apply { indexSearchRow = this } to ScreenItem.SearchRow(
-                placeholder = resourcesProvider.getString(R.string.what_are_you_looking_for),
-                value = resourcesProvider.getString(R.string.empty),
-                onValueChange = { newValue ->
-                    onSearchRowValueChange(newValue = newValue)
-                    searchWords(word = newValue)
-                },
-                onClick = { }
-            ),
+            mapKeysCreator.createMapKey().apply { indexSearchRow = this } to
+                    ScreenItem.SearchRow(
+                        placeholder = resourcesProvider.getString(R.string.what_are_you_looking_for),
+                        value = resourcesProvider.getString(R.string.empty),
+                        onValueChange = { newValue ->
+                            onSearchRowValueChange(newValue = newValue)
+                            searchWords(word = newValue)
+                        },
+                        onClick = {}
+                    ),
             mapKeysCreator.createMapKey().apply { indexAutocompleteMenu = this } to
                     ScreenItem.AutocompleteMenu(
                         words = emptyList(),
@@ -153,9 +154,10 @@ class HomeViewModel @Inject constructor(
                     R.integer._8
                 )
             ),
-            mapKeysCreator.createMapKey().apply { indexLatest = this } to ScreenItem.LatestItemsRow(
-                items = emptyList()
-            ),
+            mapKeysCreator.createMapKey().apply { indexLatest = this } to
+                    ScreenItem.LatestItemsRow(
+                        items = emptyList()
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._17
@@ -235,24 +237,28 @@ class HomeViewModel @Inject constructor(
 
     private fun updateLatest(list: List<Latest>?) {
         screenItems[indexLatest] =
-            (screenItems[indexLatest] as ScreenItem.LatestItemsRow).copy(items = list?.map { latest ->
-                LatestItem(
-                    image = latest.imageUrl,
-                    contentDescriptionImage = resourcesProvider.getString(R.string.empty),
-                    height = resourcesProvider.getInteger(R.integer._149),
-                    width = resourcesProvider.getInteger(R.integer._114),
-                    radiusImage = resourcesProvider.getInteger(R.integer._9),
-                    icon = R.drawable.ic_add_small,
-                    contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
-                    text = latest.category ?: resourcesProvider.getString(R.string.not_applicable),
-                    color = R.color.gray_half_transparent,
-                    radiusItem = resourcesProvider.getInteger(R.integer._5),
-                    fontSize = resourcesProvider.getInteger(R.integer._6),
-                    name = latest.name ?: resourcesProvider.getString(R.string.not_applicable),
-                    price = if (latest.price != null) "$ ${latest.price}"
-                    else resourcesProvider.getString(R.string.not_applicable)
-                )
-            } ?: emptyList())
+            (screenItems[indexLatest] as ScreenItem.LatestItemsRow)
+                .copy(
+                    items = list?.map { latest ->
+                        LatestItem(
+                            image = latest.imageUrl,
+                            contentDescriptionImage = resourcesProvider.getString(R.string.empty),
+                            height = resourcesProvider.getInteger(R.integer._149),
+                            width = resourcesProvider.getInteger(R.integer._114),
+                            radiusImage = resourcesProvider.getInteger(R.integer._9),
+                            icon = R.drawable.ic_add_small,
+                            contentDescriptionIcon = resourcesProvider.getString(R.string.empty),
+                            text = latest.category
+                                ?: resourcesProvider.getString(R.string.not_applicable),
+                            color = R.color.gray_half_transparent,
+                            radiusItem = resourcesProvider.getInteger(R.integer._5),
+                            fontSize = resourcesProvider.getInteger(R.integer._6),
+                            name = latest.name
+                                ?: resourcesProvider.getString(R.string.not_applicable),
+                            price = if (latest.price != null) "$ ${latest.price}"
+                            else resourcesProvider.getString(R.string.not_applicable)
+                        )
+                    } ?: emptyList())
     }
 
     private fun updateFlashSale(
@@ -301,7 +307,8 @@ class HomeViewModel @Inject constructor(
                 withContext(dispatchersProvider.main) {
                     screenItems[indexPhoto] =
                         (screenItems[indexPhoto] as ScreenItem.IconTextIconLarge).copy(
-                            iconRight = if (user.imageUri != null) user.imageUri else R.drawable.image_default
+                            iconRight = if (user.imageUri != null) user.imageUri
+                            else R.drawable.image_default
                         )
                 }
             }

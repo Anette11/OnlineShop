@@ -91,13 +91,14 @@ class ProfileViewModel @Inject constructor(
                     R.integer._19
                 )
             ),
-            mapKeysCreator.createMapKey().apply { indexPhoto = this } to ScreenItem.ItemIcon(
-                icon = null,
-                contentDescription = resourcesProvider.getString(R.string.change_photo),
-                size = resourcesProvider.getInteger(R.integer._61),
-                borderWidth = resourcesProvider.getInteger(R.integer._2),
-                color = R.color.gray_lighter
-            ),
+            mapKeysCreator.createMapKey().apply { indexPhoto = this } to
+                    ScreenItem.ItemIcon(
+                        icon = null,
+                        contentDescription = resourcesProvider.getString(R.string.change_photo),
+                        size = resourcesProvider.getInteger(R.integer._61),
+                        borderWidth = resourcesProvider.getInteger(R.integer._2),
+                        color = R.color.gray_lighter
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._6
@@ -225,7 +226,7 @@ class ProfileViewModel @Inject constructor(
         this.screenItems.addAll(screenItems.values)
     }
 
-    fun updateLoggedInUser() = launch(dispatchersProvider.io) {
+    private fun updateLoggedInUser() = launch(dispatchersProvider.io) {
         val loggedInUser = getUserByIsLoggedInUseCase.invoke(isLoggedIn = true)
         loggedInUser?.let {
             saveUserUseCase.invoke(user = loggedInUser.copy(isLoggedIn = false))

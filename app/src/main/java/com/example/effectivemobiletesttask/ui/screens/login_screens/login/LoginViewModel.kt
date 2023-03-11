@@ -118,27 +118,28 @@ class LoginViewModel @Inject constructor(
                     R.integer._35
                 )
             ),
-            mapKeysCreator.createMapKey().apply { indexPassword = this } to ScreenItem.PasswordRow(
-                placeholder = resourcesProvider.getString(R.string.password),
-                value = resourcesProvider.getString(R.string.empty),
-                onValueChange = { newValue ->
-                    onPasswordValueChange(newValue = newValue)
-                    updateLoginEnable()
-                },
-                isPasswordVisible = false,
-                onTogglePasswordClick = { onTogglePasswordClick() }
-            ),
+            mapKeysCreator.createMapKey().apply { indexPassword = this } to
+                    ScreenItem.PasswordRow(
+                        placeholder = resourcesProvider.getString(R.string.password),
+                        value = resourcesProvider.getString(R.string.empty),
+                        onValueChange = { newValue ->
+                            onPasswordValueChange(newValue = newValue)
+                            updateLoginEnable()
+                        },
+                        isPasswordVisible = false,
+                        onTogglePasswordClick = { onTogglePasswordClick() }
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._100
                 )
             ),
-            mapKeysCreator.createMapKey()
-                .apply { indexLoginButton = this } to ScreenItem.LargeButton(
-                text = resourcesProvider.getString(R.string.login),
-                onClick = { onLogin() },
-                isEnable = false
-            ),
+            mapKeysCreator.createMapKey().apply { indexLoginButton = this } to
+                    ScreenItem.LargeButton(
+                        text = resourcesProvider.getString(R.string.login),
+                        onClick = { onLogin() },
+                        isEnable = false
+                    ),
             mapKeysCreator.createMapKey() to ScreenItem.SpacerRow(
                 height = resourcesProvider.getInteger(
                     R.integer._60
