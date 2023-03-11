@@ -11,8 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.*
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -101,7 +99,7 @@ fun AddToCart(
                 .clickable { onAddToCardCardClick() }
                 .padding(dimensionResource(id = R.dimen._8dp)),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
                 text = amount,
@@ -109,16 +107,13 @@ fun AddToCart(
                 fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),
                 fontSize = dimensionResource(id = R.dimen._8sp).value.sp,
                 textAlign = TextAlign.Center,
-                style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
             )
-            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen._8dp)))
             Text(
                 text = stringResource(id = R.string.add_to_cart),
                 color = colorResource(id = R.color.white),
                 fontFamily = FontFamily(Font(R.font.poppins_semi_bold)),
                 fontSize = dimensionResource(id = R.dimen._8sp).value.sp,
                 textAlign = TextAlign.Center,
-                style = TextStyle(platformStyle = PlatformTextStyle(includeFontPadding = false))
             )
         }
     }
