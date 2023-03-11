@@ -19,5 +19,10 @@ fun NavController.logout() =
     this.navigate(
         route = Graph.Login.route
     ) {
-        popUpTo(route = Graph.Login.route)
+        popUpTo(route = Graph.Main.route) {
+            saveState = true
+            inclusive = true
+        }
+        launchSingleTop = true
+        restoreState = true
     }
